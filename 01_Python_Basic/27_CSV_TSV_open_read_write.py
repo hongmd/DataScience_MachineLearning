@@ -29,7 +29,7 @@ Another package is Pandas also very powerful for handling .csv file, but we will
 #----------------------- Read .csv and .tsv files ------------------------------#
 #-------------------------------------------------------------------------------#
 
-parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning_Python_SQL/01_Python_Basic/demo_data/csv_tsv_files"
+parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/csv_tsv_files"
 
 import csv
 
@@ -153,7 +153,7 @@ def process_csv_chunks(file_path, chunk_size=1000):
             yield chunk
 
 # Usage example
-parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning_Python_SQL/01_Python_Basic/csv_tsv_demo_files"
+parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/csv_tsv_files"
 chunk_size = 1000
 
 for chunk in process_csv_chunks(f"{parent_dir}/weather.tsv", chunk_size = chunk_size):
@@ -167,7 +167,7 @@ for chunk in process_csv_chunks(f"{parent_dir}/weather.tsv", chunk_size = chunk_
 #----------------------- Write .csv and .tsv files ------------------------------#
 #--------------------------------------------------------------------------------#
 
-parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning_Python_SQL/01_Python_Basic/csv_tsv_demo_files"
+parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/csv_tsv_files"
 
 import csv
 
@@ -198,7 +198,7 @@ data = [
 ]
 
 with open(f'{parent_dir}/write_dictionary.csv', 'w', newline='') as file:
-    writer = csv.DictWriter(file, fieldnames = fields)
+    writer = csv.DictWriter(file, fieldnames = fields, delimiter = ",")
     writer.writeheader() # Write the header row
     writer.writerows(data) # Write the data rows
 

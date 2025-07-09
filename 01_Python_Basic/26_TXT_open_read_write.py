@@ -19,14 +19,14 @@ All file modes:
 'a+' - Append and read. Opens a file for both appending and reading (e.g., 'a+').
 '''
 
-parent_dir = '/home/longdpt/Documents/Academic/DataScience_MachineLearning_Python_SQL/01_Python_Basic/demo_data/txt_files'
+parent_dir = '/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/txt_files'
 
 #---------------------------------------------------------------------------------------------#
 #---------------------------------- Read a file ----------------------------------------------#
 #---------------------------------------------------------------------------------------------#
 
 #######################
-## (NOTT REOMMENDED) ##
+## (NOT REOMMENDED)  ##
 ## file = open().... ##
 ## txt = file.read() ##
 ## file.close()      ##
@@ -68,7 +68,7 @@ print(type(content)) # <class 'str'>
 # file.read(n) reads the first n characters from the file, if n is not specified, it reads the entire file.
 with open(file = f'{parent_dir}/JohnnyJohnny.txt', mode = 'r') as file:
     first_10_chars = file.read(10)  # Read the first 10 characters from the file
-print(first_10_chars)  # Johnny Johnny
+print(first_10_chars)  # Johnny Joh
 # (If the file has less than n characters, it will read the entire file and return it as a string)
 
 
@@ -119,14 +119,6 @@ list_lines = [line for line in list_lines if line.startswith('Humpty')]
 print(list_lines)  # ['Humpty Dumpty sat on a wall,', 'Humpty Dumpty had a great fall.']
 
 
-# file.readlines() can also be used to read a specific number of lines from the file
-with open(file = f'{parent_dir}/HumptyDumpty.txt', mode = 'r') as file:
-    first_3_lines = file.readlines(3)  # Read the first 3 lines from the file
-print(first_3_lines)
-# ['Humpty Dumpty sat on a wall,\n', 'Humpty Dumpty had a great fall.\n', "All the king's horses\n"]
-# (If the file has less than n lines, it will read the entire file and return it as a list of strings)
-
-
 #####################
 ## file.readable() ##
 #####################
@@ -141,7 +133,6 @@ print(is_readable)  # True
 ## Most memory-efficient way to read a file line by line ##
 ###########################################################
 with open(file = f'{parent_dir}/ADream.txt', mode = 'r') as file:
-    print("Student scores:")
     for line in file:
         print(line.strip())
 
@@ -162,6 +153,7 @@ with open(file = f'{parent_dir}/StudentScores.txt', mode = 'w') as file:
     file.write("Alice: 90\n")
     file.write("Bob: 85\n")
     file.write("Charlie: 95\n")
+
 
 # Check the content of the file
 with open(file = f'{parent_dir}/StudentScores.txt', mode = 'r') as file:
@@ -246,7 +238,6 @@ NOTE: if the file has previous contents, then when you open it in write mode ('w
 # If the file does not exist, it creates a new file.
 
 # using append mode 'a' or 'a+' (append and read)
-
 with open(file = f'{parent_dir}/StudentScores.txt', mode = 'a') as file:
     file.write("Ivy: 89\n")  # Append a string to the file
     file.writelines(["Jack: 91\n", "Kathy: 84\n"])  # Append a list of strings to the file  
