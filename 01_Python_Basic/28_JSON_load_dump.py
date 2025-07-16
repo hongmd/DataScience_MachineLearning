@@ -135,7 +135,7 @@ dictionary_to_write = {
 }
 
 # Open the JSON file in write mode
-with open(f"{parent_dir}/new_written_jsonload.json", "w") as output_file:
+with open(f"{parent_dir}/new_written_jsondump.json", "w") as output_file:
     json.dump(dictionary_to_write, output_file, indent=4)
 
 
