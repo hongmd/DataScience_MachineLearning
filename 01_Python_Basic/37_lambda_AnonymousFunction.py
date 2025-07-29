@@ -116,4 +116,42 @@ for key, value in sorted_dict_value.items():
 # B: 5
 # F: 4
 # C: 3
-# D: 1
+# D: 1  
+
+
+#########################################
+## use lambda for currying / factories ##
+#########################################
+
+def multiplier(n):
+    return lambda x: x * n # returns a customized lambda
+
+tripler = multiplier(3)
+
+print(tripler(10))
+# 30
+
+
+############################
+## lambda with logic code ##
+############################
+
+sign_check = lambda x: "Positive" if x > 0 else "Zero" if x == 0 else "Negative"
+
+print(sign_check(15.2))
+# Positive
+
+print(sign_check(0))
+# Zero
+
+print(sign_check(-15.3))
+# Negative
+
+
+#############################
+## Nested lambda functions ##
+#############################
+
+exponential = lambda x: (lambda y: x ** y)
+print(exponential(2)(3))  # 2^3 = 8
+print(exponential(5)(2))  # 5^2 = 25
