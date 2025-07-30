@@ -1,17 +1,19 @@
-#%%
 s1 = '  it CenteR one   '
-k1 = s1.capitalize() #=> '  It CenteR one   '    capitalize the first character of the string
-k2 = s1.upper()      #=> '  IT CENTER ONE   '    capitalize all characters
-k3 = s1.lower()      #=> '  it center one   '    decapitalize all characters
-k4 = s1.title()      #=> '  It CenteR One   '    capitalize the first character of each word
-k6 = s1.strip()      #=> 'it CenteR One'         remove the space character ' ' from both ends
+k1 = s1.capitalize() # '  It CenteR one   '    capitalize the first character of the string
+k2 = s1.upper()      # '  IT CENTER ONE   '    capitalize all characters
+k3 = s1.lower()      # '  it center one   '    decapitalize all characters
+k4 = s1.title()      # '  It CenteR One   '    capitalize the first character of each word
+k6 = s1.strip()      # 'it CenteR One'         remove the space character ' ' from both ends
 print()
 
 s2 = ',20 30,'
-k7 = s2.strip(',') #=> '20 30' remove ',' character from both ends
+k7 = s2.strip(',') # '20 30' remove ',' character from both ends
 
-#---------------------------------- Count --------------------------------------------------------------#
-#%%
+
+#----------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------------- COUNT --------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
+
 poem = '''
 Shall I compare thee to a summer’s day?
 Thou art more lovely and more temperate:
@@ -31,29 +33,38 @@ So long lives this, and this gives life to thee.
 print(poem)
 print(poem.count('n'))
 print(poem.lower().count('n'))
-#method count() distinguished uppercase from lowercase, therefor poem.count('n') and poem.lower().count('n') give different results
+# method .count() distinguished uppercase from lowercase, therefor poem.count('n') and poem.lower().count('n') give different results
 
 title = 'SHAKESPEAR SONNET 18'
-print(title.count('S',2,10)) #Count the number of character 'S' from index 2 to index 10-1 (or index 9) of the string
+print(title.count('S', 2, 10)) # Count the number of character 'S' from index 2 to index 10-1 (or index 9) of the string
 
-#---------------FIND AND REPLACE--------------#
-#%%
+
+#----------------------------------------------------------------------------------------------------------------------#
+#---------------------------------------------- FIND AND REPLACE ------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
+
+################
+## .replace() ##
+################
+
 str = 'Hoa Chanh nở giữa vườn Chanh'
 strFind = 'Chanh'
 strReplace = 'Cam'
 strNew = str.replace(strFind, strReplace)
-strNew2 = str.replace(strFind, strReplace, 1) #Replace only one time at the first matched result
+strNew2 = str.replace(strFind, strReplace, 1) # Replace only one time at the first matched result
 print(strNew)
 
-#------------------------------------------------#
-#%%
+
+#############
+## .find() ##
+#############
+
 full_name = 'Tran Thi Anh Thu'
 i = full_name.find(' ') #Find the first ' ' character from left to right, and return its index
 j = full_name.find(' ', i+1) #Find ' ' character from index i to end
 k = full_name.rfind(' ') #Find the first ' ' character from RIGHT to left, and return its index
 print()
 
-# %%
 phone = '0903123456'
 k1 = phone.isdigit() #=> True if all characters are DIGITS. Else if there is at least one alphabetic character, return False
 k2 = phone.isnumeric() #=> True if all characters are NUMERIC. Else if there is at least one alphabetic character, return False
@@ -66,34 +77,46 @@ k5 = money.isalnum() #=> True if all the characters are alphanumeric (like "Comp
 k6 = id.isupper() #=> T
 k7 = id.islower()#=> F
 
-#%%
-#------------- .format()---------------#
+
+#----------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------------- FORTMAT ------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
+
 price = 1200000000.453
 str_price1 = '{:,} VND'.format(price) # '1,200,000,000.453 VND'
 str_price2 = '{:,.2f} VND'.format(price) # '1,200,000,000.45 VND'
+
 # .format() method formats the specified value(s) and insert them inside the string's placeholder {}.
-print()
 
-#%%
-#---------------- Marginalize (canle) --------------------#
+
+#----------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------- MARGINALIZE (can le) -----------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
+
 strD = 'Abc'
-str1 = strD.center(20)     #'        Abc         '
-str2 = strD.center(20,'*') #'********Abc*********'
-str3 = strD.rjust(20) #Marginalize towards the RIGHT with the width of 20 characters
-str4 = strD.ljust(20) #Marginalize towards the LEFT with the width of 20 characters
+str1 = strD.center(20)     # '        Abc         '
+str2 = strD.center(20,'*') # '********Abc*********'
+str3 = strD.rjust(20) # Marginalize towards the RIGHT with the width of 20 characters
+str4 = strD.ljust(20) # Marginalize towards the LEFT with the width of 20 characters
 
-#-------------- SPLIT ------------------#
-#%%
+
+#----------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------------- SPLIT --------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
+
 full_name = 'Arthur Conan Doyle'
-str1 = full_name.split() # => ['Arthur', 'Conan', 'Doyle']
+str1 = full_name.split() # ['Arthur', 'Conan', 'Doyle']
 
 numbers = '12,13,14,15,16'
-str2 = numbers.split(',') # => ['12', '13', '14', '15', '16']
-str3 = numbers.split(',', maxsplit=2) # => ['12', '13', '14,15,16']
+str2 = numbers.split(',') # ['12', '13', '14', '15', '16']
+str3 = numbers.split(',', maxsplit=2) # ['12', '13', '14,15,16']
 print()
 
-#--------------JOIN-----------------#
-#%%
+
+#----------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------------- JOIN ---------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
+
 lst = ['A','B','C','D','E']
 str1 = ''.join(lst)   # 'ABCDE'
 str2 = ' '.join(lst)  # 'A B C D E'

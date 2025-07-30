@@ -127,19 +127,25 @@ print(predators_tup) # ('tiger', 'lion', 'wolf', 'eagle', 'cheetah', 'batman')
 
 float_tup = (3.72, 8.15, 0.49, 6.03, 1.27, 0.49, 0.48, 0.49)
 
-##################### .count() #############################
+###############
+### .count() ##
+###############
+
 # .count() returns the number of a specified element within a tuple
 print(float_tup.count(0.49)) # 3 (value 0.49 shows up 3 times)
 
 
-##################### .index() #############################
+##############
+## .index() ##
+##############
+
 # .index() returns the index of the first element with the specified value
 print(float_tup.index(0.49)) # 2 (index of the first 0.49 is 2)
 
 
-#------------------------------------------------------------------#
-#---------------- Tuple concat and multiply -----------------------#
-#------------------------------------------------------------------#
+#-------------------------------------------------------------------#
+#---------------- Tuple concat and duplicate -----------------------#
+#-------------------------------------------------------------------#
 
 tuple1 = ("a", "b" , "c")
 tuple2 = (1, 2, 3)
@@ -161,37 +167,50 @@ print(tuple_dup)
 
 philosophes = "Voltaire", "Rousseau", "Montesquieu", "Diderot"
 
-## For loop through elements
+###############################
+## For loop through elements ##
+###############################
+
 for homme in philosophes:
     print(homme)
 
-## For loop through indices
+
+##############################
+## For loop through indices ##
+##############################
+
 for index, element in enumerate(philosophes):
     print(f"{index} - {element}")
 
 
-## While loop through indices
+################################
+## While loop through indices ##
+################################
+
 i = 0
 while i < len(philosophes):
     print(f"{i} - {philosophes[i]}")
     i += 1
 
 
-## Loop through 2D tuple
+##########################
+## Loop through 2D list ##
+##########################
+
 tup_customers = (
     ['Lucy','Rashford',2000],
     ('Marcus','Aurelius',300000),
     ('Hamazuki','Sento',500000000)
 )
 
-#Method 1:
+# Method 1:
 for item in tup_customers:
     first_name = item[0]
     last_name = item[1]
     purchase = item[2]
     print(f'{first_name} {last_name}: {purchase} USD')
 
-#Method 2:
+# Method 2:
 for first_name, last_name, purchase in tup_customers:
     print(f'{first_name} {last_name}: {purchase} USD')
 
@@ -282,10 +301,10 @@ output_tuple = tuple(complex**2 for complex in tuple_complexes)
 print(output_tuple)
 
 
+#------------------------------------------------------------------------------------------------------------#
+#-------------------------- Tuple application example: calculate Lunar Year ---------------------------------#
+#------------------------------------------------------------------------------------------------------------#
 
-#--------------------------------------------------------------------------#
-#----------- Tuple application example: calculate Lunar Year --------------#
-#--------------------------------------------------------------------------#
 print()
 print('Calculate Lunar Year'.center(60))
 print('-'*60)
@@ -308,8 +327,8 @@ while True:
         print(e)
     
     else:
-        stem_index   = solar_year % 10 #The remainer of solar_year%10 will be the index value of tup_Heavenly_Stems
-        branch_index = solar_year % 12 #The remainer of solar_year%12 will be the index value of tup_Earthly_Branches
+        stem_index   = solar_year % 10 # The remainer of solar_year%10 will be the index value of tup_Heavenly_Stems
+        branch_index = solar_year % 12 # The remainer of solar_year%12 will be the index value of tup_Earthly_Branches
         
         print(f'The corresponding Lunar Year is: {tup_Heavenly_Stems[stem_index]} {tup_Earthly_Branches[branch_index]}')
     

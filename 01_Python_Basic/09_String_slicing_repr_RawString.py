@@ -1,20 +1,20 @@
-#-------------------------------------------------#
-#--------------- String slicing ------------------#
-#-------------------------------------------------#
+#-----------------------------------------------------------------------------------------------------#
+#------------------------------------------ String slicing -------------------------------------------#
+#-----------------------------------------------------------------------------------------------------#
 
 name = "Le Anh Thu"
 l = len(name)
-first_element = name[0] #---> L
-fourth_element = name[3] #---> A
+first_element = name[0] # L
+fourth_element = name[3] # A
 
-last_element = name[-1] #---> u
-name[l-1] #---> u
-name[-2] #----> h
-name[-3] #----> T 
+last_element = name[-1] # u
+name[l-1] # u
+name[-2] # h
+name[-3] # T 
 
-#Python considers 0 as the index of the first element of an iterator
+''' Python considers 0 as the index of the first element of an iterator '''
 
-family_name = name[0:2] #stop at element of index 2, but not include it 
+family_name = name[0:2] # stop at element of index 2, but not include it 
 family_name = name[:2]
 
 middle_name = name[3:6]
@@ -45,32 +45,49 @@ print(name[-4:-1]) # " Th"
             # -1 is "u" but excluded
             #==> name[-4:-1] is " Th"
 
-strNumbers="123456789"
+strNumbers = "123456789"
 strOdd = strNumbers[0::2] # slice from start to end, but with index step = 2, return "13579"
 strEven = strNumbers[1::2]  # slice from the second element to end, but with index step = 2, return "2468"
 
-print("-"*50) #print character '-' 50 times
+print("-"*50) # print character '-' 50 times
 print()
 
 
-#-------------------------------------------------#
-#--------------- repr() function -----------------#
-#-------------------------------------------------#
+#---------------------------------------------------------------------------------------------------------------------#
+#----------------------------------------------- repr() function -----------------------------------------------------#
+#---------------------------------------------------------------------------------------------------------------------#
 
-# raw strings are prefixed with 'r' or 'R' and treat backslashes as literal characters, not escape characters.
+###################
+## Normal string ##
+###################
+
 normal_string = "Hello\nWorld"  # Normal string with escape sequences
+
 print(normal_string)  
 # Output: Hello
 #         World
 
+
+################
+## Raw string ##
+################
+
+# raw strings are prefixed wi Python considers 0 as the index of the first element of an iterator
+
 raw_string = r"Hello\nWorld"  # Raw string, no escape sequences
+
 print(raw_string)  
 # Output: Hello\nWorld
 
 
+#####################
+## repr() function ##
+#####################
+
 # repr() returns a string representation of an object that can be used to recreate the object.
 # (e.g a raw string)
 # It is often used for debugging purposes, as it provides a more detailed and unambiguous representation of the object.
+
 normal_string = "This is\n the end\n"
 print(normal_string)
 # Output: This is

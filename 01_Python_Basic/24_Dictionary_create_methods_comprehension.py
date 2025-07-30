@@ -180,11 +180,14 @@ print('city' in dict_check.keys())  # True
 print('country' in dict_check.keys())  # False
 
 
-#------------------------------------------------------------#
-#---------- Add, Update and Remove key-value pairs ----------#
-#------------------------------------------------------------#
+#-----------------------------------------------------------------------------------------------------------#
+#--------------------------------- Add, Update and Remove key-value pairs ----------------------------------#
+#-----------------------------------------------------------------------------------------------------------#
 
-# Add a new key-value pair
+##############################
+## Add a new key-value pair ##
+##############################
+
 dict_add = {
     'name': 'Hannah',
     'age': 26
@@ -193,29 +196,44 @@ dict_add['city'] = 'Austin'
 print(dict_add)  # {'name': 'Hannah', 'age': 26, 'city': 'Austin'}
 
 
-# Add multiple key-value pairs using .update()
+#############################################
+## .update(): Add multiple key-value pairs ##
+#############################################
+
 dict_add.update({'country': 'USA', 'is_student': True})
 print(dict_add)  # {'name': 'Hannah', 'age': 26, 'city': 'Austin', 'country': 'USA', 'is_student': True}
 
 
-# Update an existing key-value pair
+#######################################
+## Update an existing key-value pair ##
+#######################################
+
 dict_add['age'] = 27
 print(dict_add)  # {'name': 'Hannah', 'age': 27, 'city': 'Austin', 'country': 'USA', 'is_student': True}
 
 
-# Remove a key-value pair using .pop()
+####################################
+## .pop() Remove a key-value pair ##
+####################################
+
 removed_value = dict_add.pop('city')
 print(removed_value)  # Austin
 print(dict_add)  # {'name': 'Hannah', 'age': 27, 'country': 'USA', 'is_student': True}
 
 
-# Remove a key-value pair using .popitem() (removes the last inserted item)
+##################################################################
+## .popitem(): Remove a key-value pair (the last inserted item) ##
+##################################################################
+
 removed_item = dict_add.popitem()
 print(removed_item)  # ('is_student', True)
 print(dict_add)  # {'name': 'Hannah', 'age': 27, 'country': 'USA'}
 
 
-# Clear all key-value pairs using .clear()
+#########################################
+## .clear(): Clear all key-value pairs ##
+#########################################
+
 dict_add.clear()
 print(dict_add)  # {}
                  # The dictionary is now empty, but still exists and has id(dict_add) = .....
@@ -245,9 +263,9 @@ for villain, info in dict_gotham_villain.items():
 END NOTE
 '''
 
-#----------------------------------------------------#
-#----------------- Dictionary Methods ---------------#
-#----------------------------------------------------#
+#--------------------------------------------------------------------------------------------------------------------------#
+#---------------------------------------------------- Dictionary Methods --------------------------------------------------#
+#--------------------------------------------------------------------------------------------------------------------------#
 
 # Create a sample dictionary for demonstration
 sample_dict = {
@@ -258,25 +276,41 @@ sample_dict = {
 }
 
 
-# Get all keys using .keys()
+###########################
+## .keys(): Get all keys ##
+###########################
+
 keys = sample_dict.keys()
 print(keys)  # dict_keys(['name', 'age', 'city', 'country'])
 
 
-# Get all values using .values()
+###############################
+## .values(): Get all values ##
+###############################
+
 values = sample_dict.values()
 print(values)  # dict_values(['Ivy', 29, 'Denver', 'USA'])
 
 
-# Get all key-value pairs using .items()
+#################################################
+## .items(): Get all key-value pairs as tuples ##
+#################################################
+
 items = sample_dict.items()
 print(items)  # dict_items([('name', 'Ivy'), ('age', 29), ('city', 'Denver'), ('country', 'USA')])
 
 
-# Get a value by key using .get()
+################################
+## .get(): Get a value by key ##
+################################
+
+# Basic ussage
 value_name = sample_dict.get('name')
 print(value_name)  # Ivy
 
+'''
+if using: dictionary[key], it will raise KeyError if the key does not exist
+'''
 
 # Get a value by key that does not exist using .get() without default value
 value_country = sample_dict.get('state')
@@ -288,7 +322,10 @@ value_state = sample_dict.get('state', 'Not Found')
 print(value_state)  # Not Found
 
 
-# .setdefault() returns the value of the specified key. 
+###########################################################################################################################
+## .setdefault() returns the value of the specified key , or inserts the key with a specified value if it does not exist ##
+###########################################################################################################################
+
 # If the key does not exist: insert the key, with the specified value
 value = sample_dict.setdefault('state', 'Colorado')
 print(value)  # Colorado
@@ -297,21 +334,25 @@ print(sample_dict)  # {'name': 'Ivy', 'age': 29, 'city': 'Denver', 'country': 'U
 
 
 # .setdefault() does not change the value if the key already exists
+# Instead, it returns the existing value
 value = sample_dict.setdefault('city', 'New York')
 print(value)  # Denver
 print(sample_dict)  # {'name': 'Ivy', 'age': 29, 'city': 'Denver', 'country': 'USA', 'state': 'Colorado'}
                     # The value of the key 'city' remains unchanged
 
 
-# Create a copy of the dictionary using .copy()
+#######################################################
+## .copy(): creates a shallow copy of the dictionary ##
+#######################################################
+
 dict_copy = sample_dict.copy()
 print(dict_copy)  # {'name': 'Ivy', 'age': 29, 'city': 'Denver', 'country': 'USA', 'state': 'Colorado'}
                   # Modifying the copy does not affect the original dictionary
 
 
-#---------------------------------------------------#
-#----------------- Sort a dictionary ---------------#
-#---------------------------------------------------#
+#-----------------------------------------------------------------------------------------------------------------#
+#------------------------------------------- Sort a dictionary ---------------------------------------------------#
+#-----------------------------------------------------------------------------------------------------------------#
 
 # Can sort a dictionary using dict(sorted(dict_name.items(), key = lambda x: x[...]), reverse = True/False)
 
@@ -382,7 +423,10 @@ sample_loop_dict = {
     'country': 'USA'
 }
 
-# Loop through keys using a for loop
+########################################
+## Loop through keys using a for loop ##
+########################################
+
 for key in sample_loop_dict:
     print(f"Key: {key}")  
 # Key: name 
@@ -391,7 +435,10 @@ for key in sample_loop_dict:
 # Key: country
 
 
-# Loop through keys using .keys()
+#####################################
+## Loop through keys using .keys() ##
+#####################################
+
 for key in sample_loop_dict.keys():
     print(f"{key}: {sample_loop_dict[key]}")
 # name: Jack
@@ -400,7 +447,10 @@ for key in sample_loop_dict.keys():
 # country: USA
 
 
-# Loop through values using .values()
+#########################################
+## Loop through values using .values() ##
+#########################################
+
 for value in sample_loop_dict.values():
     print(f"Value: {value}")
 # Value: Jack
@@ -409,7 +459,10 @@ for value in sample_loop_dict.values():
 # Value: USA
 
 
-# Loop through key-value pairs using .items()
+#################################################
+## Loop through key-value pairs using .items() ##
+#################################################
+
 for key, value in sample_loop_dict.items():
     print(f"{key} = {value}")
 # name = Jack
@@ -418,7 +471,10 @@ for key, value in sample_loop_dict.items():
 # country = USA
 
 
-# Loop through keys and values using enumerate()
+####################################################
+## Loop through keys and values using enumerate() ##
+####################################################
+
 for index, (key, value) in enumerate(sample_loop_dict.items()):
     print(f"Index: {index}, Key: {key}, Value: {value}")
 # Index: 0, Key: name, Value: Jack
@@ -427,9 +483,9 @@ for index, (key, value) in enumerate(sample_loop_dict.items()):
 # Index: 3, Key: country, Value: USA
 
 
-#------------------------------------------------#
-#------------- Dictionary Comprehension ---------#
-#------------------------------------------------#
+#--------------------------------------------------------------------------------------------------#
+#------------------------------------- Dictionary Comprehension -----------------------------------#
+#--------------------------------------------------------------------------------------------------#
 
 # Create a dictionary using dictionary comprehension
 dict_comp = {x: x**2 for x in range(5)}

@@ -2,7 +2,9 @@ salary = 5000 #integer (số nguyên)
 salary_coefficient = 1.475 #float (số thực)
 full_name = "Tran Ngoc Dung" #character / string
 
+#-------------------------------------------------------------------------------------------------#
 #--------------------------------- Format Symbol 1 -----------------------------------------------#
+#-------------------------------------------------------------------------------------------------#
 
 strTT1="Full name: "+full_name +"\nSalary: "+str(salary)
 print(strTT1)
@@ -18,7 +20,9 @@ strTT3="Full name: %s \nSalary: %i \nSalary coefficient: %.2f"%(full_name,salary
 print(strTT3)
 
 
+#-------------------------------------------------------------------------------------------------#
 #--------------------------------- Format Symbol 2 -----------------------------------------------#
+#-------------------------------------------------------------------------------------------------#
 
 str1 = f'Full name: {full_name}\n Salary: {salary}\n Salary coefficient: {salary_coefficient}'
 print(str1)

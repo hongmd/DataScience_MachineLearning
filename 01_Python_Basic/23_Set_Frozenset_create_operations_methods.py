@@ -28,7 +28,9 @@ Set and Fronzeset do not support indexing, slicing, or other sequence-like behav
 #-------------------- Create set and frozenset --------------------#
 #------------------------------------------------------------------#
 
-########### create set using {} or set() ##################
+##################################
+## create set using {} or set() ##
+##################################
 
 empty_set = set() # set()
                   # this set() function also helps convert other iterables into set containing unique values
@@ -59,7 +61,9 @@ set([2, [3, "4"]]) will raise error because list is mutable, so they cannot be e
 '''
 
 
-########### create frozenset using frozenset() ##################
+########################################
+## create frozenset using frozenset() ##
+########################################
 
 empty_fset = frozenset()
 print(empty_fset)  # frozenset()
@@ -73,11 +77,12 @@ tuple_fset = frozenset(tuple_data)
 print(tuple_fset) # frozenset({2.5, ('True', False, (4.5+3j)), 6, (2.5+4j)})
 
 
-#-------------------------------------------------------------------#
-#-------------------- Check if element exists ----------------------#
-#-------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------#
+#----------------------------------- Check if element exists ----------------------------------------#
+#----------------------------------------------------------------------------------------------------#
 
 # Use 'in' operator to check if an element exists in a set or frozenset
+
 set_2 = {1, 2, 3, 4, 5}
 print(3 in set_2)  # True
 print(6 in set_2)  # False
@@ -87,52 +92,85 @@ print(3 in fset_2)  # True
 print(6 in fset_2)  # False
 
 
-#--------------------------------------------------------------------------#
-#-------------------- Add and Remove elements for SET ---------------------#
-#--------------------------------------------------------------------------#
+#--------------------------------------------------------------------------------------------------------#
+#---------------------------------- Add and Remove elements for SET -------------------------------------#
+#--------------------------------------------------------------------------------------------------------#
+
+###############
+## set.add() ##
+###############
 
 # set.add() adds an element to the set (like list.append()) 
+
 set_1 = {1, 2, 3}
 set_1.add(4)  # add element 4 to set_1
 print(set_1)  # {1, 2, 3, 4}
 
 
+##################
+## set.update() ##
+##################
+
 # .update(): adds elements from another set or iterable to the current set (like list.extend())
+
 set_1.update({25, 49})  # adds "Air" and "Space" to set_demo
 print(set_1)  # {1, 2, 3, 4, 49, 25}
 
 
+#################
+## set.remove) ##
+#################
+
 # set.remove() will raise KeyError if element not found
+
 set_1.remove(2)  # remove element 2 from set_1
 print(set_1)  # {1, 3, 4, 49, 25}
 
 
+###################
+## set.discard() ##
+###################
+
 # set.discard() will not raise error if element not found
+
 set_1.discard(3) # remove element 3 from set_1, no error if element not found
 print(set_1)     # {1, 4, 49, 25}
 
 
+###############
+## set.pop() ##
+###############
+
 # set.pop() removes a random element from the set (and returns it if that element exists in the set)
+
 '''NOTE: set.pop() will raise KeyError if the set is empty '''
 set_1 = {1, 2, 3}
 removed_element = set_1.pop()  # removes and returns a random element (could be 1, 2, or 3)
 print(removed_element)         # prints the removed element
 
 
-# set.clear()
+##################
+## set.aclear() ##
+##################
+
+# set.clear() works like list.clear() to remove all elements from the set
+
 set_1.clear()     # clear all elements in set_1
 print(set_1)      # set() or {}
 print(id(set_1))  # id of set_1 is still there, meaning it still exists but is now empty
 
 
-##### frozenset.add() and frozenset.remove() will raise error (same for other modifying methods) #####
+'''
+frozenset.add() and frozenset.remove() will raise error (same for other modifying methods)
+'''
 fset_1 = frozenset([1, 2, 3])
 fset_1.add(4)  # AttributeError: 'frozenset' object has no attribute 'add'
 
 
-#--------------------------------------------------------------#
-#-------------------- Loop through elements -------------------#
-#--------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------#
+#----------------------------------- Loop through elements ------------------------------------------#
+#----------------------------------------------------------------------------------------------------#
+
 # Looping through a set or frozenset is similar to looping through a list or tuple
 set_5_elements = {"Metal", "Wood", "Earth", "Water", "Fire", "Metal"}
 for element in set_5_elements:
@@ -143,51 +181,77 @@ for element in fset:
     print(element)  # prints each element in fset
 
 
-#--------------------------------------------------------------#
-#-------------------- Set Operations --------------------------#
-#--------------------------------------------------------------#
-# Set operations like union, intersection, difference, and symmetric difference
+'''
+NOTE: cannot use enumerate() with set or frozenset directly because they are unordered collections
+(meaning they do not have an index)
+'''
 
+
+#---------------------------------------------------------------------------------------------------------#
+#---------------------------------------- Set Operations -------------------------------------------------#
+#---------------------------------------------------------------------------------------------------------#
+ 
 set_a = {1, 2, 3, 4}
 set_b = {3, 4, 5, 6}
 
-# .union(): combines elements from both sets (set_a | set_b)
+################################################################
+## .union(): combines elements from both sets (set_a | set_b) ##
+################################################################
+
 set_union = set_a.union(set_b)  # or set_a | set_b
 print(set_union)      # {1, 2, 3, 4, 5, 6}
 print(set_a | set_b)  # {1, 2, 3, 4, 5, 6}
 
 
-# .intersection(): returns elements common to both sets (set_a & set_b)
+###########################################################################
+## .intersection(): returns elements common to both sets (set_a & set_b) ##
+###########################################################################
+
 set_intersection = set_a.intersection(set_b)  # or set_a & set_b
 print(set_intersection)  # {3, 4}
 print(set_a & set_b)     # {3, 4}
 
 
-# .difference(): returns elements in set_a that are not in set_b (set_a - set_b)
+####################################################################################
+## .difference(): returns elements in set_a that are not in set_b (set_a - set_b) ##
+####################################################################################
+
 set_difference = set_a.difference(set_b)  # or set_a - set_b
 print(set_difference)  # {1, 2}
 print(set_a - set_b)   # {1, 2}
 
 
-# .symmetric_difference(): returns elements in either set_a or set_b but not both (set_a ^ set_b)
+#####################################################################################################
+## .symmetric_difference(): returns elements in either set_a or set_b but not both (set_a ^ set_b) ##
+#####################################################################################################
+
 set_symmetric_difference = set_a.symmetric_difference(set_b)  # or set_a ^ set_b
 print(set_symmetric_difference)  # {1, 2, 5, 6}
 print(set_a ^ set_b)             # {1, 2, 5, 6}
 
 
-# .issubset(): checks if set_a is a subset of set_b (set_a <= set_b) or (set_a < set_b)
+###########################################################################################
+## .issubset(): checks if set_a is a subset of set_b (set_a <= set_b) or (set_a < set_b) ##
+###########################################################################################
+
 print(set_a.issubset(set_b))  # False
 print(set_a <= set_b)         # False
 print(set_a < set_b)          # False
 
 
-# .issuperset(): checks if set_a is a superset of set_b (set_a >= set_b) or (set_a > set_b)
+###############################################################################################
+## .issuperset(): checks if set_a is a superset of set_b (set_a >= set_b) or (set_a > set_b) ##
+###############################################################################################
+
 print(set_a.issuperset(set_b))  # False
 print(set_a >= set_b)           # False
 print(set_a > set_b)            # False
 
 
-# .isdisjoint(): checks if set_a and set_b have no elements in common
+#########################################################################
+## .isdisjoint(): checks if set_a and set_b have no elements in common ##
+#########################################################################
+
 print(set_a.isdisjoint(set_b))   # False
 print(set_a.isdisjoint({7, 8}))  # True, because {7, 8} has no common elements with set_a
 
@@ -195,18 +259,25 @@ print(set_a.isdisjoint({7, 8}))  # True, because {7, 8} has no common elements w
 '''Fronzeset operations are similar to set operations, but they are immutable'''
 
 
-#-------------------------------------------------------------------------#
-#-------------- .copy() method and sorted() set --------------------------#
-#-------------------------------------------------------------------------#
+#-----------------------------------------------------------------------------------------------------------#
+#---------------------------- .copy() method and sorted() set ----------------------------------------------#
+#-----------------------------------------------------------------------------------------------------------#
 
 set_demo = {"Metal", "Wood", "Earth", "Water", "Fire"}
 
-# .copy(): creates a shallow copy of the set
+
+################################################
+## .copy(): creates a shallow copy of the set ##
+################################################
+
 set_copy = set_demo.copy()
 print(set_copy)  # {'Fire', 'Metal', 'Wood', 'Earth', 'Water'}
 print(id(set_demo) == id(set_copy)) # False, because they are different objects
 
 
-# sorted(): returns a sorted list of the elements in the set
+################################################################
+## sorted(): returns a sorted list of the elements in the set ##
+################################################################
+
 print(sorted(set_demo))  # ['Earth', 'Fire', 'Metal', 'Water', 'Wood']
                          # reuturn a sorted LIST, not a set

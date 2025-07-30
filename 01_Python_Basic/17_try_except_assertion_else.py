@@ -1,7 +1,6 @@
-
-#------------------------------------#
-#---------- try except --------------#
-#------------------------------------#
+#-----------------------------------------------#
+#----------------- try except ------------------#
+#-----------------------------------------------#
 
 try:
     int_number = int(input("Input an integer number: "))
@@ -9,6 +8,7 @@ except ValueError:
     print(">>> Error: Your input is not numeric!!!!")
 else:
     print("Your input is an integer")
+
 
 #----------------------------------------------#
 #---------- try except Exception --------------#
@@ -37,7 +37,10 @@ else:
     print("Your code has no error")
 # Output: ">>> Something wrong!!!"
 
-################ Exception as .... Error as .... ######################
+
+#####################################
+## Exception as .... Error as .... ##
+#####################################
 
 try:
     9 / 0
@@ -45,6 +48,7 @@ except Exception as e:
     print(f">>> Error: {e}")
 else:
     print("Your code has no error")
+
 # Output: ">>> Error: division by zero"
 
 
@@ -64,8 +68,10 @@ except AssertionError:
 else:
     print("Your input is right!")
 
-    
-########### many Assertions ###############
+
+#########################    
+## multiple Assertions ##
+#########################
 
 try:
     number = float(input("Input a positive float number: "))

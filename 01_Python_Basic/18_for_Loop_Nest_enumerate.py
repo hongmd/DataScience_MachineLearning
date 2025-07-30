@@ -1,6 +1,6 @@
-#--------------------------#
-#------ for loop ----------#
-#--------------------------#
+#-----------------------------------------------------------#
+#------------------------ for loop -------------------------#
+#-----------------------------------------------------------#
 
 for i in range(1, 20):
     if i%2 != 0: 
@@ -15,11 +15,11 @@ for name, age in zip(lst_name, lst_age):
     print(f'{name}: {age} years old')
 
 
-#--------------------------#
-#------ for Nest ----------#
-#--------------------------#
+#-----------------------------------------------------------#
+#------------------------ for Nest -------------------------#
+#-----------------------------------------------------------#
 
-######## apply for Nest to create multiplication table #########
+## apply for Nest to create multiplication table
 
 print('-'*116)
 print('Multiplication table - Method 1'.center(116))
@@ -43,9 +43,9 @@ for n in range(1,11,1):
     print()
     
 
-#-----------------------------------#
-#---------- for enumerate ----------#
-#-----------------------------------#
+#------------------------------------------------------------------#
+#------------------------ for enumerate() -------------------------#
+#------------------------------------------------------------------#
 
 # enumerate() is a built-in function that adds a counter to an iterable and returns it as an enumerate object.
 # It is commonly used in loops to get both the index and the value of items in a list or other iterable.
@@ -67,7 +67,7 @@ for index, fruit in enumerate(lst_fruits):
 
 
 # Use enumerate with a start index
-for index, fruit in enumerate(lst_fruits, start=1):
+for index, fruit in enumerate(lst_fruits, start = 1):
     print(f'Index: {index}, Fruit: {fruit}')
 # Output:
 # Index: 1, Fruit: apple
