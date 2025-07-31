@@ -1,31 +1,59 @@
-numpy
-pandas
-siuba
-matplotlib
-seaborn
-plotnine, plotnine3d
-plotly
-sklearn = pip3 install -U scikit-learn
+termcolor
+loguru
+numpy "jax[cuda12]"
+pandas datar polars tidypolars
+matplotlib seaborn plotnine plotly
+scipy statsmodels
+sympy cvxpy
+scikit-learn
 imblearn
 xgboost
 hdbscan
 
-r-base (for R)
-r-tidyverse (for R)
 
-#### How to install:
+###############################
+## install using conda-forge ##
+###############################
+
+Use conda-forge for stable version
 
 1) install miniconda or conda
 
 2) Go to (base) environment
 
-3) Run this command: 
-conda create -c conda-forge -n data python=3.12 numpy pandas siuba matplotlib seaborn plotnine plotnine3d plotly scikit-learn imblearn xgboost hdbscan r-base r-tidyverse
+3) Run this command to create a conda environment and install libraries: 
+   conda create -c conda-forge -n data python=3.12 termcolor loguru numpy jaxlib=*=*cuda* jax cuda-nvcc pandas datar polars matplotlib seaborn plotnine plotly scipy statsmodels sympy cvxpy scikit-learn imbalanced-learn xgboost hdbscan
 
+4) Run this command to create a separate environment for tidypolars:
+   conda create -c conda-forge -n tidypolars python=3.11 termcolor loguru numpy jaxlib=*=*cuda* jax cuda-nvcc pandas datar polars tidypolars matplotlib seaborn plotnine plotly scipy statsmodels sympy cvxpy scikit-learn imbalanced-learn xgboost hdbscan
 
-#--------------------------------#
-#--------- pytorch --------------#
-#--------------------------------#
+########################
+## install using pip3 ##
+########################
+
+Use pip3 install -U for latest versions
+
+1) install miniconda or conda
+
+2) Go to (base) environment
+
+3) Create conda environment:
+   conda create -n data python=3.12
+
+4) Activate the environment:
+   conda activate data
+
+5) Install libraries:
+   pip3 install -U termcolor loguru numpy "jax[cuda12]" pandas datar polars matplotlib seaborn plotnine plotly scipy statsmodels sympy cvxpy scikit-learn imblearn xgboost hdbscan
+
+6) for tidypolars:
+   conda create -n tidypolars python=3.11
+   conda activate tidypolars
+   pip3 install -U termcolor loguru numpy "jax[cuda12]" pandas datar polars tidypolars matplotlib seaborn plotnine plotly scipy statsmodels sympy cvxpy scikit-learn imblearn xgboost hdbscan
+
+#---------------------------------------------------------------#
+#-------------------------- pytorch ----------------------------#
+#---------------------------------------------------------------#
 
 # Remove malformed AMD repo files causing DNF errors:
 sudo rm /etc/yum.repos.d/amdgpu-install.repo
