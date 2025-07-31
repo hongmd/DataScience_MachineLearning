@@ -27,15 +27,15 @@ print(x,y,z)
 
 print()
 student_name = 'An' # Global variable, always exists after being defined, independent from For and While loops, or Function 
-def Inthongtin1():
+def display_information_1():
     print(f'1 - Student name (global variable): {student_name}')
 
-def Inthongtin2():
+def display_information_2():
     last_name = 'Chan'
     first_name = 'Jackie' # Local variable, only persists when the function is executed, will be erased after the execution
     print(f'2 - Student name (local variable): {first_name} {last_name}')
 
-def Inthongtin3():
+def display_information_3():
     global last_name2 # Define last_name2 as global. Using this way, although the variable is defined inside a function, it is still a global variable
     last_name2 = 'Musk ' # hence, it still persists after the execution of the function
     
@@ -47,10 +47,10 @@ def Inthongtin3():
 #---------------------------------------- Output --------------------------------------------#
 #--------------------------------------------------------------------------------------------#
 
-Inthongtin1()
+display_information_1()
 
-Inthongtin2()
+display_information_2()
 print(f'Student name (global): {student_name}') # The global variable student_name still persists
 
-Inthongtin3()
+display_information_3()
 print(f'3 - Student name (Global): {first_name2} {last_name2}')  # The global variables first_name2 and last_name2 still persist
