@@ -92,7 +92,66 @@ clinfo
 # download pytorch
 pip3 install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/rocm6.3.4/
 
+# Export PATH
+nano ~/.bashrc
+
+# Add these to the .bashrc
+export HSA_OVERRIDE_GFX_VERSION=11.0.0 # Tells ROCm to treat your gfx1151 GPU as gfx1100 (standard RDNA 3), which has mature kernel support
+export AMD_SERIALIZE_KERNEL=3 # Forces kernel serialization for debugging and stability
+export HIP_VISIBLE_DEVICES=0 # Explicitly makes your GPU visible to HIP runtime
+export ROC_ENABLE_PRE_VEGA=1 #  Enables broader compatibility mode
+
+# Run this to enable above settings
+source ~/.bashrc
+
 # test torch GPU detection
 python3
 import torch
 print(torch.cuda.is_available())  # Should print True
+
+# Test if you can actually use the GPU
+from loguru import logger
+try:
+    x = torch.tensor([1.0, 2.0]).cuda()
+    print(f"GPU tensor test successful: {x}")
+    print(f"Current GPU device: {torch.cuda.current_device()}")
+except Exception as e:
+    logger.error(f"GPU tensor test failed: {e}")
+
+
+
+#-----------------------------------------------------------------------------------------------------------#
+#----------------------------- Jax setup for AMD ROCM (fedora command) -------------------------------------#
+#-----------------------------------------------------------------------------------------------------------#
+
+# If the jax.devices() does not detect gpu [RocmDevice(id=0)]
+# => do the following steps
+
+# 1. Install all ROCm dependencies at once
+sudo dnf install hipsolver hipsolver-devel \
+                 hipfft hipfft-devel \
+                 miopen miopen-devel \
+                 hipblaslt hipblaslt-devel \
+                 lld
+
+# 1. Alternative: Install complete ROCm stack
+sudo dnf install rocm rocm-devel lld
+
+# 2. While in your conda environment, run these commands to set it permanently
+conda env config vars set LLVM_PATH=/usr
+conda deactivate
+conda activate your_env_name
+echo $LLVM_PATH  # Should show /usr
+
+# 3. Run verification command
+import jax
+import jax.numpy as jnp
+
+print('Available devices:', jax.devices()) # It should be [RocmDevice(id=0)]
+print('Default device:', jax.default_backend())
+
+# Test GPU computation
+x = jnp.arange(10)
+y = x ** 2
+print('GPU computation result:', y)
+print('Computation device:', y.device)
