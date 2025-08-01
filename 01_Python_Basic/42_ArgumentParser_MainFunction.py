@@ -96,7 +96,7 @@ def parse_args():
                             formatter_class = formatter)
 
     # Add arguments to the "parser" object
-    parser.add_argument("-l", "--length", required = True, metavar = "\b".strip(), help = "Length of the rectangle (expected to be a positive number).")
+    parser.add_argument("-l", "--length", required = True, metavar = "\b", help = "Length of the rectangle (expected to be a positive number).")
     parser.add_argument("-w", "--width", required = True, metavar = "\b", help = "Width of the rectangle (expected to be a positive number).")
     parser.add_argument("-o", "--out", required = False, metavar = "\b", type = str, default = "", help = "Path to the output file saving the results.")
 
