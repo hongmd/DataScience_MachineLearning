@@ -61,10 +61,49 @@ Use pip3 install -U for latest versions
    pip3 install -U "jax[cuda12]" # for NVIDIA user
    pip3 install -U jax[rocm] # for AMD user
 
-   
-#---------------------------------------------------------------#
-#-------------------------- pytorch ----------------------------#
-#---------------------------------------------------------------#
+
+
+#-----------------------------------------------------------------------------------------------------------#
+#----------------------------- Jax setup for AMD ROCM (fedora command) -------------------------------------#
+#-----------------------------------------------------------------------------------------------------------#
+
+# If the jax.devices() does not detect gpu [RocmDevice(id=0)]
+# => do the following steps
+
+# 1. Install all ROCm dependencies at once
+sudo dnf install hipsolver hipsolver-devel \
+                 hipfft hipfft-devel \
+                 miopen miopen-devel \
+                 hipblaslt hipblaslt-devel \
+                 lld
+
+# 1. Alternative: Install complete ROCm stack
+sudo dnf install rocm rocm-devel lld
+
+# 2. While in your conda environment, run these commands to set it permanently
+conda env config vars set LLVM_PATH=/usr
+conda deactivate
+conda activate your_env_name
+echo $LLVM_PATH  # Should show /usr
+
+# 3. Run verification command
+import jax
+import jax.numpy as jnp
+from loguru import logger
+
+logger.debug('Available devices:', jax.devices()) # It should be [RocmDevice(id=0)]
+logger.debug('Default device:', jax.default_backend())
+
+# Test GPU computation
+x = jnp.arange(10)
+y = x ** 2
+logger.info('GPU computation result:', y)
+logger.debug('Computation device:', y.device)
+
+
+#---------------------------------------------------------------------------------------------#
+#-------------------------- Pytorch for AMD ROCm (fedora command) ----------------------------#
+#---------------------------------------------------------------------------------------------#
 
 # Remove malformed AMD repo files causing DNF errors:
 sudo rm /etc/yum.repos.d/amdgpu-install.repo
@@ -118,42 +157,3 @@ try:
     logger.debug(f"Current GPU device: {torch.cuda.current_device()}")
 except Exception as e:
     logger.error(f"GPU tensor test failed: {e}")
-
-
-
-#-----------------------------------------------------------------------------------------------------------#
-#----------------------------- Jax setup for AMD ROCM (fedora command) -------------------------------------#
-#-----------------------------------------------------------------------------------------------------------#
-
-# If the jax.devices() does not detect gpu [RocmDevice(id=0)]
-# => do the following steps
-
-# 1. Install all ROCm dependencies at once
-sudo dnf install hipsolver hipsolver-devel \
-                 hipfft hipfft-devel \
-                 miopen miopen-devel \
-                 hipblaslt hipblaslt-devel \
-                 lld
-
-# 1. Alternative: Install complete ROCm stack
-sudo dnf install rocm rocm-devel lld
-
-# 2. While in your conda environment, run these commands to set it permanently
-conda env config vars set LLVM_PATH=/usr
-conda deactivate
-conda activate your_env_name
-echo $LLVM_PATH  # Should show /usr
-
-# 3. Run verification command
-import jax
-import jax.numpy as jnp
-from loguru import logger
-
-logger.debug('Available devices:', jax.devices()) # It should be [RocmDevice(id=0)]
-logger.debug('Default device:', jax.default_backend())
-
-# Test GPU computation
-x = jnp.arange(10)
-y = x ** 2
-logger.info('GPU computation result:', y)
-logger.debug('Computation device:', y.device)
