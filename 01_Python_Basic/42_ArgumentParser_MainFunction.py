@@ -39,8 +39,8 @@ The Three-Step Process
 from loguru import logger
 from pathlib import Path
 
-def rectangle_circumference(length, width):
-    """Calculate the circumference of a rectangle."""
+def rectangle_perimeter(length, width):
+    """Calculate the perimeter of a rectangle."""
     try:
         length = float(length)  # Ensure length is a float
         width = float(width)   # Ensure width is a float
@@ -57,7 +57,7 @@ def rectangle_circumference(length, width):
 
 def rectangle_area(length, width):
     """Calculate the area of a rectangle."""
-    # Don't need to check the length and width's constrains, since the circumference function has already done that
+    # Don't need to check the length and width's constrains, since the perimeter function has already done that
     length = float(length)
     width = float(width)
     return length * width
@@ -89,7 +89,7 @@ formatter = lambda prog: HelpFormatter(prog, width = 200, max_help_position = 50
 def parse_args():
     # Create an ArgumentParser object named "parser"
     parser = ArgumentParser(prog = "Rectangle Calculator",
-                            description = "Calculate the circumference and area of a rectangle.",
+                            description = "Calculate the perimeter and area of a rectangle.",
                             epilog = "Thank you for using the Rectangle Calculator!",
                             usage = "rectangle_calculator.py [options] <length> <width>",
                             add_help = True,
@@ -120,13 +120,13 @@ def main():
         # Parse the command-line arguments given by the user
         args = parse_args() 
 
-        # Calculate the circumference
-        circumference = rectangle_circumference(
+        # Calculate the perimeter
+        perimeter = rectangle_perimeter(
             length = args.length, # Get the length from the parsed arguments
             width = args.width # Get the width from the parsed arguments
         )
 
-        if circumference is None:
+        if perimeter is None:
             return None
         else:
             # Calculate the area
@@ -136,7 +136,7 @@ def main():
                 "Program ran succesfully!\n"
                 f"Length = {args.length}\n"
                 f"Width = {args.width}\n"
-                f"Circumference = 2 * ({args.length} + {args.width}) = {circumference}\n"
+                f"perimeter = 2 * ({args.length} + {args.width}) = {perimeter}\n"
                 f"Area of the rectangle = {args.length} * {args.width} = {area}"
             )
 

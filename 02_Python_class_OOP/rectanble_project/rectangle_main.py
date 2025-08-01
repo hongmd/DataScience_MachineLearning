@@ -1,7 +1,7 @@
 from loguru import logger
 from pathlib import Path
 from argparse import ArgumentParser, HelpFormatter
-import json
+import json, re
 
 
 #-----------------------------------------------------------------------------------------------------------#
@@ -11,7 +11,7 @@ import json
 class RectangleCalculator:
     '''
     This class will takes the length and width of a rectangle as inputs, 
-    then return the corresponding circumference and area as outputs.
+    then return the corresponding perimeter and area as outputs.
 
     It can also read inputs from multiple JSON files.
     The results can be returned in a specified JSON file.
@@ -34,6 +34,22 @@ class RectangleCalculator:
         self.cores = cores
 
 
-    def _load_rectangle_input(self, json_input_file):
+    def _load_rectangle_json(self, json_input_file):
         json_input_path = self.input.joinpath(json_input_file)
-        pass
+        with open(json_input_path, "r") as json_file_object:
+            self.length, self.width = json.load(json_file_object).values()
+    
+
+    @staticmethod
+    def validate_input(number):
+        try:
+            number = float(number)
+        except Exception as e:
+            logger.error(e)
+            return None
+        else:
+            return number
+    
+
+    def _calculate(self):
+        self.perimeter = 2 * (self.length + self.width)

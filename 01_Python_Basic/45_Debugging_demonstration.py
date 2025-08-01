@@ -18,8 +18,8 @@ def get_input():
     return length, width, filepath
 
 
-def rectangle_circumference(length, width):
-    """Calculate the circumference of a rectangle."""
+def rectangle_perimeter(length, width):
+    """Calculate the perimeter of a rectangle."""
     try:
         assert length > 0 and width > 0, "Length and width must be positive numbers."
     except AssertionError as ae:
@@ -63,8 +63,8 @@ def main():
         # Input the rectangle dimensions from the user
         length, width, filepath = get_input()
 
-        # Calculate the circumference
-        circumference = rectangle_circumference(
+        # Calculate the perimeter
+        perimeter = rectangle_perimeter(
             length = length, # Get the length from the parsed arguments
             width = width # Get the width from the parsed arguments
         )
@@ -72,12 +72,12 @@ def main():
         # Calculate the area
         area = rectangle_area(length, width)
 
-        if (circumference is not None) and (area is not None):
+        if (perimeter is not None) and (area is not None):
             out_message = (
                 "\n"
                 f"Length = {length}\n"
                 f"Width = {width}\n"
-                f"Circumference = 2 * ({length} + {width}) = {circumference}\n"
+                f"perimeter = 2 * ({length} + {width}) = {perimeter}\n"
                 f"Area of the rectangle = {length} * {width} = {area}"
             )
 
