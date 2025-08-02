@@ -4,7 +4,6 @@ from argparse import ArgumentParser, HelpFormatter
 import json, re
 from termcolor import colored
 import multiprocessing
-from shutil import rmtree
 
 # Add file sink while keeping the default console output
 logger.add("02_Python_class_OOP/rectangle_project/rectangle_logs.txt", 
@@ -43,18 +42,14 @@ class RectangleCalculator:
 
         match str(self.output):
             case "":
-                pass
+                return None
             case _:
-                if self.output.exists():
-                    rmtree(self.output)
-                    self.output.mkdir()
-
-                elif (self.output.suffix != "") and (self.output.parent.exists()):
+                if (self.output.suffix != "") and (self.output.parent.exists()):
                     self.output = self.output.stem.mkdir(exist_ok = True)
                     logger.warning(f"Your output path should be a directory, not a file, automatically set as {self.output}")
 
                 elif self.output.parent.exists():
-                    self.output.mkdir()
+                    self.output.mkdir(exist_ok=True)
 
                 elif not self.output.parent.exists():
                     self.output = Path.cwd().joinpath("result")

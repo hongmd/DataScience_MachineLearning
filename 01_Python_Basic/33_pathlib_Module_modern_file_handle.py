@@ -98,6 +98,10 @@ else:
 print(posix_path.exists()) # False
 # It returns False, instead of raising an error like PurePath.
 
+'''
+                      PRECAUTION
+pathlib.Path("") will return current working directory "."
+'''
 
 #####################################
 ## Using .joinpath() to join paths ##
