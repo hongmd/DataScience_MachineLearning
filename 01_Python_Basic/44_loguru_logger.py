@@ -27,3 +27,16 @@ logger.error("This is an error message.")
 
 logger.critical("This is a critical message.")
 # 2025-07-30 17:34:16.454 | CRITICAL | __main__:<module>:1 - This is a critical message.
+
+
+#------------------------------------------------------------------------------------------------------#
+#---------------------- Save the log information into a .txt file for reviewing -----------------------#
+#------------------------------------------------------------------------------------------------------#
+
+# Add file sink while keeping the default console output
+logger.add("01_Python_Basic/terminal_logs.txt", 
+           rotation="1 MB",  # Rotate when file reaches 1MB
+           retention="10 days",  # Keep logs for 10 days
+           level="INFO") # Only save the "INFO" level and above
+
+logger.info("This is an info message.")

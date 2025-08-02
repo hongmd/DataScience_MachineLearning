@@ -10,7 +10,7 @@ from shutil import rmtree
 logger.add("02_Python_class_OOP/rectangle_project/rectangle_logs.txt", 
            rotation="1 MB",  # Rotate when file reaches 1MB
            retention="10 days",  # Keep logs for 10 days
-           level="WARNING")
+           level="WARNING") # Only save the WARNING level and above
 
 #-----------------------------------------------------------------------------------------------------------#
 #--------------------------------- Define Class and its methods --------------------------------------------#
