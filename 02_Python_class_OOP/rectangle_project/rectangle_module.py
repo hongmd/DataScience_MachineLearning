@@ -1,7 +1,7 @@
 from loguru import logger
 from pathlib import Path
 from argparse import ArgumentParser, HelpFormatter
-import json, re, os
+import json, re, os, shutil
 from termcolor import colored
 import multiprocessing
 
@@ -35,6 +35,34 @@ class RectangleCalculator:
         self.__width = width
         self.cores = cores
 
+        #######################################################################
+        ##                         Validate self.output                      ##
+        #######################################################################
+        
+        match str(self.output):
+            case "":
+                pass
+            case _:
+                if (len(str(self.output).split(os.path.sep)) == 1) or (not (Path(self.output).parent.is_dir())):
+                    logger.warning(
+                        "The output path's parent directory was not specified!"
+                        f"\nThe current directory {Path.cwd()} will be set as its parent directory"
+                    )
+                    self.output = Path.cwd() / Path(self.output).name
+                
+                if (Path(self.output).suffix != ""):
+                    self.output = Path(self.output)
+                    self.output = self.output.parent / self.output.stem # Create a new path without the suffix
+                    logger.warning(f"Your output path should be a directory, not a file, automatically set as {self.output}")
+                
+                else:
+                    self.output = Path(self.output)
+                
+                if (self.output.is_dir()) and (self.output != Path.cwd()):
+                    shutil.rmtree(self.output)
+                
+                self.output.mkdir(exist_ok = True)
+
     
     @staticmethod
     def __valiate_input_number(*numbers): # Internal use only, cannot call out when the module is being imported
@@ -60,14 +88,16 @@ class RectangleCalculator:
             length, width = RectangleCalculator.__valiate_input_number(length, width)
         
         if None in [length, width]:
-            logger.warning(f"The inputs in this {json_rectangle_name} file are corrupted!!!")
+            logger.error(f"CORRUPTED inputs are detected in {json_rectangle_name}! They are expected to be POSITIVE NUMBERS (greater than zero)")
+        
         return length, width
     
 
     @property
     def perimeter(self):
         self.length, self.width = self.__valiate_input_number(self.length, self.width)
-        if (self.length is None) or (self.width is None):
+        
+        if None in [self.length, self.width]:
             self.__perimeter = None
         else:
             self.__perimeter = 2 * (self.length + self.width) # Name it as "self.__perimeter" to prevent user from changing its value 
@@ -78,8 +108,8 @@ class RectangleCalculator:
     @property
     def area(self):
         self.length, self.width = self.__valiate_input_number(self.length, self.width)
-
-        if (self.length is None) or (self.width is None):
+        
+        if None in [self.length, self.width]:
             self.__area = None
         else:
             self.__area = self.length * self.width # Name it as "self.__area" to prevent user from changing its value
@@ -94,6 +124,9 @@ class RectangleCalculator:
             "area": self.area
         }
 
+        if None in [self.__perimeter, self.__area]:
+            return None # Don't save file if the inputs are corrupted
+        
         match len(json_rectangle_name.split(os.path.sep)):
             case 1:
                 json_path = self.output.joinpath(json_rectangle_name)
@@ -103,53 +136,39 @@ class RectangleCalculator:
         if not json_path.name.endswith(".json"):
             json_path =  Path(str(json_path)+".json")
             logger.warning(f"The output file name does not end with '.json', automatically set as {json_rectangle_name}.json")
+       
         with open(json_path, "w") as json_pointer:
             json.dump(result_dict, json_pointer, indent = 4)
         
         if json_path.stem == "nameless":
-            logger.info(f"Result is saved in {json_path}")
-    
-
-    def __validate_output_path(self):
-        match str(self.output):
-            case "":
-                pass
-            case _:
-                if (len(str(self.output).split(os.path.sep)) == 1) or (not (Path(self.output).parent.is_dir())):
-                    logger.error("The output path's parent directory does not exist!")
-                    self.output = ""
-                
-                elif (Path(self.output).suffix != ""):
-                    self.output = Path(self.output)
-                    self.output = Path(self.output.parent, self.output.stem)
-                    self.output.mkdir(exist_ok = True)
-                    logger.warning(f"Your output path should be a directory, not a file, automatically set as {self.output}")
-                
-                else:
-                    self.output = Path(self.output)
-                    self.output.mkdir(exist_ok = True)
-        
-        return self.output
+            logger.info(f"The result is saved in {json_path}")
 
     
     def summary(self, json_rectangle_name = "nameless"):
-        self.output = self.__validate_output_path()
+        
         match str(self.output):
             case "":
-                json_rectangle_name = colored(json_rectangle_name, "red", attrs = ["bold"])
+                json_rectangle_name = colored(json_rectangle_name, "red", attrs=["bold"])
+                perimeter_result = colored(f"++ Perimeter = 2 * ({self.length} + {self.width}) = {self.perimeter}", "cyan", attrs=["bold"])
+                area_result = colored(f"++ Area = {self.length} * {self.width} = {self.area}", "cyan", attrs=["bold"])
+
                 out_message = (
-                    f"\n\nResult of {json_rectangle_name} rectangle:\n"
+                    f"\n\nResult of the {json_rectangle_name} rectangle:\n"
                     f"++ Length = {self.length}\n"
                     f"++ Width = {self.width}\n"
-                    f"++ Perimeter = 2 * ({self.length} + {self.width}) = {self.perimeter}\n"
-                    f"++ Area = {self.length} * {self.width} = {self.area}\n"
-                )
-                logger.info(out_message)
+                    f"{perimeter_result}\n"
+                    f"{area_result}\n"
+                )    
+                
+                if (str(self.input) == "")  and (None in [self.__perimeter, self.__area]):
+                    logger.critical("The given inputs are CORRUPTED! They are expected to be POSITIVE NUMBERS (greater than zero)")
+                else:
+                    logger.info(out_message)
             case _:
                 self.save_file(json_rectangle_name)
 
 
-    def _SingleInput_WorkFlow(self, json_rectangle_name):
+    def _single_workflow(self, json_rectangle_name):
         if json_rectangle_name != '':
             self.length, self.width = self.load_rectangle_json(json_rectangle_name)
             
@@ -159,7 +178,7 @@ class RectangleCalculator:
             self.summary(json_rectangle_name)
         
         elif None in [self.__length, self.__width]:
-            logger.error("No valid inputs were given")
+            logger.critical("No valid inputs were given")
         
         else:
             self.length, self.width = self.__length, self.__width
@@ -171,10 +190,9 @@ class RectangleCalculator:
 #------------------------------------------------------------------------------------------------------------#
 
 def config_log_file(project_dir):
-    # Add file sink while keeping the default console output
     logger_path = Path(project_dir).joinpath("rectangle_logs.txt")
     if logger_path.exists():
-        logger_path.unlink()
+        logger_path.unlink() # Delete the rectangle_logs.txt of the previous run if existed
 
     logger.add(sink = logger_path, # The path to the .txt file that saves logs
             rotation="1 MB",  # Rotate when file reaches 1MB
@@ -189,43 +207,45 @@ def config_log_file(project_dir):
 def main():
     try:
         calculator = RectangleCalculator(
-            input = "02_Python_class_OOP/rectangle_project/data/",
-            output = "02_Python_class_OOP/rectangle_project/result.txt/",
-            length = 2,
+            #input = "02_Python_class_OOP/rectangle_project/data/",
+            #output = "02_Python_class_OOP/rectangle_project/result.txt/",
+            length = 100,
             width = 3,
-            cores = 4
+            cores = 1
         )
 
         if (calculator.input != "") and Path(calculator.input).exists():
             calculator.input = Path(calculator.input)
-            config_log_file(calculator.input.parent)
 
             if calculator.input.suffix == ".json":
-                calculator._SingleInput_WorkFlow(calculator.input)
+                calculator._single_workflow(calculator.input)
             
             elif (calculator.input.is_dir()):
                 input_files = [(entry.name,) for entry in calculator.input.glob("*.json")]
-                calculator.output = calculator._RectangleCalculator__validate_output_path()
 
                 match str(calculator.output):
                     case "":
                         logger.warning(
                             (   
                                 "\nNo valid ouput directory path was given!!!"
-                                "\nAll results will be printed here and will NOT be saved!!!"
+                                "\nIf you procced, all results will be printed here and will NOT be saved!!!"
                             )
                         )
                         
                         answer = input(colored("Would you like to proceed? [y/n]: ", "blue", attrs = ["bold"]))
+                        
                         if answer.lower() == "y":
+
                             with multiprocessing.Pool(processes = calculator.cores) as pool:
-                                pool.starmap(func = calculator._SingleInput_WorkFlow, iterable = input_files)
+                                pool.starmap(func = calculator._single_workflow, iterable = input_files)
                         else:
                             return None # stop the program
                         
-                    case _:           
+                    case _:
+                        config_log_file(calculator.input.parent) # Only produce rectangle_logs.txt if the input and output directories or files are given           
+                        
                         with multiprocessing.Pool(processes = calculator.cores) as pool:
-                            pool.starmap(func = calculator._SingleInput_WorkFlow, iterable = input_files)
+                            pool.starmap(func = calculator._single_workflow, iterable = input_files)
                         
                         logger.info(f"All result files are saved in {calculator.output}")
 
@@ -233,10 +253,10 @@ def main():
                 logger.error("There are multiple input files, but the output directory path was not correctly specified")                          
 
         else:
-            calculator._SingleInput_WorkFlow('')
+            calculator._single_workflow('')
     
     except Exception as e:
-        logger.error(e)
+        logger.critical(e)
 
 
 #---------------------------------------------------------------------------------------------------------#
