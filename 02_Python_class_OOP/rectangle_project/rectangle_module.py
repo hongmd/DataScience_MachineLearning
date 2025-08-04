@@ -148,7 +148,7 @@ class RectangleCalculator:
         return self.__area
 
     
-    def save_output_file(self, json_rectangle_file):
+    def save_output_file(self):
         result_dict = {
             "length": self.length,
             "width": self.width,
@@ -163,20 +163,18 @@ class RectangleCalculator:
             json.dump(result_dict, json_pointer, indent = 4)
 
     
-    def summary(self, json_output_file = "nameless.json"):
+    def summary(self, rectangle_output_name = "nameless"):
         
         match str(self.output):
             case "":
-                if json_output_file == "nameless.json":
-                    rectangle_name = colored(str(json_output_file).replace(".json", ""), "magenta", attrs=["bold"])
-                else:
-                    rectangle_name = colored(str(json_output_file), "magenta", attrs=["bold"])
+
+                rectangle_output_name = colored(str(rectangle_output_name), "magenta", attrs=["bold"])
 
                 perimeter_result = colored(f"++ Perimeter = 2 * ({self.length} + {self.width}) = {self.perimeter}", "cyan", attrs=["bold"])
                 area_result = colored(f"++ Area = {self.length} * {self.width} = {self.area}", "cyan", attrs=["bold"])
 
                 out_message = (
-                    f"\n\nResult of the {rectangle_name} rectangle:\n"
+                    f"\n\nResult of the {rectangle_output_name} rectangle:\n"
                     f"++ Length = {self.length}\n"
                     f"++ Width = {self.width}\n"
                     f"{perimeter_result}\n"
@@ -189,7 +187,7 @@ class RectangleCalculator:
                     logger.info(out_message)
             
             case _:
-                self.save_output_file(json_output_file)
+                self.save_output_file(rectangle_output_name)
 
 
     def _single_workflow(self, json_rectangle_file):
