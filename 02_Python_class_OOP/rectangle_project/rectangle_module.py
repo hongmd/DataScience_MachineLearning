@@ -43,6 +43,7 @@ class RectangleCalculator:
         match str(self._output):
             case "":
                 pass
+            
             case _:
                 if (Path(self._output).suffix != ""):
                     self._output = Path(self._output)
@@ -53,6 +54,7 @@ class RectangleCalculator:
                     self._output = Path(self._output)
                 
                 non_json_count = sum([1 for entry in self._output.rglob("*[!.json]")]) # Ensure the directory contains only json file
+                
                 if (self._output.is_dir()) and (non_json_count == 0):
                     shutil.rmtree(self._output)
                 
@@ -85,6 +87,7 @@ class RectangleCalculator:
             if (json_output_file.is_dir()) and (non_json_count == 0):
                 shutil.rmtree(json_output_file)
                 json_output_file.mkdir(exist_ok = True)
+            
             else:
                 json_output_file.mkdir(exist_ok = True)
             
@@ -102,9 +105,11 @@ class RectangleCalculator:
     def __valiate_input_number(*numbers): # Internal use only, cannot call out when the module is being imported
         numeric_pattern = r"^\d+\.?\d*$"
         numbers = list(numbers)
+        
         for idx, number in enumerate(numbers):
             if re.match(numeric_pattern, str(number)):
                 numbers[idx] = float(number)
+            
             else:
                 numbers[idx] = None
         
@@ -114,6 +119,7 @@ class RectangleCalculator:
     def __load_rectangle_inputs(self, json_rectangle_file): # Internal use only, cannot call out when the module is being imported
         if len(Path(json_rectangle_file).parts) > 1:
             json_file_path = json_rectangle_file
+        
         else:
             json_file_path = self._input.joinpath(json_rectangle_file)
         
@@ -130,12 +136,14 @@ class RectangleCalculator:
     @property
     def perimeter(self):
         if (None in [self.length, self.width]) and ((str(self._input) == "") or (not Path(self._input).is_dir())):
-            self.length, self.width = self.__valiate_input_number(self.__length, self.__width)
+            self.length, self.width = RectangleCalculator.__valiate_input_number(self.__length, self.__width)
+        
         else:
-            self.length, self.width = self.__valiate_input_number(self.length, self.width)
+            self.length, self.width = RectangleCalculator.__valiate_input_number(self.length, self.width)
         
         if None in [self.length, self.width]:
             self.__perimeter = None
+        
         else:
             self.__perimeter = 2 * (self.length + self.width) # Name it as "self.__perimeter" to prevent user from changing its value 
        
@@ -145,12 +153,14 @@ class RectangleCalculator:
     @property
     def area(self):
         if (None in [self.length, self.width]) and ((str(self._input) == "") or (not Path(self._input).is_dir())):
-            self.length, self.width = self.__valiate_input_number(self.__length, self.__width)
+            self.length, self.width = RectangleCalculator.__valiate_input_number(self.__length, self.__width)
+        
         else:
-            self.length, self.width = self.__valiate_input_number(self.length, self.width)
+            self.length, self.width = RectangleCalculator.__valiate_input_number(self.length, self.width)
         
         if None in [self.length, self.width]:
             self.__area = None
+        
         else:
             self.__area = self.length * self.width # Name it as "self.__area" to prevent user from changing its value
         
@@ -214,7 +224,7 @@ class RectangleCalculator:
     def _single_workflow(self, json_rectangle_file):
         if json_rectangle_file != '': # If the input JSON file is given, use its data for calculation
             self.length, self.width = self.__load_rectangle_inputs(json_rectangle_file)
-            self.__length, self.__width = self.__valiate_input_number(self.__length, self.__width)
+            self.__length, self.__width = RectangleCalculator.__valiate_input_number(self.__length, self.__width)
 
             if Path(self._input).is_dir():
                 self._single_output_path = self.__validate_output_file(json_rectangle_file)
@@ -237,16 +247,17 @@ class RectangleCalculator:
                 self._single_output_path = self.__validate_output_file(self._output)
         
         else:
+            self.length, self.width = RectangleCalculator.__valiate_input_number(self.__length, self.__width)
+
             if (self._input != "") and (not Path(self._input).exists()):
                 logger.warning("The given input path does not exist! Use inputs from -l (--length) and -w (--width) for calculation")
         
-            if None in self.__valiate_input_number(self.__length, self.__width): # Check if the given inputs from -l and -w are valid
+            if None in [self.length, self.width]: # Check if the given inputs from -l and -w are valid
                 logger.critical("The given inputs are CORRUPTED! They are expected to be POSITIVE NUMBERS (greater than zero)")
                 self._output = "" # To avoid displaying the log "The result is saved in None"
                 return None
             
             else:
-                self.length, self.width = self.__valiate_input_number(self.__length, self.__width)
                 self._single_output_path = self.__validate_output_file(self._output)
 
         
