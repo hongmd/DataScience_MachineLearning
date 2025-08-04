@@ -209,7 +209,7 @@ class RectangleCalculator:
                 )    
 
                 if (str(self._input) == "") and (None in [self.__perimeter, self.__area]):
-                    logger.critical("The given inputs are CORRUPTED! They are expected to be POSITIVE NUMBERS (greater than zero)")
+                    logger.critical("NO valid inputs were given! They are expected to be POSITIVE NUMBERS (greater than zero)")
                 
                 elif (str(self._input) != "") and (None in [self.__perimeter, self.__area]):
                     return None
@@ -248,12 +248,9 @@ class RectangleCalculator:
         
         else:
             self.length, self.width = RectangleCalculator.__valiate_input_number(self.__length, self.__width)
-
-            if (self._input != "") and (not Path(self._input).exists()):
-                logger.warning("The given input path does not exist! Use inputs from -l (--length) and -w (--width) for calculation")
         
             if None in [self.length, self.width]: # Check if the given inputs from -l and -w are valid
-                logger.critical("The given inputs are CORRUPTED! They are expected to be POSITIVE NUMBERS (greater than zero)")
+                logger.critical("NO valid inputs were given! They are expected to be POSITIVE NUMBERS (greater than zero)")
                 self._output = "" # To avoid displaying the log "The result is saved in None"
                 return None
             
@@ -333,51 +330,57 @@ def main():
             cores = args.cores
         )
 
-        if (calculator._input != "") and Path(calculator._input).exists():
+        if (calculator._input != "") and (Path(calculator._input).is_dir()):
             calculator._input = Path(calculator._input)
-
-            if calculator._input.suffix == ".json":
-                calculator._single_workflow(calculator._input)
-                calculator._display_saving_single_output_message()
+            input_files = [(entry.name,) for entry in calculator._input.glob("*.json")]
             
-            elif (calculator._input.is_dir()):
-                input_files = [(entry.name,) for entry in calculator._input.glob("*.json")]
-                
-                calculator._output = calculator._RectangleCalculator__validate_output_directory()
+            calculator._output = calculator._RectangleCalculator__validate_output_directory()
 
-                match str(calculator._output):
-                    case "":
-                        logger.warning(
-                            (   
-                                "\nYou are passing multiple input files but no valid ouput directory path was given!!!"
-                                "\nIf you procced, all results will be displayed here WITHOUT being saved!!!"
-                            )
+            match str(calculator._output):
+                case "":
+                    logger.warning(
+                        (   
+                            "\nYou are passing multiple input files but no valid ouput directory path was given!!!"
+                            "\nIf you procced, all results will be displayed here WITHOUT being saved!!!"
                         )
-                        
-                        answer = input(colored("Would you like to proceed? [y/n]: ", "blue", attrs = ["bold"]))
-                        
-                        if answer.lower() == "y":
-                            with multiprocessing.Pool(processes = calculator._cores) as pool:
-                                pool.starmap(func = calculator._single_workflow, iterable = input_files)
-                        
-                        else:
-                            return None # stop the program
-                        
-                    case _:
-                        __config_log_file(calculator._input.parent) # Only produce rectangle_logs.txt if the input and output directories or files are given           
-                        
+                    )
+                    
+                    answer = input(colored("Would you like to proceed? [y/n]: ", "blue", attrs = ["bold"]))
+                    
+                    if answer.lower() == "y":
                         with multiprocessing.Pool(processes = calculator._cores) as pool:
-                             pool.starmap(func = calculator._single_workflow, iterable = input_files)
-                        
-                        # for entry in calculator._input.glob("*.json"):
-                        #     calculator._single_workflow(entry.name)
+                            pool.starmap(func = calculator._single_workflow, iterable = input_files)
+                    
+                    else:
+                        return None # stop the program
+                    
+                case _:
+                    __config_log_file(calculator._input.parent) # Only produce rectangle_logs.txt if the input and output directories or files are given           
+                    
+                    with multiprocessing.Pool(processes = calculator._cores) as pool:
+                            pool.starmap(func = calculator._single_workflow, iterable = input_files)
+                    
+                    # for entry in calculator._input.glob("*.json"):
+                    #     calculator._single_workflow(entry.name)
 
-                        logger.info(f"All result files are saved in {calculator._output}")
+                    logger.info(f"All result files are saved in {calculator._output}")
+
+        elif Path(calculator._input).is_file():
+            calculator._input = Path(calculator._input)
+            
+            if Path(calculator._input).suffix == ".json":
+                calculator._single_workflow(calculator._input)         
 
             else:
-                logger.error("There are multiple input files, but the output directory path was not correctly specified")                          
+                logger.warning("The given input path is not a JSON file! Use inputs from -l (--length) and -w (--width) for calculation")
+                calculator._single_workflow('')       
+            
+            calculator._display_saving_single_output_message()
 
         else:
+            if (calculator._input != "") and (not Path(calculator._input).exists()):
+                logger.warning("The given input path does not exist! Use inputs from -l (--length) and -w (--width) for calculation")
+            
             calculator._single_workflow('')
             calculator._display_saving_single_output_message()
 
