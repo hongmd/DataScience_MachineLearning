@@ -357,9 +357,9 @@ def main():
                         answer = input(colored("Would you like to proceed? [y/n]: ", "blue", attrs = ["bold"]))
                         
                         if answer.lower() == "y":
-
                             with multiprocessing.Pool(processes = calculator._cores) as pool:
                                 pool.starmap(func = calculator._single_workflow, iterable = input_files)
+                        
                         else:
                             return None # stop the program
                         
