@@ -42,13 +42,6 @@ class RectangleCalculator:
             case "":
                 pass
             case _:
-                if (len(str(self.output).split(os.path.sep)) == 1) or (not (Path(self.output).parent.is_dir())):
-                    logger.warning(
-                        "The output path's parent directory was not specified!"
-                        f"\nThe current directory {Path.cwd()} will be set as its parent directory"
-                    )
-                    self.output = Path.cwd() / Path(self.output).name
-                
                 if (Path(self.output).suffix != ""):
                     self.output = Path(self.output)
                     self.output = self.output.parent / self.output.stem # Create a new path without the suffix
@@ -57,10 +50,11 @@ class RectangleCalculator:
                 else:
                     self.output = Path(self.output)
                 
-                if (self.output.is_dir()) and (self.output != Path.cwd()):
+                non_json_count = sum([1 for entry in self.output.rglob("*[!.json]")]) # Ensure the directory contains only json file
+                if (self.output.is_dir()) and (non_json_count == 0):
                     shutil.rmtree(self.output)
                 
-                self.output.mkdir(exist_ok = True)
+                self.output.mkdir(exist_ok = True, parents = True)
         
         return self.output
 
@@ -69,24 +63,35 @@ class RectangleCalculator:
         if str(json_output_file) == "":
             return None
         
-        elif Path(self.input).is_dir():
+        elif (str(self.input) != "") and (Path(self.input).is_dir()):
             json_output_file = Path(self.output).joinpath(json_output_file)
-            
-            if (len(str(json_output_file).split(os.path.sep)) == 1) or (not (Path(json_output_file).parent.is_dir())):
-                logger.warning(
-                    "The output path's parent directory was not specified!"
-                    f"\nThe current directory {Path.cwd()} will be set as its parent directory"
-                )
-                json_output_file = Path.cwd().joinpath(json_output_file.name)
 
         elif str(self.output) == "":
-                return ""
+            return None
+        
+        elif not Path(self.output).parent.is_dir():
+            Path(self.output).parent.mkdir(parents = True, exist_ok = True)
+            json_output_file = Path(self.output).parent.joinpath(Path(self.output).name)
+        
         else:
             json_output_file = Path(self.output)
-            if not json_output_file.name.endswith(".json"):
-                json_output_file = json_output_file.parent / Path(json_output_file.stem+".json")
-                logger.warning(f"The output file name does not end with '.json', automatically set as {json_output_file}")
         
+        
+        if json_output_file.suffix == "":
+            non_json_count = sum([1 for entry in json_output_file.rglob("*[!.json]")]) # Ensure the directory contains only json file
+            if (json_output_file.is_dir()) and (non_json_count == 0):
+                shutil.rmtree(json_output_file)
+                json_output_file.mkdir(exist_ok = True)
+            else:
+                json_output_file.mkdir(exist_ok = True)
+            
+            json_output_file = json_output_file.joinpath("nameless.json")
+            logger.warning(f"The given output file path is actually a directory, automatically set as {json_output_file}")
+        
+        elif json_output_file.suffix != ".json":
+            json_output_file = json_output_file.parent.joinpath(json_output_file.stem + ".json")
+            logger.warning(f'The given output file path does not end with ".json", automatically set as {json_output_file}')
+
         return json_output_file
 
 
@@ -152,9 +157,6 @@ class RectangleCalculator:
 
         if None in [self.__perimeter, self.__area]:
             return None # Don't save the file if its outputs are corrupted
-        
-        if self._single_output_path is None:
-            self._single_output_path = self.__validate_output_file(json_rectangle_file)
        
         with open(self._single_output_path, "w") as json_pointer:
             json.dump(result_dict, json_pointer, indent = 4)
@@ -186,21 +188,21 @@ class RectangleCalculator:
                     logger.info(out_message)
             
             case _:
-                if json_output_file == "nameless.json":
-                    logger.warning("The output file name was not specified, automatically set as 'nameless.json'")
                 self.save_output_file(json_output_file)
 
 
     def _single_workflow(self, json_rectangle_file):
         if json_rectangle_file != '':
             self.length, self.width = self.load_rectangle_inputs(json_rectangle_file)
+
+            if Path(self.input).is_dir():
+                self._single_output_path = self.__validate_output_file(json_rectangle_file)
+            else:
+                self._single_output_path = self.__validate_output_file(self.output)
             
             if (None not in [self.__length, self.__width]):
                 logger.warning(f"Detected valid inputs in {json_rectangle_file}, prioritize them for calculation.")
 
-            self._single_output_path = self.__validate_output_file(json_rectangle_file)
-            self.summary(self._single_output_path)
-        
         elif None in [self.__length, self.__width]:
             logger.critical("No valid inputs were given")
         
@@ -208,13 +210,12 @@ class RectangleCalculator:
             self.length, self.width = self.__length, self.__width
             self._single_output_path = self.__validate_output_file(self.output)
 
-            if self._single_output_path is None:
-                self.summary()
-            else:
-                self.summary(self._single_output_path)
-                logger.info(f"The result is saved in {self._single_output_path}")
+        if self._single_output_path is None:
+            self.summary()
+        
+        else:
+            self.summary(self._single_output_path)
 
-            
 
 #------------------------------------------------------------------------------------------------------------#
 #------------------------------------------ Define log_file() function --------------------------------------#
@@ -239,9 +240,9 @@ def main():
     try:
         calculator = RectangleCalculator(
             input = "02_Python_class_OOP/rectangle_project/data/rectangle_1.json",
-            output = "02_Python_class_OOP/rectangle_project/result",
-            #length = 100,
-            #width = 3,
+            output = "02_Python_class_OOP/rectangle_project/result/subdir/result.txt",
+            length = 15,
+            width = 3.5,
             cores = 4
         )
 
@@ -295,6 +296,12 @@ def main():
 
         else:
             calculator._single_workflow('')
+            match str(calculator.output):
+                case "":
+                    pass
+                case _:
+                    logger.info(f"The result is saved in {calculator._single_output_path}")
+
     
     except Exception as e:
         logger.critical(e)
