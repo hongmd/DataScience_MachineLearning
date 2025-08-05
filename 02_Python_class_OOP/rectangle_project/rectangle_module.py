@@ -137,7 +137,7 @@ class RectangleCalculator:
 
     @property
     def perimeter(self):
-        if (None in [self.length, self.width]) and ((str(self._input) == "") or (not Path(self._input).is_dir())):
+        if (None in [self.length, self.width]) or (str(self._input) == "") or (not Path(self._input).exists()):
             length, width = RectangleCalculator.__valiate_input_number(self.__length, self.__width)
         
         else:
@@ -154,7 +154,7 @@ class RectangleCalculator:
 
     @property
     def area(self):
-        if (None in [self.length, self.width]) and ((str(self._input) == "") or (not Path(self._input).is_dir())):
+        if (None in [self.length, self.width]) or (str(self._input) == "") or (not Path(self._input).exists()):
             length, width = RectangleCalculator.__valiate_input_number(self.__length, self.__width)
         
         else:
@@ -209,8 +209,8 @@ class RectangleCalculator:
                 else:
                     length, width = self.__length, self.__width
 
-                perimeter_result = colored(f"++ Perimeter = 2 * ({self.length} + {self.width}) = {self.perimeter}", "cyan", attrs=["bold"])
-                area_result = colored(f"++ Area = {self.length} * {self.width} = {self.area}", "cyan", attrs=["bold"])
+                perimeter_result = colored(f"++ Perimeter = 2 * ({length} + {width}) = {self.perimeter}", "cyan", attrs=["bold"])
+                area_result = colored(f"++ Area = {length} * {width} = {self.area}", "cyan", attrs=["bold"])
 
                 out_message = (
                     f"\n\nResult of the {rectangle_output_name} rectangle:\n"
@@ -326,12 +326,12 @@ def main():
         calculator = RectangleCalculator(
             length = '23',
             width = "55",
-            input = "02_Python_class_OOP/rectangle_project/data_single/rectangle_single.json",
+            input = "02_Python_class_OOP/rectangle_project/data_single/",
             #output = "02_Python_class_OOP/rectangle_project/result_single.txt",
             cores = 4
         )
 
-        # args = __parse_args()
+        args = __parse_args()
 
         # calculator = RectangleCalculator(
         #     length = args.length,
