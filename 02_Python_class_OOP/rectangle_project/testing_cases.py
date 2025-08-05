@@ -29,8 +29,8 @@ print(df_testing_cases)
 # │ not_given    ┆ not_given     ┆ not_given       │   python rectangle_module.py
 # │ not_given    ┆ not_given     ┆ non_existed_dir │   python rectangle_module.py -o result_test
 # │ not_given    ┆ not_given     ┆ existed_dir     │   python rectangle_module.py -o data_single
-# │ not_given    ┆ not_given     ┆ json_file       │   python rectangle_module.py -o result.json
-# │ not_given    ┆ not_given     ┆ not_json_file   │   python rectangle_module.py -o result.txt
+# │ not_given    ┆ not_given     ┆ json_file       │   python rectangle_module.py -o result_test.json
+# │ not_given    ┆ not_given     ┆ not_json_file   │   python rectangle_module.py -o result_test.txt
 # │ not_given    ┆ dir_many_json ┆ not_given       │   python rectangle_module.py -i data
 # │ not_given    ┆ dir_many_json ┆ non_existed_dir │   python rectangle_module.py -i data -o ./result_test
 # │ not_given    ┆ dir_many_json ┆ existed_dir     │   python rectangle_module.py -i data -o ./result_test
@@ -61,31 +61,31 @@ print(df_testing_cases)
 # │ not_given    ┆ not_existed   ┆ existed_dir     │   python rectangle_module.py -i ./abcxyz -o ./data_single
 # │ not_given    ┆ not_existed   ┆ json_file       │   python rectangle_module.py -i ./abcxyz -o ./result_test.json
 # │ not_given    ┆ not_existed   ┆ not_json_file   │   python rectangle_module.py -i ./abcxyz -o ./result_test.json
-# │ one_valid    ┆ not_given     ┆ not_given       │
-# │ one_valid    ┆ not_given     ┆ non_existed_dir │
-# │ one_valid    ┆ not_given     ┆ existed_dir     │
-# │ one_valid    ┆ not_given     ┆ json_file       │
-# │ one_valid    ┆ not_given     ┆ not_json_file   │
-# │ one_valid    ┆ dir_many_json ┆ not_given       │
-# │ one_valid    ┆ dir_many_json ┆ non_existed_dir │
-# │ one_valid    ┆ dir_many_json ┆ existed_dir     │
-# │ one_valid    ┆ dir_many_json ┆ json_file       │
-# │ one_valid    ┆ dir_many_json ┆ not_json_file   │
-# │ one_valid    ┆ dir_one_json  ┆ not_given       │
-# │ one_valid    ┆ dir_one_json  ┆ non_existed_dir │
-# │ one_valid    ┆ dir_one_json  ┆ existed_dir     │
-# │ one_valid    ┆ dir_one_json  ┆ json_file       │
-# │ one_valid    ┆ dir_one_json  ┆ not_json_file   │
-# │ one_valid    ┆ dir_no_json   ┆ not_given       │
-# │ one_valid    ┆ dir_no_json   ┆ non_existed_dir │
-# │ one_valid    ┆ dir_no_json   ┆ existed_dir     │
-# │ one_valid    ┆ dir_no_json   ┆ json_file       │
-# │ one_valid    ┆ dir_no_json   ┆ not_json_file   │
-# │ one_valid    ┆ json_file     ┆ not_given       │
-# │ one_valid    ┆ json_file     ┆ non_existed_dir │
-# │ one_valid    ┆ json_file     ┆ existed_dir     │
-# │ one_valid    ┆ json_file     ┆ json_file       │
-# │ one_valid    ┆ json_file     ┆ not_json_file   │
+# │ one_valid    ┆ not_given     ┆ not_given       │   python rectangle_module.py -l 2 -w a
+# │ one_valid    ┆ not_given     ┆ non_existed_dir │   python rectangle_module.py -l 2 -w a -o result_test
+# │ one_valid    ┆ not_given     ┆ existed_dir     │   python rectangle_module.py -l 2 -w a -o data_single
+# │ one_valid    ┆ not_given     ┆ json_file       │   python rectangle_module.py -l 2 -w a -o result_test.json
+# │ one_valid    ┆ not_given     ┆ not_json_file   │   python rectangle_module.py -l 2 -w a -o result_test.txt
+# │ one_valid    ┆ dir_many_json ┆ not_given       │   python rectangle_module.py -l 2 -w a -i ./data
+# │ one_valid    ┆ dir_many_json ┆ non_existed_dir │   python rectangle_module.py -l 2 -w a -i ./data -o result_test/subdir
+# │ one_valid    ┆ dir_many_json ┆ existed_dir     │   python rectangle_module.py -l 2 -w a -i ./data -o result_test/subdir
+# │ one_valid    ┆ dir_many_json ┆ json_file       │   python rectangle_module.py -l 2 -w a -i ./data -o result_test/subdir.json
+# │ one_valid    ┆ dir_many_json ┆ not_json_file   │   python rectangle_module.py -l 2 -w a -i ./data -o result_test/subdir.txt
+# │ one_valid    ┆ dir_one_json  ┆ not_given       │   python rectangle_module.py -l a -w 2 -i ./data_single/
+# │ one_valid    ┆ dir_one_json  ┆ non_existed_dir │   python rectangle_module.py -l a -w 2 -i ./data_single/ -o ./result_test
+# │ one_valid    ┆ dir_one_json  ┆ existed_dir     │   python rectangle_module.py -l a -w 2 -i ./data_single/ -o ./result_test
+# │ one_valid    ┆ dir_one_json  ┆ json_file       │   python rectangle_module.py -l a -w 2 -i ./data_single/ -o ./result_test.json
+# │ one_valid    ┆ dir_one_json  ┆ not_json_file   │   python rectangle_module.py -l a -w 2 -i ./data_single/ -o ./result_test.txt
+# │ one_valid    ┆ dir_no_json   ┆ not_given       │   python rectangle_module.py -l 2 -w a -i ../
+# │ one_valid    ┆ dir_no_json   ┆ non_existed_dir │   python rectangle_module.py -l 2 -w a -i ../ -o ./result_test
+# │ one_valid    ┆ dir_no_json   ┆ existed_dir     │   python rectangle_module.py -l 2 -w a -i ../ -o ./data_single
+# │ one_valid    ┆ dir_no_json   ┆ json_file       │   python rectangle_module.py -l 2 -w a -i ../ -o ./result_test.json
+# │ one_valid    ┆ dir_no_json   ┆ not_json_file   │   python rectangle_module.py -l 2 -w a -i ../ -o ./result_test.txt
+# │ one_valid    ┆ json_file     ┆ not_given       │   python rectangle_module.py -l a -w 2 -i ./data_single/rectangle_single.json
+# │ one_valid    ┆ json_file     ┆ non_existed_dir │   python rectangle_module.py -l a -w 2 -i ./data_single/rectangle_single.json -o ./result_test
+# │ one_valid    ┆ json_file     ┆ existed_dir     │   python rectangle_module.py -l a -w 2 -i ./data_single/rectangle_single.json -o ./result_test
+# │ one_valid    ┆ json_file     ┆ json_file       │   python rectangle_module.py -l a -w 2 -i ./data_single/rectangle_single.json -o ./result_test.json
+# │ one_valid    ┆ json_file     ┆ not_json_file   │   python rectangle_module.py -l a -w 2 -i ./data_single/rectangle_single.json -o ./result_test.txt
 # │ one_valid    ┆ other_file    ┆ not_given       │
 # │ one_valid    ┆ other_file    ┆ non_existed_dir │
 # │ one_valid    ┆ other_file    ┆ existed_dir     │
