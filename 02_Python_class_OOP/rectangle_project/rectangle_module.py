@@ -313,10 +313,10 @@ def __parse_args():
 def main():
     try:
         # calculator = RectangleCalculator(
-        #     length = '2',
-        #     width = "12.4.",
-        #     input = "02_Python_class_OOP/rectangle_project/data/rectangle_1.json",
-        #     output = "02_Python_class_OOP/rectangle_project/result.csv",
+        #     #length = '2',
+        #     #width = "12.4.",
+        #     input = "02_Python_class_OOP/rectangle_project/data/",
+        #     #output = "02_Python_class_OOP/rectangle_project/result.csv",
         #     cores = 4
         # )
 
@@ -332,38 +332,50 @@ def main():
 
         if (calculator._input != "") and (Path(calculator._input).is_dir()):
             calculator._input = Path(calculator._input)
-            input_files = [(entry.name,) for entry in calculator._input.glob("*.json")]
+            input_json_files = [(entry.name,) for entry in calculator._input.glob("*.json")]
             
-            calculator._output = calculator._RectangleCalculator__validate_output_directory()
+            if len(input_json_files) > 2:
+                calculator._output = calculator._RectangleCalculator__validate_output_directory()
 
-            match str(calculator._output):
-                case "":
-                    logger.warning(
-                        (   
-                            "\nYou are passing multiple input files but no valid ouput directory path was given!!!"
-                            "\nIf you procced, all results will be displayed here WITHOUT being saved!!!"
+                match str(calculator._output):
+                    case "":
+                        logger.warning(
+                            (   
+                                "\nYou are passing multiple input files but no valid ouput directory path was given!!!"
+                                "\nIf you procced, all results will be displayed here WITHOUT being saved!!!"
+                            )
                         )
-                    )
-                    
-                    answer = input(colored("Would you like to proceed? [y/n]: ", "blue", attrs = ["bold"]))
-                    
-                    if answer.lower() == "y":
+                        
+                        answer = input(colored("Would you like to proceed? [y/n]: ", "blue", attrs = ["bold"]))
+                        
+                        if answer.lower() == "y":
+                            with multiprocessing.Pool(processes = calculator._cores) as pool:
+                                pool.starmap(func = calculator._single_workflow, iterable = input_json_files)
+                        
+                        else:
+                            return None # stop the program
+                        
+                    case _:
+                        __config_log_file(calculator._input.parent) # Only produce rectangle_logs.txt if the input and output directories or files are given           
+                        
                         with multiprocessing.Pool(processes = calculator._cores) as pool:
-                            pool.starmap(func = calculator._single_workflow, iterable = input_files)
-                    
-                    else:
-                        return None # stop the program
-                    
-                case _:
-                    __config_log_file(calculator._input.parent) # Only produce rectangle_logs.txt if the input and output directories or files are given           
-                    
-                    with multiprocessing.Pool(processes = calculator._cores) as pool:
-                            pool.starmap(func = calculator._single_workflow, iterable = input_files)
-                    
-                    # for entry in calculator._input.glob("*.json"):
-                    #     calculator._single_workflow(entry.name)
+                                pool.starmap(func = calculator._single_workflow, iterable = input_json_files)
+                        
+                        # for entry in calculator._input.glob("*.json"):
+                        #     calculator._single_workflow(entry.name)
 
-                    logger.info(f"All result files are saved in {calculator._output}")
+                        logger.info(f"All result files are saved in {calculator._output}")
+            
+            elif len(input_json_files) == 1:
+                logger.debug("Only one input JSON file is detected in the given directory. If the output path also given, it should be in a file format.")
+                calculator._single_workflow(input_json_files[0][0])
+
+            
+            else:
+                logger.warning("The given input directory has no JSON file! Use inputs from -l (--length) and -w (--width) for calculation")
+                calculator._single_workflow('') 
+                calculator._display_saving_single_output_message() 
+
 
         elif Path(calculator._input).is_file():
             calculator._input = Path(calculator._input)
