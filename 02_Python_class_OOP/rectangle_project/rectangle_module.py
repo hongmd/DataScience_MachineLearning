@@ -200,14 +200,15 @@ class RectangleCalculator:
     
     def summary(self, rectangle_output_name = "nameless"):
         rectangle_output_name = colored(str(rectangle_output_name), "magenta", attrs=["bold"])
+
+        if None not in [self.length, self.width]:
+            length, width = self.length, self.width
+        
+        else:
+            length, width = self.__length, self.__width
         
         match str(self._output):
             case "":
-                if None not in [self.length, self.width]:
-                    length, width = self.length, self.width
-                
-                else:
-                    length, width = self.__length, self.__width
 
                 perimeter_result = colored(f"++ Perimeter = 2 * ({length} + {width}) = {self.perimeter}", "cyan", attrs=["bold"])
                 area_result = colored(f"++ Area = {length} * {width} = {self.area}", "cyan", attrs=["bold"])
@@ -269,7 +270,7 @@ class RectangleCalculator:
             else:
                 self._single_output_path = self.__validate_output_file(self._output)
         
-        if self._single_output_path is not None:
+        if (self._single_output_path is not None) and (self._json_count > 1):
             self.summary(self._single_output_path)
         
         elif Path(json_rectangle_file).is_file():
@@ -326,7 +327,7 @@ def main():
         # calculator = RectangleCalculator(
         #     length = '23',
         #     width = "55",
-        #     input = "02_Python_class_OOP/rectangle_project/data_single/rectangle_single.json",
+        #     input = "02_Python_class_OOP/rectangle_project/data_single/",
         #     output = "02_Python_class_OOP/rectangle_project/result_single.txt",
         #     cores = 4
         # )
@@ -347,7 +348,7 @@ def main():
             input_json_files = [(entry.name,) for entry in calculator._input.glob("*.json")]
             calculator._json_count = len(input_json_files)
             
-            if calculator._json_count >= 2:
+            if calculator._json_count > 1:
                 calculator._output = calculator._RectangleCalculator__validate_output_directory()
 
                 match str(calculator._output):
