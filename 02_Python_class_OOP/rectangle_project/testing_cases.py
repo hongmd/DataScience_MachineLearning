@@ -37,7 +37,7 @@ print(df_testing_cases)
 # │ not_given    ┆ dir_many_json ┆ json_file       │   python rectangle_module.py -i data -o ./result_file.json
 # │ not_given    ┆ dir_many_json ┆ not_json_file   │   python rectangle_module.py -i data -o ./result_file.txt
 # │ not_given    ┆ dir_one_json  ┆ not_given       │   python rectangle_module.py -i data_single
-# │ not_given    ┆ dir_one_json  ┆ non_existed_dir │
+# │ not_given    ┆ dir_one_json  ┆ non_existed_dir │   python rectangle_module.py -i data_single -o result
 # │ not_given    ┆ dir_one_json  ┆ existed_dir     │
 # │ not_given    ┆ dir_one_json  ┆ json_file       │
 # │ not_given    ┆ dir_one_json  ┆ not_json_file   │

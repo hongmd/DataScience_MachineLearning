@@ -226,18 +226,22 @@ class RectangleCalculator:
             self.length, self.width = self.__load_rectangle_inputs(json_rectangle_file)
             self.__length, self.__width = RectangleCalculator.__valiate_input_number(self.__length, self.__width)
 
+            if None not in [self.__length, self.__width, self.length, self.width]:
+                logger.warning(f"Detected valid inputs in {json_rectangle_file}, prioritize them for calculation.")
+
             if Path(self._input).is_dir():
-                self._single_output_path = self.__validate_output_file(json_rectangle_file)
-                if None not in [self.__length, self.__width, self.length, self.width]:
-                    logger.warning(f"Detected valid inputs in {json_rectangle_file}, prioritize them for calculation.")
+                json_count = sum([1 for _ in Path(self._input).glob("*.json")])
+                
+                if json_count >= 2:
+                    self._single_output_path = self.__validate_output_file(json_rectangle_file)
+                
+                else:
+                    self._single_output_path = self.__validate_output_file(self._output)
         
             else:
                 if (None in [self.length, self.width]) and (None in [self.__length, self.__width]):
                     self._output = "" # To avoid displaying the log "The result is saved in None"
                     return None
-
-                elif None not in [self.__length, self.__width, self.length, self.width]:
-                    logger.warning(f"Detected valid inputs in {json_rectangle_file}, prioritize them for calculation.")
                 
                 elif None not in [self.__length, self.__width]:
                     logger.debug("Detected valid inputs given by -l (--length) and -w (--width), using them for calculation")
@@ -312,29 +316,29 @@ def __parse_args():
 
 def main():
     try:
-        # calculator = RectangleCalculator(
-        #     #length = '2',
-        #     #width = "12.4.",
-        #     input = "02_Python_class_OOP/rectangle_project/data/",
-        #     #output = "02_Python_class_OOP/rectangle_project/result.csv",
-        #     cores = 4
-        # )
-
-        args = __parse_args()
-
         calculator = RectangleCalculator(
-            length = args.length,
-            width = args.width,
-            input = args.input,
-            output = args.output,
-            cores = args.cores
+            #length = '2',
+            #width = "12.4.",
+            input = "02_Python_class_OOP/rectangle_project/data_single/",
+            output = "02_Python_class_OOP/rectangle_project/result",
+            cores = 4
         )
+
+        # args = __parse_args()
+
+        # calculator = RectangleCalculator(
+        #     length = args.length,
+        #     width = args.width,
+        #     input = args.input,
+        #     output = args.output,
+        #     cores = args.cores
+        # )
 
         if (calculator._input != "") and (Path(calculator._input).is_dir()):
             calculator._input = Path(calculator._input)
             input_json_files = [(entry.name,) for entry in calculator._input.glob("*.json")]
             
-            if len(input_json_files) > 2:
+            if len(input_json_files) >= 2:
                 calculator._output = calculator._RectangleCalculator__validate_output_directory()
 
                 match str(calculator._output):
@@ -369,13 +373,13 @@ def main():
             elif len(input_json_files) == 1:
                 logger.debug("Only one input JSON file is detected in the given directory. If the output path is also given, it should be in a file format.")
                 calculator._single_workflow(input_json_files[0][0])
+                calculator._display_saving_single_output_message()
 
             
             else:
                 logger.warning("The given input directory has no JSON file! Use inputs from -l (--length) and -w (--width) for calculation")
                 calculator._single_workflow('') 
                 calculator._display_saving_single_output_message() 
-
 
         elif Path(calculator._input).is_file():
             calculator._input = Path(calculator._input)
