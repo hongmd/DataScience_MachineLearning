@@ -27,40 +27,40 @@ print(df_testing_cases)
 # │ str          ┆ str           ┆ str             │    use "cd 02_Python_class_OOP/rectangle_project")
 # ╞══════════════╪═══════════════╪═════════════════╡
 # │ not_given    ┆ not_given     ┆ not_given       │   python rectangle_module.py
-# │ not_given    ┆ not_given     ┆ non_existed_dir │   python rectangle_module.py -o result
-# │ not_given    ┆ not_given     ┆ existed_dir     │   python rectangle_module.py -o result
+# │ not_given    ┆ not_given     ┆ non_existed_dir │   python rectangle_module.py -o result_test
+# │ not_given    ┆ not_given     ┆ existed_dir     │   python rectangle_module.py -o data_single
 # │ not_given    ┆ not_given     ┆ json_file       │   python rectangle_module.py -o result.json
 # │ not_given    ┆ not_given     ┆ not_json_file   │   python rectangle_module.py -o result.txt
 # │ not_given    ┆ dir_many_json ┆ not_given       │   python rectangle_module.py -i data
-# │ not_given    ┆ dir_many_json ┆ non_existed_dir │   python rectangle_module.py -i data -o ./result_dir
-# │ not_given    ┆ dir_many_json ┆ existed_dir     │   python rectangle_module.py -i data -o ./result_dir
+# │ not_given    ┆ dir_many_json ┆ non_existed_dir │   python rectangle_module.py -i data -o ./result_test
+# │ not_given    ┆ dir_many_json ┆ existed_dir     │   python rectangle_module.py -i data -o ./result_test
 # │ not_given    ┆ dir_many_json ┆ json_file       │   python rectangle_module.py -i data -o ./result_file.json
 # │ not_given    ┆ dir_many_json ┆ not_json_file   │   python rectangle_module.py -i data -o ./result_file.txt
 # │ not_given    ┆ dir_one_json  ┆ not_given       │   python rectangle_module.py -i data_single
-# │ not_given    ┆ dir_one_json  ┆ non_existed_dir │   python rectangle_module.py -i data_single -o result/subdir
-# │ not_given    ┆ dir_one_json  ┆ existed_dir     │   python rectangle_module.py -i data_single -o result/subdir
-# │ not_given    ┆ dir_one_json  ┆ json_file       │   python rectangle_module.py -i data_single -o result/subdir.json
-# │ not_given    ┆ dir_one_json  ┆ not_json_file   │   python rectangle_module.py -i data_single -o result/subdir.txt
-# │ not_given    ┆ dir_no_json   ┆ not_given       │
-# │ not_given    ┆ dir_no_json   ┆ non_existed_dir │
-# │ not_given    ┆ dir_no_json   ┆ existed_dir     │
-# │ not_given    ┆ dir_no_json   ┆ json_file       │
-# │ not_given    ┆ dir_no_json   ┆ not_json_file   │
-# │ not_given    ┆ json_file     ┆ not_given       │
-# │ not_given    ┆ json_file     ┆ non_existed_dir │
-# │ not_given    ┆ json_file     ┆ existed_dir     │
-# │ not_given    ┆ json_file     ┆ json_file       │
-# │ not_given    ┆ json_file     ┆ not_json_file   │
-# │ not_given    ┆ other_file    ┆ not_given       │
-# │ not_given    ┆ other_file    ┆ non_existed_dir │
-# │ not_given    ┆ other_file    ┆ existed_dir     │
-# │ not_given    ┆ other_file    ┆ json_file       │
-# │ not_given    ┆ other_file    ┆ not_json_file   │
-# │ not_given    ┆ not_existed   ┆ not_given       │
-# │ not_given    ┆ not_existed   ┆ non_existed_dir │
-# │ not_given    ┆ not_existed   ┆ existed_dir     │
-# │ not_given    ┆ not_existed   ┆ json_file       │
-# │ not_given    ┆ not_existed   ┆ not_json_file   │
+# │ not_given    ┆ dir_one_json  ┆ non_existed_dir │   python rectangle_module.py -i data_single -o result_test/subdir
+# │ not_given    ┆ dir_one_json  ┆ existed_dir     │   python rectangle_module.py -i data_single -o result_test/subdir
+# │ not_given    ┆ dir_one_json  ┆ json_file       │   python rectangle_module.py -i data_single -o result_test/subdir.json
+# │ not_given    ┆ dir_one_json  ┆ not_json_file   │   python rectangle_module.py -i data_single -o result_test/subdir.txt
+# │ not_given    ┆ dir_no_json   ┆ not_given       │   python rectangle_module.py -i ../
+# │ not_given    ┆ dir_no_json   ┆ non_existed_dir │   python rectangle_module.py -i ../ -o ./result_test
+# │ not_given    ┆ dir_no_json   ┆ existed_dir     │   python rectangle_module.py -i ../ -o ./data_single
+# │ not_given    ┆ dir_no_json   ┆ json_file       │   python rectangle_module.py -i ../ -o ./result.json
+# │ not_given    ┆ dir_no_json   ┆ not_json_file   │   python rectangle_module.py -i ../ -o ./result.txt
+# │ not_given    ┆ json_file     ┆ not_given       │   python rectangle_module.py -i ./data_single/rectangle_single.json
+# │ not_given    ┆ json_file     ┆ non_existed_dir │   python rectangle_module.py -i ./data_single/rectangle_single.json -o ./result_test
+# │ not_given    ┆ json_file     ┆ existed_dir     │   python rectangle_module.py -i ./data_single/rectangle_single.json -o ./result_test
+# │ not_given    ┆ json_file     ┆ json_file       │   python rectangle_module.py -i ./data_single/rectangle_single.json -o ./result_test/result_1.json
+# │ not_given    ┆ json_file     ┆ not_json_file   │   python rectangle_module.py -i ./data_single/rectangle_single.json -o ./result_test/result_2.csv
+# │ not_given    ┆ other_file    ┆ not_given       │   python rectangle_module.py -i ./rectangle_logs.txt
+# │ not_given    ┆ other_file    ┆ non_existed_dir │   python rectangle_module.py -i ./rectangle_logs.txt -o ./result_test
+# │ not_given    ┆ other_file    ┆ existed_dir     │   python rectangle_module.py -i ./rectangle_logs.txt -o ./data_single
+# │ not_given    ┆ other_file    ┆ json_file       │   python rectangle_module.py -i ./rectangle_logs.txt -o ./result_test.json
+# │ not_given    ┆ other_file    ┆ not_json_file   │   python rectangle_module.py -i ./rectangle_logs.txt -o ./result_test.txt
+# │ not_given    ┆ not_existed   ┆ not_given       │   python rectangle_module.py -i ./abcxyz
+# │ not_given    ┆ not_existed   ┆ non_existed_dir │   python rectangle_module.py -i ./abcxyz -o ./result_test
+# │ not_given    ┆ not_existed   ┆ existed_dir     │   python rectangle_module.py -i ./abcxyz -o ./data_single
+# │ not_given    ┆ not_existed   ┆ json_file       │   python rectangle_module.py -i ./abcxyz -o ./result_test.json
+# │ not_given    ┆ not_existed   ┆ not_json_file   │   python rectangle_module.py -i ./abcxyz -o ./result_test.json
 # │ one_valid    ┆ not_given     ┆ not_given       │
 # │ one_valid    ┆ not_given     ┆ non_existed_dir │
 # │ one_valid    ┆ not_given     ┆ existed_dir     │
