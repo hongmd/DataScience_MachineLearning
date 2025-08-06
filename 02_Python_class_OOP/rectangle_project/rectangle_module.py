@@ -218,7 +218,6 @@ class RectangleCalculator:
         
         match str(self._output):
             case "":
-
                 perimeter_result = colored(f"++ Perimeter = 2 * ({length} + {width}) = {self.perimeter}", "cyan", attrs=["bold"])
                 area_result = colored(f"++ Area = {length} * {width} = {self.area}", "cyan", attrs=["bold"])
 
@@ -284,7 +283,7 @@ class RectangleCalculator:
                     logger.critical("NO valid inputs were detected by -l (--length) and -w (--width) either!")
                 
                 print()         
-                self._output = "" # To avoid displaying the log "The result is saved in None"
+                self._output = "" # To avoid displaying the log "The result is saved in None"     
                 return None
             
             else:
