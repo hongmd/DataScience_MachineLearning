@@ -21,7 +21,7 @@ class RectangleCalculator:
     '''
 
 
-    def __init__(self, input = '', output = '', length = None, width = None, cores = 2):
+    def __init__(self, length = None, width = None):
         '''
         input: the path leading to an input directory containing JSON files, or directly to a specified JSON file
         output: the path leading to on output directory to store the results in JSON files, or directly to a specified JSON file
@@ -29,13 +29,13 @@ class RectangleCalculator:
         width: the width of the rectangle (for inplace calculating)
         cores: the number of CPU cores using for parallel computing
         '''
-        self._input = input
-        self._output = output
+        self._input = ''
+        self._output = ''
         self.__length = length
         self.__width = width
         self.length = None
         self.width = None
-        self._cores = cores
+        self._cores = 2
         self._single_output_path = None
         self._json_count = 0
 
@@ -130,7 +130,9 @@ class RectangleCalculator:
             length, width = RectangleCalculator.__valiate_input_number(length, width)
         
         if None in [length, width]:
-            logger.error(f"CORRUPTED inputs are detected in {json_rectangle_file}! They are expected to be POSITIVE NUMBERS (greater than zero)\n")
+            json_rectangle_file = colored(json_rectangle_file, "yellow", attrs = ['bold'])
+            datatype_hint = colored("! They are expected to be POSITIVE NUMBERS (greater than zero)", "red", attrs = ['bold'])
+            logger.error(f"CORRUPTED inputs are detected in {json_rectangle_file}{datatype_hint}\n")
         
         return length, width
     
@@ -199,7 +201,8 @@ class RectangleCalculator:
 
     
     def summary(self, rectangle_output_name = "nameless"):
-        rectangle_output_name = colored(str(rectangle_output_name), "magenta", attrs=["bold"])
+        rectangle_output_name = colored(str(rectangle_output_name), (139, 0, 0), attrs=["bold"])
+        prioritize_message = colored(", prioritize them for calculation.", "yellow", attrs = ['bold'])
 
         if None not in [self.length, self.width]:
             length, width = self.length, self.width
@@ -222,28 +225,30 @@ class RectangleCalculator:
                 )    
 
                 if (str(self._input) == "") and (None in [self.__perimeter, self.__area]):
-                    logger.critical("NO valid inputs were given! They are expected to be POSITIVE NUMBERS (greater than zero)\n")
+                    logger.critical("NO valid inputs were given! They are expected to be POSITIVE NUMBERS (greater than zero)")
+                    print()
                 
                 elif (str(self._input) != "") and (None in [self.__perimeter, self.__area]):
                     return None
                 
                 else:
                     if (str(self._input) != "") and (Path(self._input).exists()) and (None not in [self.__length, self.__width, self.length, self.width]):
-                        logger.warning(f"Detected valid inputs in {rectangle_output_name}, prioritize them for calculation.\n")
+                        logger.warning(f"Detected valid inputs in {rectangle_output_name}{prioritize_message}\n")
                         
                     logger.info(out_message)
             
             case _:
                 if (str(self._input) != "") and (Path(self._input).exists()) and (None not in [self.__length, self.__width, self.length, self.width]):
-                    logger.warning(f"Detected valid inputs in {rectangle_output_name}, prioritize them for calculation.\n")
+                    logger.warning(f"Detected valid inputs in {rectangle_output_name}{prioritize_message}\n")
                 
                 self.__save_output_file()
 
 
     def _single_workflow(self, json_rectangle_file):
+        self.__length, self.__width = RectangleCalculator.__valiate_input_number(self.__length, self.__width)
+        
         if json_rectangle_file != '': # If the input JSON file is given, use its data for calculation
-            self.length, self.width = self.__load_rectangle_inputs(json_rectangle_file)
-            self.__length, self.__width = RectangleCalculator.__valiate_input_number(self.__length, self.__width)
+            self.length, self.width = self.__load_rectangle_inputs(json_rectangle_file)    
 
             if Path(self._input).is_dir() and (self._json_count >= 2):  
                 self._single_output_path = self.__validate_output_file(json_rectangle_file)
@@ -259,11 +264,10 @@ class RectangleCalculator:
             
                 self._single_output_path = self.__validate_output_file(self._output)
         
-        else:
-            self.__length, self.__width = RectangleCalculator.__valiate_input_number(self.__length, self.__width)
-            
+        else:            
             if (None in [self.__length, self.__width]) and (None in [self.length, self.width]): # Check if the given inputs from -l and -w are valid
-                logger.critical("NO valid inputs were given! They are expected to be POSITIVE NUMBERS (greater than zero)\n")
+                logger.critical("NO valid inputs were given! They are expected to be POSITIVE NUMBERS (greater than zero)")
+                print()
                 self._output = "" # To avoid displaying the log "The result is saved in None"
                 return None
             
@@ -336,11 +340,11 @@ def main():
 
         calculator = RectangleCalculator(
             length = args.length,
-            width = args.width,
-            input = args.input,
-            output = args.output,
-            cores = args.cores
+            width = args.width
         )
+        calculator._input = args.input
+        calculator._output = args.output
+        calculator._cores = args.cores
 
         if (calculator._input != "") and (Path(calculator._input).is_dir()):
             calculator._input = Path(calculator._input)
