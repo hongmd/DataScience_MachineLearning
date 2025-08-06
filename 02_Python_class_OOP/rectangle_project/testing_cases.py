@@ -156,14 +156,14 @@ print(df_testing_cases)
 # │ both_invalid ┆ json_file     ┆ existed_dir     │   python rectangle_module.py -l a -w b -i ./data_single/rectangle_single.json -o ./result_test
 # │ both_invalid ┆ json_file     ┆ json_file       │   python rectangle_module.py -l a -w b -i ./data_single/rectangle_single.json -o ./result_test.json
 # │ both_invalid ┆ json_file     ┆ not_json_file   │   python rectangle_module.py -l a -w b -i ./data_single/rectangle_single.json -o ./result_test.txt
-# │ both_invalid ┆ other_file    ┆ not_given       │
-# │ both_invalid ┆ other_file    ┆ not_existed_dir │
-# │ both_invalid ┆ other_file    ┆ existed_dir     │
-# │ both_invalid ┆ other_file    ┆ json_file       │
-# │ both_invalid ┆ other_file    ┆ not_json_file   │
-# │ both_invalid ┆ not_existed   ┆ not_given       │
-# │ both_invalid ┆ not_existed   ┆ not_existed_dir │
-# │ both_invalid ┆ not_existed   ┆ existed_dir     │
-# │ both_invalid ┆ not_existed   ┆ json_file       │
-# │ both_invalid ┆ not_existed   ┆ not_json_file   │
+# │ both_invalid ┆ other_file    ┆ not_given       │   python rectangle_module.py -l a -w b -i ./rectangle_logs.txt
+# │ both_invalid ┆ other_file    ┆ not_existed_dir │   python rectangle_module.py -l a -w b -i ./rectangle_logs.txt -o ./result_test
+# │ both_invalid ┆ other_file    ┆ existed_dir     │   python rectangle_module.py -l a -w b -i ./rectangle_logs.txt -o ./data_single
+# │ both_invalid ┆ other_file    ┆ json_file       │   python rectangle_module.py -l a -w b -i ./rectangle_logs.txt -o ./result_test.json
+# │ both_invalid ┆ other_file    ┆ not_json_file   │   python rectangle_module.py -l a -w b -i ./rectangle_logs.txt -o ./result_test.txt
+# │ both_invalid ┆ not_existed   ┆ not_given       │   python rectangle_module.py -l a -w b -i ./abcxyz
+# │ both_invalid ┆ not_existed   ┆ not_existed_dir │   python rectangle_module.py -l a -w b -i ./abcxyz -o ./result_test
+# │ both_invalid ┆ not_existed   ┆ existed_dir     │   python rectangle_module.py -l a -w b -i ./abcxyz -o ./data_single
+# │ both_invalid ┆ not_existed   ┆ json_file       │   python rectangle_module.py -l a -w b -i ./abcxyz -o ./result_test.json
+# │ both_invalid ┆ not_existed   ┆ not_json_file   │   python rectangle_module.py -l a -w b -i ./abcxyz -o ./result_test.txt
 # └──────────────┴───────────────┴─────────────────┘

@@ -110,7 +110,7 @@ class RectangleCalculator:
 
     @staticmethod
     def __valiate_input_number(*numbers): # Internal use only, cannot call out when the module is being imported
-        numeric_pattern = r"^\d+\.?\d*$"
+        numeric_pattern = r"^\+?\d+\.?\d*$"
         numbers = list(numbers)
         
         for idx, number in enumerate(numbers):
