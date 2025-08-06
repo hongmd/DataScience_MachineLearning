@@ -277,26 +277,27 @@ class RectangleCalculator:
         
         else:            
             if (None in [self.length, self.width]) and (None in [self.__length, self.__width]): # Check if the given inputs from -l and -w are valid
-                logger.critical("NO valid inputs were given! They are expected to be POSITIVE NUMBERS (greater than zero)")
-                print()
+                if str(self._input) == "":
+                    logger.critical("NO valid inputs were given! They are expected to be POSITIVE NUMBERS (greater than zero)")
+                
+                else:
+                    logger.critical("NO valid inputs were detected by -l (--length) and -w (--width) either!")
+                
+                print()         
                 self._output = "" # To avoid displaying the log "The result is saved in None"
                 return None
             
             else:
                 self._single_output_path = self.__validate_output_file(self._output)
         
-        if (self._single_output_path is not None) and (self._json_count > 1):
-            out_message = self.summary(self._single_output_path)
-        
-        elif Path(json_rectangle_file).is_file():
-            out_message = self.summary(json_rectangle_file.name)
+        if str(json_rectangle_file).endswith(".json") and Path(self._input).exists() and (str(self._input) != ""):
+            out_message = self.summary(Path(json_rectangle_file).name)
         
         else:
             out_message = self.summary()
         
         if out_message is not None:
             logger.info(out_message)
-
             
 
 #------------------------------------------------------------------------------------------------------------#
@@ -427,7 +428,7 @@ def main():
             calculator._display_saving_single_output_message()
 
         else:
-            if (calculator._input != "") and (not Path(calculator._input).exists()):
+            if calculator._input != "":
                 logger.warning("The given input path does not exist! Use inputs from -l (--length) and -w (--width) for calculation\n")
             
             calculator._single_workflow('')
