@@ -1,0 +1,208 @@
+# Move to the directory containing the rectangle_module.py
+import os
+os.chdir("/home/longdpt/Documents/Academic/DataScience_MachineLearning/02_Python_class_OOP/rectangle_project")
+
+# Import the RectangleCalculator class from the rectangle_module.py
+from rectangle_module import RectangleCalculator
+
+
+#---------------------------------------------------------------------------------------------------------------------#
+#----------------------------------------- CANON way to use an imported class ----------------------------------------#
+#---------------------------------------------------------------------------------------------------------------------#
+
+# Initialize an object belonging to the RectangleCalculator module with given attributes (length and width)
+rectangle = RectangleCalculator(length = 355, width = 263)
+
+# Display information
+print(rectangle.perimeter) # 1236.0
+print(rectangle.area) # 93365.0
+
+print(rectangle.summary())
+# Result of the nameless rectangle:
+# ++ Length = 355
+# ++ Width = 263
+# ++ Perimeter = 2 * (355 + 263) = 1236.0
+# ++ Area = 355 * 263 = 93365.0
+
+
+###################################################################
+## Try to change rectangle.perimeter and rectangle.area directly ##
+###################################################################
+
+from loguru import logger
+
+try:
+    rectangle.perimeter = 33
+except Exception as e:
+    logger.error(e) 
+    # | ERROR    | __main__:<module>:5 - property 'perimeter' of 'RectangleCalculator' object has no setter
+
+try:
+    rectangle.area = 260
+except Exception as e:
+    logger.error(e) 
+    # | ERROR    | __main__:<module>:4 - property 'area' of 'RectangleCalculator' object has no setter
+
+#-------------------------------------------------------------------------------------------------------------------------#
+#----------------------------------------- non-canon way to use an imported class ----------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------------#
+
+# Initialize an empty object belonging to the RectangleCalculator module
+rectangle = RectangleCalculator()
+
+print(rectangle.length) # None
+print(rectangle.width) # None
+
+print(rectangle.perimeter) # None
+print(rectangle.area) # None
+
+print(rectangle.summary())
+# | CRITICAL | rectangle_module:summary:234 - NO valid inputs were given! They are expected to be POSITIVE NUMBERS (greater than zero)
+
+
+############################################
+## Update attributes (.length and .width) ##
+############################################
+
+rectangle.length = 33
+rectangle.width = 25.5
+
+print(rectangle.length) # 33
+print(rectangle.width) # 25.5
+
+print(rectangle.perimeter) # None
+print(rectangle.area) # None
+
+print(rectangle.summary())
+# | CRITICAL | rectangle_module:summary:234 - NO valid inputs were given! They are expected to be POSITIVE NUMBERS (greater than zero)
+
+'''
+Even though the length and width are updated, the perimeter and area are still None.
+
+That is because when the class RectangleCalculator is being imported from another script,
+the inputs for self.area and self.perimetr are taken from self.__length and self.__width
+
+(See the below for solutions)
+'''
+
+################################################
+## Update attributes (.__length and .__width) ##
+################################################
+
+rectangle._RectangleCalculator__length = 33
+rectangle._RectangleCalculator__width = 25.5
+
+print(rectangle._RectangleCalculator__length) # 33
+print(rectangle._RectangleCalculator__width) # 25.5
+
+print(rectangle.perimeter) # 117.0
+print(rectangle.area) # 841.5
+
+print(rectangle.summary())
+# Result of the nameless rectangle:
+# ++ Length = 33
+# ++ Width = 25.5
+# ++ Perimeter = 2 * (33 + 25.5) = 117.0
+# ++ Area = 33 * 25.5 = 841.5
+
+
+#---------------------------------------------------------------------------------------------------------------------------#
+#--------------------------- Display everything of the RectangleCalculator (attributes and methods) ------------------------#
+#---------------------------------------------------------------------------------------------------------------------------#
+
+for info in dir(RectangleCalculator):
+    print(info)
+
+# _RectangleCalculator__load_rectangle_inputs
+# _RectangleCalculator__save_output_file
+# _RectangleCalculator__valiate_input_number
+# _RectangleCalculator__validate_output_directory
+# _RectangleCalculator__validate_output_file
+# __class__
+# __delattr__
+# __dict__
+# __dir__
+# __doc__
+# __eq__
+# __format__
+# __ge__
+# __getattribute__
+# __getstate__
+# __gt__
+# __hash__
+# __init__
+# __init_subclass__
+# __le__
+# __lt__
+# __module__
+# __ne__
+# __new__
+# __reduce__
+# __reduce_ex__
+# __repr__
+# __setattr__
+# __sizeof__
+# __str__
+# __subclasshook__
+# __weakref__
+# _display_saving_single_output_message
+# _single_workflow
+# area
+# perimeter
+# summary
+
+
+#---------------------------------------------------------------------------------------------------------------------------#
+#-------------- Display everything of the rectangle object from RectangleCalculator (attributes and methods) ---------------#
+#---------------------------------------------------------------------------------------------------------------------------#
+
+rectangle = RectangleCalculator()
+
+for info in dir(rectangle):
+    print(info)
+# _RectangleCalculator__length
+# _RectangleCalculator__load_rectangle_inputs
+# _RectangleCalculator__save_output_file
+# _RectangleCalculator__valiate_input_number
+# _RectangleCalculator__validate_output_directory
+# _RectangleCalculator__validate_output_file
+# _RectangleCalculator__width
+# __class__
+# __delattr__
+# __dict__
+# __dir__
+# __doc__
+# __eq__
+# __format__
+# __ge__
+# __getattribute__
+# __getstate__
+# __gt__
+# __hash__
+# __init__
+# __init_subclass__
+# __le__
+# __lt__
+# __module__
+# __ne__
+# __new__
+# __reduce__
+# __reduce_ex__
+# __repr__
+# __setattr__
+# __sizeof__
+# __str__
+# __subclasshook__
+# __weakref__
+# _cores
+# _display_saving_single_output_message
+# _input
+# _json_count
+# _output
+# _single_output_path
+# _single_workflow
+# area
+# length
+# perimeter
+# summary
+# width

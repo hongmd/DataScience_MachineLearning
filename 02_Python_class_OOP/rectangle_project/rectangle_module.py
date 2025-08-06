@@ -233,6 +233,7 @@ class RectangleCalculator:
                 if (str(self._input) == "") and (None in [self.__perimeter, self.__area]):
                     logger.critical("NO valid inputs were given! They are expected to be POSITIVE NUMBERS (greater than zero)")
                     print()
+                    return None
                 
                 elif (str(self._input) != "") and (None in [self.__perimeter, self.__area]):
                     return None
@@ -240,14 +241,16 @@ class RectangleCalculator:
                 else:
                     if (str(self._input) != "") and (Path(self._input).exists()) and (None not in [self.__length, self.__width, self.length, self.width]):
                         logger.warning(f"Detected valid inputs in {rectangle_output_name}{prioritize_message}\n")
-                        
-                    logger.info(out_message)
+                                        
+                    return out_message # This will make thi message printed out when being imported, avoid showing twice
             
             case _:
                 if (str(self._input) != "") and (Path(self._input).exists()) and (None not in [self.__length, self.__width, self.length, self.width]):
                     logger.warning(f"Detected valid inputs in {rectangle_output_name}{prioritize_message}\n")
                 
                 self.__save_output_file()
+
+                return None
 
 
     def _single_workflow(self, json_rectangle_file):
@@ -281,13 +284,17 @@ class RectangleCalculator:
                 self._single_output_path = self.__validate_output_file(self._output)
         
         if (self._single_output_path is not None) and (self._json_count > 1):
-            self.summary(self._single_output_path)
+            out_message = self.summary(self._single_output_path)
         
         elif Path(json_rectangle_file).is_file():
-            self.summary(json_rectangle_file.name)
+            out_message = self.summary(json_rectangle_file.name)
         
         else:
-            self.summary()
+            out_message = self.summary()
+        
+        if out_message is not None:
+            logger.info(out_message)
+
             
 
 #------------------------------------------------------------------------------------------------------------#
