@@ -156,6 +156,32 @@ for entry in Path.cwd().joinpath("01_Python_Basic").glob("[1-2][0-9]_*.py"):  # 
 # 29_XML_parse_create_write.py
 
 
+################################
+## Exclusive glob() using "!" ##
+################################
+
+# The non-python elements:
+for entry in Path.cwd().joinpath("01_Python_Basic").glob("*[!.py]"):  # Exclude all .py files
+    print(entry.name)
+# demo_data
+# Exercises
+# demo_package
+
+# The elements that do not start with '0', '1', '2' or '3:
+for entry in Path.cwd().joinpath("01_Python_Basic").glob("[!0-3]*"):  # Exclude all files starting with '0' or '1'
+    print(entry.name)
+# 40_multi_threading.py
+# 41_multi_processing.py
+# demo_data
+# Exercises
+# demo_module_same_directory.py
+# demo_package
+# 43_logging.py
+# 44_loguru_logger.py
+# 42_ArgumentParser_MainFunction.py
+# 45_Debugging_demonstration.py
+
+
 #############################
 ## ** for recursive search ##
 #############################
