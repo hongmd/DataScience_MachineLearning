@@ -255,39 +255,42 @@ class RectangleCalculator:
     def _single_workflow(self, json_rectangle_file):
         self.length, self.width = RectangleCalculator.__valiate_input_number(self.length, self.width)
         
-        if json_rectangle_file != '': # If the input JSON file is given, use its data for calculation
-            self.__length, self.__width = self.__load_rectangle_inputs(json_rectangle_file)    
-
-            if Path(self._input).is_dir() and (self._json_count >= 2):  
-                self._single_output_path = self.__validate_output_file(json_rectangle_file)
-                
-            elif ((Path(self._input).is_dir()) and (self._json_count == 1)) or (Path(self._input).is_file()):
-                if (None in [self.__length, self.__width]) and (None not in [self.length, self.width]):
-                    logger.debug("Detected valid inputs given by -l (--length) and -w (--width), using them for calculation\n")
-                    json_rectangle_file = "" # To avoid using the name of corrupted file in the summary()
-                
-                elif (None in [self.__length, self.__width]) and (None in [self.length, self.width]):
-                    logger.critical("NO valid inputs were detected by -l (--length) and -w (--width) either!")
-                    print()
-                    self._output = "" # To avoid displaying the log "The result is saved in None"
+        match json_rectangle_file:
+            case "":
+                if None in [self.length, self.width]: # Check if the given inputs from -l and -w are valid
+                    match str(self._input):
+                        case "":
+                            logger.critical("NO valid inputs were given! They are expected to be POSITIVE NUMBERS (greater than zero)")
+                    
+                        case _:
+                            logger.critical("NO valid inputs were detected by -l (--length) and -w (--width) either!")
+                    
+                    print()         
+                    self._output = "" # To avoid displaying the log "The result is saved in None"     
                     return None
-            
-                self._single_output_path = self.__validate_output_file(self._output)
-        
-        else:            
-            if (None in [self.length, self.width]) and (None in [self.__length, self.__width]): # Check if the given inputs from -l and -w are valid
-                if str(self._input) == "":
-                    logger.critical("NO valid inputs were given! They are expected to be POSITIVE NUMBERS (greater than zero)")
                 
                 else:
-                    logger.critical("NO valid inputs were detected by -l (--length) and -w (--width) either!")
+                    self._single_output_path = self.__validate_output_file(self._output)
+
+            case _: # If the input JSON file is given, use its data for calculation
+                self.__length, self.__width = self.__load_rectangle_inputs(json_rectangle_file)    
+
+                if Path(self._input).is_dir() and (self._json_count >= 2):  
+                    self._single_output_path = self.__validate_output_file(json_rectangle_file)
+                    
+                elif ((Path(self._input).is_dir()) and (self._json_count == 1)) or (Path(self._input).is_file()):
+                    if (None in [self.__length, self.__width]) and (None not in [self.length, self.width]):
+                        logger.debug("Detected valid inputs given by -l (--length) and -w (--width), using them for calculation\n")
+                        json_rectangle_file = "" # To avoid using the name of corrupted file in the summary()
+                    
+                    elif (None in [self.__length, self.__width]) and (None in [self.length, self.width]):
+                        logger.critical("NO valid inputs were detected by -l (--length) and -w (--width) either!")
+                        print()
+                        self._output = "" # To avoid displaying the log "The result is saved in None"
+                        return None
                 
-                print()         
-                self._output = "" # To avoid displaying the log "The result is saved in None"     
-                return None
-            
-            else:
-                self._single_output_path = self.__validate_output_file(self._output)
+                    self._single_output_path = self.__validate_output_file(self._output)
+        
         
         if str(json_rectangle_file).endswith(".json") and Path(self._input).exists() and (str(self._input) != ""):
             out_message = self.summary(Path(json_rectangle_file).name)
@@ -384,9 +387,6 @@ def main():
                         if answer.lower() == "y":
                             with multiprocessing.Pool(processes = calculator._cores) as pool:
                                 pool.starmap(func = calculator._single_workflow, iterable = input_json_files)
-                          
-                            # for entry in calculator._input.glob("*_3[0-3].json"):
-                            #     calculator._single_workflow(entry.name)
                         
                         else:
                             return None # stop the program
