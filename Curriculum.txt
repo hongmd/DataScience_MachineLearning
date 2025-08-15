@@ -1,0 +1,129 @@
+1. Python Basic
++ Basic commands
++ Variables
++ Operators
++ String slicing and methods
++ Regular Expression
++ Datetime data
++ If - Elif - Else
++ Match - Case
++ Try - Except
++ For loop, While loop
++ List, Tuple, Set, Dictionary
++ I/O: TXT, CSV, JSON, XML
++ OS, Shutil, Pathlib
++ Define function, Lambda function
++ Map, Starmap
++ Filter
++ Itertools
++ Multi-threading, Multi-processing
++ Argument Parser
++ Logging, Logger, Loguru
++ Debugging
+
+2. Python class OOP
++ Class, Self
++ def __init__ ()
++ Instance Attribute
++ dict(), repr(), Class Attribute
++ Magic Methods
++ Class Method, Static Method
++ Inheritence
++ Property, Getter, Setter, Underscore
++ OOP principles
++ Rectangle Project
+
+3. DataFrame - Pandas - DataR - Polars
++ Pandas datatype
++ Pandas I/O: CSV, XLSX, ...
++ Pandas subset columns and rows
++ Pandas reshape DataFrame
++ Pandas combine DataFrame
++ Pandas join DataFrame
++ Pandas handle time series data
++ Pandas handle text/string data
++ Pandas summary statistics
++ Pandas simple plot
++ DataR: handle DataFrame with R's dplyr and tidyverse style
++ Polars: like Pandas but faster with GPU support for large dataset
+
+4. NumPy and JaxNumPy for vector and matrix handling, Univariate Math
++ vector (1-D array) handling with NumPy (or JaxNumPy)
++ matrix (2-D array) handling with NumPy (or JaxNumPy)
++ Univariate Math Function: jnp.abs(x), jnp.sqrt(x), ...
+
+5. Datavisualization with Matplotlib, Seaborn, Plotnine and Plotly
++ Matplotlib: scatter plot, line plot, boxplot, ...
++ Seaborn: scatter plot, line plot, boxplot, ...
++ Plotnine: datavisualization with ggplot style
++ Plotly: 3D visualization
+
+6. Linear Algebra
++ Vector and Matrix operations
++ Rank, Determinant, Trace
++ Transpose, Inverse Matrix
++ Linear Equation: Ax = B
++ Matrix Decomposition: LU, QR, Eigenvalue Decomposition, SVD
++ Pseudo Inverse Matrix
++ Dimension Reduction: PCA, TSVD
+
+7. Statistics
++ Probability Revision
++ Random Variable
++ Bayesian Probability
++ Bayesian Theorem about Imbalance
++ Central Tendency: mean, median, mode, ...
++ Dispersion: variance, STD, range, IQR, ...
++ Probability Distribution
++ Normal Distribution ~ Maximum Likelihood
++ Skewness ~ Kurtosis
++ Univariate Analysis: descriptive statistics for quantitative variable, categorical count
++ Bivariate Analysis: Covariance, Correlation, Chi-squared test, T-test, Mann-Whitney U test, Wilcoxon signed rank test, ANOVA, Kruskal=Wallis test, ANOVA repeated measurements, Friedman test
+
+9. Calculus - Convex Optimization:
++ SymPy: review limits, derivatives and integrals
++ Gradient Descent, Stochastic Gradient Descent
++ Convex Optimization
+
+10. Data Preprocessing:
++ Column names "cleaning"
++ Text data handling
++ Handle Missing data
++ Handle Outliers
++ Categorical variable encoding
++ Quantitative variable scaling
++ Binning: convert quantitative to categorical
++ CountVectorizer, TF-IDF
++ Feature selection
++ Imbalanced class handling
++ Train - Test - Split
++ Univariate plot: quantitative and categorical
+
+11. Supervised Learning:
++ Linear Regression, Regularization (L1, L2, ElasticNet), Polynomial Regression
++ Logistic Regression, Softmax Regression
++ Naive Bayes: Bernouli, Multinomial, Gaussian
++ K-Nearest Neighbors
++ Support Vector Machine
++ Ensemble: Decision Tree, Random Forest, Boosting, Bagging
++ Create pipeline to integrate preprocessing and training steps into one object
++ CrossValidation
++ Parameter Tunning, Grid Search, Randomized Search
+
+12. Unsupervised Learning:
++ Distance: Euclidean, Manhattan, ...
++ K-Means clustering
++ Hierachical clustering
++ DBSCAN clustering
++ HDBSCAN clustering
++ GMM clustering
++ Interpret clustering results with plots and descriptive statistics
++ Dimension Reduction: PCA, Kernal PCA, Sparse PCA
++ Dimension Reduction: UMAP, t-SNE, LLE
++ Association Rules: Apriori, ECLAT
+
+13. Time Series Analysis:
++ ARIMA
++ HoltWinters
+
+14. Data Analysis Workflow: put everything of the course into a step-by-step process
