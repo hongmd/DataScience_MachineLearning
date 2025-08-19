@@ -68,7 +68,7 @@ print(r.value)
 #--------------------
 
 problem = cp.Problem(
-    objective = cp.Minimize(cp.quad_form(x, P) + q.T@x + r), # Must use cp.quad_form() instead of x.T@P@x to achieve DCP
+    objective = cp.Minimize(0.5*cp.quad_form(x, P) + q.T@x + r), # Must use cp.quad_form() instead of x.T@P@x to achieve DCP
     constraints = [
         x <= 1,
         -x <= 1 # x >= -1
@@ -86,5 +86,5 @@ print(
     )
 )
 # Status: optimal
-# Optimal Value: -10.442499999999999
-# Optimal variables: [ 0.28  0.49 -0.74]
+# Optimal Value: -21.62499998049554
+# Optimal variables: [ 0.99999999  0.50000001 -1.        ]
