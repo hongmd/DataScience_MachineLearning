@@ -53,7 +53,7 @@ Flow of contents:
    - Alignment: .ljust(), .rjust(), .center()
    - Zero-fill: .zfill(width)
 
-10. Categorical Encoding: .get_dummies()
+10. Categorical Encoding: pd.factorize(), pd.get_dummies()
 
 11. Unicode and Encoding:
     - .normalize(form='NFC')
