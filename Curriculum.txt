@@ -33,7 +33,7 @@
 + OOP principles
 + Rectangle Project
 
-3. DataFrame - Pandas - DataR - Polars
+3. DataFrame - Pandas - DataR
 + Pandas datatype
 + Pandas I/O: CSV, XLSX, ...
 + Pandas subset columns and rows
@@ -45,20 +45,22 @@
 + Pandas summary statistics
 + Pandas simple plot
 + DataR: handle DataFrame with R's dplyr and tidyverse style
-+ Polars: like Pandas but faster with GPU support for large dataset
 
-4. NumPy and JaxNumPy for vector and matrix handling, Univariate Math
+4. Polars: like Pandas but faster
+
+5. NumPy and JaxNumPy for vector and matrix handling
 + vector (1-D array) handling with NumPy (or JaxNumPy)
 + matrix (2-D array) handling with NumPy (or JaxNumPy)
-+ Univariate Math Function: jnp.abs(x), jnp.sqrt(x), ...
 
-5. Datavisualization with Matplotlib, Seaborn, Plotnine and Plotly
+6. Univariate Math functions with JaxNumPy - NumPy, Random
+
+7. Datavisualization with Matplotlib, Seaborn, Plotnine and Plotly
 + Matplotlib: scatter plot, line plot, boxplot, ...
 + Seaborn: scatter plot, line plot, boxplot, ...
 + Plotnine: datavisualization with ggplot style
 + Plotly: 3D visualization
 
-6. Linear Algebra
+8. Linear Algebra
 + Vector and Matrix operations
 + Rank, Determinant, Trace
 + Transpose, Inverse Matrix
@@ -67,7 +69,7 @@
 + Pseudo Inverse Matrix
 + Dimension Reduction: PCA, TSVD
 
-7. Statistics
+9. Statistics
 + Probability Revision
 + Random Variable
 + Bayesian Probability
@@ -80,12 +82,14 @@
 + Univariate Analysis: descriptive statistics for quantitative variable, categorical count
 + Bivariate Analysis: Covariance, Correlation, Chi-squared test, T-test, Mann-Whitney U test, Wilcoxon signed rank test, ANOVA, Kruskal=Wallis test, ANOVA repeated measurements, Friedman test
 
-8. Calculus - Convex Optimization:
-+ SymPy: review limits, derivatives and integrals
-+ Gradient Descent, Stochastic Gradient Descent
-+ Convex Optimization
+10. Calculus - SymPy - Limits - Derivative - Integral:
++ Limits
++ Derivative
++ Integral
 
-9. Data Preprocessing:
+11. Convex Optimization - CVXPY:
+
+12. Data Preprocessing:
 + Column names "cleaning"
 + Text data handling
 + Handle Missing data
@@ -99,7 +103,7 @@
 + Train - Test - Split
 + Univariate plot: quantitative and categorical
 
-10. Supervised Learning:
+13. Supervised Learning:
 + Linear Regression, Regularization (L1, L2, ElasticNet), Polynomial Regression
 + Logistic Regression, Softmax Regression
 + Naive Bayes: Bernouli, Multinomial, Gaussian
@@ -111,7 +115,7 @@
 + CrossValidation
 + Parameter Tunning, Grid Search, Randomized Search
 
-11. Unsupervised Learning:
+14. Unsupervised Learning:
 + Distance: Euclidean, Manhattan, ...
 + K-Means clustering
 + Hierachical clustering
@@ -123,8 +127,8 @@
 + Dimension Reduction: UMAP, t-SNE, LLE
 + Association Rules: Apriori, ECLAT
 
-12. Time Series Analysis:
+15. Time Series Analysis:
 + ARIMA
 + HoltWinters
 
-13. Data Analysis Workflow: put everything of the course into a step-by-step process
+16. Data Analysis Workflow: put everything of the course into a step-by-step process
