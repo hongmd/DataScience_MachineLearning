@@ -66,7 +66,6 @@ Flow of contents:
 import pandas as pd
 import numpy as np
 
-
 #--------------------------------------------------------------------------------------------------------#
 #----------------------------------- 0. pandas.Series.str accessor --------------------------------------#
 #--------------------------------------------------------------------------------------------------------#
@@ -1420,6 +1419,11 @@ clean_names = (messy_names
                .str.title()
                .str.replace(r'\s+', ' ', regex=True))
 
+print(clean_names)
+# 0       John Doe
+# 1     Jane Smith
+# 2    Bob Johnson
+# dtype: object
 
 ######################
 ## Email processing ##
@@ -1432,3 +1436,15 @@ email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 is_valid = emails.str.match(email_pattern)
 domains = emails.str.extract(r'@([^.]+\..*)')
 usernames = emails.str.extract(r'^([^@]+)@')
+
+print(domains)
+#              0
+# 0  example.com
+# 1     SITE.ORG
+# 2          NaN
+
+print(usernames)
+#       0
+# 0   user
+# 1  ADMIN
+# 2    NaN
