@@ -2,7 +2,7 @@ termcolor
 loguru
 numpy 
 "jax[cuda12]" or "jax[rocm]"
-pandas datar[pandas] polars
+pandas datar[pandas] polars tidypolars4sci
 matplotlib seaborn plotnine plotly
 scipy statsmodels
 sympy cvxpy
@@ -24,7 +24,7 @@ Use conda-forge for stable version
 2) Go to (base) environment
 
 3) Run this command to create a conda environment and install libraries: 
-   conda create -c conda-forge -n data python=3.12 termcolor loguru numpy jaxlib=*=*cuda* jax cuda-nvcc pandas datar[pandas] polars matplotlib seaborn plotnine plotly scipy statsmodels sympy cvxpy scikit-learn imbalanced-learn xgboost hdbscan umap
+   conda create -c conda-forge -n data python=3.12 termcolor loguru numpy jaxlib=*=*cuda* jax cuda-nvcc pandas datar[pandas] polars tidypolars4sci matplotlib seaborn plotnine plotly scipy statsmodels sympy cvxpy scikit-learn imbalanced-learn xgboost hdbscan umap
 
 4) install jax
    pip3 install -U "jax[cuda12]" # for NVIDIA user
@@ -48,7 +48,7 @@ Use pip3 install -U for latest versions
    conda activate data
 
 5) Install libraries:
-   pip3 install -U termcolor loguru numpy pandas datar[pandas] polars matplotlib seaborn plotnine plotly scipy statsmodels sympy cvxpy scikit-learn imblearn xgboost hdbscan
+   pip3 install -U termcolor loguru numpy pandas datar[pandas] polars tidypolars4sci matplotlib seaborn plotnine plotly scipy statsmodels sympy cvxpy scikit-learn imblearn xgboost hdbscan
 
 6) install jax
    pip3 install -U "jax[cuda12]" # for NVIDIA user
