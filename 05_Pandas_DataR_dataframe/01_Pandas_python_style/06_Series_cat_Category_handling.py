@@ -259,3 +259,291 @@ print(s_gender.cat.ordered)
 
 print(s_levels.cat.ordered)
 # True
+
+
+#---------------------------------------------------------------------------------------------------------------#
+#------------------------------------- 2. Adding and Removing Categories ---------------------------------------#
+#---------------------------------------------------------------------------------------------------------------#
+
+s_fruits = pd.Series(["Apple", "Banana", "Orange", "Apple", "Banana", "Grapes"], dtype = 'category')
+s_degrees = pd.Series(
+    pd.Categorical(
+        values = ["Bachelor", "Master", "Bachelor", "Master", "Bachelor"],
+        categories = ["Bachelor", "Master"],
+        ordered = True
+    )
+)
+
+###########################
+## .cat.add_categories() ##
+###########################
+# Adds new categories to the categorical Series.
+
+s_fruits = s_fruits.cat.add_categories(["Mango", "Pineapple"])
+print(s_fruits)
+# 0     Apple
+# 1    Banana
+# 2    Orange
+# 3     Apple
+# 4    Banana
+# 5    Grapes
+# dtype: category
+# Categories (6, object): ['Apple', 'Banana', 'Grapes', 'Orange', 'Mango', 'Pineapple']
+
+s_degrees = s_degrees.cat.add_categories(["PhD", "PostDoc"])
+print(s_degrees)
+# 0    Bachelor
+# 1      Master
+# 2    Bachelor
+# 3      Master
+# 4    Bachelor
+# dtype: category
+# Categories (4, object): ['Bachelor' < 'Master' < 'PhD' < 'PostDoc']
+
+'''
+NOTE: Adding a category does not assign it to any existing entries in the Series.
+      You need to explicitly set values to the new category if desired.
+'''
+
+s_added = pd.concat(
+    objs = [s_degrees, pd.Series(["PhD"], dtype = s_degrees.dtype)], # Must use the same dtype
+    ignore_index = True
+)
+print(s_added)
+# 0    Bachelor
+# 1      Master
+# 2    Bachelor
+# 3      Master
+# 4    Bachelor
+# 5         PhD
+# dtype: category
+# Categories (4, object): ['Bachelor' < 'Master' < 'PhD' < 'PostDoc']
+
+
+##############################
+## .cat.remove_categories() ##
+##############################
+# Removes specified categories from the categorical Series.
+
+s_removed = s_fruits.cat.remove_categories(["Orange", "Grapes"])
+print(s_removed)
+# 0     Apple
+# 1    Banana
+# 2       NaN ('Orange' is removed, so it's set to NaN)
+# 3     Apple
+# 4    Banana
+# 5       NaN ('Grapes' is removed, so it's set to NaN)
+# dtype: category
+# Categories (4, object): ['Apple', 'Banana', 'Mango', 'Pineapple']
+
+s_removed = s_degrees.cat.remove_categories(["Master"])
+print(s_removed)
+# 0    Bachelor
+# 1         NaN ('Master' is removed, so it's set to NaN)
+# 2    Bachelor
+# 3         NaN ('Master' is removed, so it's set to NaN)
+# 4    Bachelor
+# dtype: category
+# Categories (3, object): ['Bachelor' < 'PhD' < 'PostDoc']
+
+
+#####################################
+## .cat.remove_unused_categories() ##
+#####################################
+# Removes categories that are not used in the categorical Series.
+
+s_removed_unused = s_fruits.cat.remove_unused_categories()
+print(s_removed_unused)
+# 0     Apple
+# 1    Banana
+# 2    Orange
+# 3     Apple
+# 4    Banana
+# 5    Grapes
+# dtype: category
+# Categories (4, object): ['Apple', 'Banana', 'Grapes', 'Orange']
+'''Here, 'Mango' and 'Pineapple' were removed as they were not used in the Series.'''
+
+s_removed_unused = s_degrees.cat.remove_unused_categories()
+print(s_removed_unused)
+# 0    Bachelor
+# 1      Master
+# 2    Bachelor
+# 3      Master
+# 4    Bachelor
+# dtype: category
+# Categories (2, object): ['Bachelor' < 'Master']
+'''Here, 'PhD' and 'PostDoc' were removed as they were not used in the Series.'''
+
+
+###########################
+## .cat.set_categories() ##
+###########################
+# Sets the categories of the categorical Series to the specified list of categories.
+# Can be used to reorder categories or add/remove categories.
+
+s_fruits_set = s_fruits.cat.set_categories(
+    new_categories = ["A", "B", "G", "O"], # Should correspond to existing categories ['Apple', 'Banana', 'Grapes', 'Orange']
+    rename = True  # If True, renames existing categories to new ones
+)
+print(s_fruits_set)
+# 0    A ('Apple' renamed to 'A')
+# 1    B ('Banana' renamed to 'B')
+# 2    O ('Orange' renamed to 'O')
+# 3    A
+# 4    B
+# 5    G
+# dtype: category
+# Categories (4, object): ['A', 'B', 'G', 'O']
+
+s_degrees_set = s_degrees.cat.set_categories(
+    new_categories = ["BSc", "MSc"], # Should correspond to existing categories ['Bachelor', 'Master']
+    rename = True,  # If True, renames existing categories to new ones
+    ordered = True # Set to True if you want to treat categories as ordered
+)
+print(s_degrees_set)
+# 0    BSc
+# 1    MSc
+# 2    BSc
+# 3    MSc
+# 4    BSc
+# dtype: category
+# Categories (2, object): ['BSc' < 'MSc']
+
+
+#---------------------------------------------------------------------------------------------------------------#
+#----------------------------------------- 3. Renaming Categories ----------------------------------------------#
+#---------------------------------------------------------------------------------------------------------------#
+
+s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"], dtype = 'category')
+
+print(s_gender)
+# 0        M
+# 1        M
+# 2        F
+# 3        M
+# 4    LGBTQ
+# 5        F
+# 6        M
+# 7        F
+# 8    LGBTQ
+# 9        M
+# dtype: category
+# Categories (3, object): ['F', 'LGBTQ', 'M']
+
+
+###########################
+## new_categories = list ##
+###########################
+
+s_renamed_lst = s_gender.cat.rename_categories(
+    new_categories = ["Female", "LGBTQ+", "Male"]
+)
+print(s_renamed_lst)
+# 0      Male
+# 1      Male
+# 2    Female
+# 3      Male
+# 4    LGBTQ+
+# 5    Female
+# 6      Male
+# 7    Female
+# 8    LGBTQ+
+# 9      Male
+# dtype: category
+# Categories (3, object): ['Female', 'LGBTQ+', 'Male']
+
+
+###########################
+## new_categories = dict ##
+###########################
+
+s_renamed_dict = s_gender.cat.rename_categories(
+    new_categories = {"F": "Female", "M": "Male", "LGBTQ": "Other"}
+)
+print(s_renamed_dict)
+# 0      Male
+# 1      Male
+# 2    Female
+# 3      Male
+# 4     Other
+# 5    Female
+# 6      Male
+# 7    Female
+# 8     Other
+# 9      Male
+# dtype: category
+# Categories (3, object): ['Female', 'Other', 'Male']
+
+
+#---------------------------------------------------------------------------------------------------------------#
+#---------------------------------------- 4. Reordering Categories ---------------------------------------------#
+#---------------------------------------------------------------------------------------------------------------#
+
+s_levels = pd.Series(
+    pd.Categorical(
+        values = [1, 1, 3, 2, 5, 2, 4, 4, 3],
+        categories = [1, 2, 3, 4, 5],
+        ordered = True
+    )
+)
+
+print(s_levels)
+# 0    1
+# 1    1
+# 2    3
+# 3    2
+# 4    5
+# 5    2
+# 6    4
+# 7    4
+# 8    3
+# dtype: category
+# Categories (5, int64): [1 < 2 < 3 < 4 < 5]
+
+'''
+Rename categories:
+5 -> 5th
+4 -> 4th
+3 -> 3rd
+2 -> 2nd
+1 -> 1st
+'''
+
+s_renamed = s_levels.cat.rename_categories(
+    new_categories = {1: "1st", 2: "2nd", 3: "3rd", 4: "4th", 5: "5th"}
+)
+print(s_renamed)
+# 0    1st
+# 1    1st
+# 2    3rd
+# 3    2nd
+# 4    5th
+# 5    2nd
+# 6    4th
+# 7    4th
+# 8    3rd
+# dtype: category
+# Categories (5, object): ['1st' < '2nd' < '3rd' < '4th' < '5th']
+
+
+###############################
+## .cat.reorder_categories() ##
+###############################
+
+s_reordered = s_renamed.cat.reorder_categories(
+    new_categories = ["5th", "4th", "3rd", "2nd", "1st"], # New order of categories
+    ordered = True # Set to True if you want to treat categories as ordered
+)
+print(s_reordered)
+# 0    1st
+# 1    1st
+# 2    3rd
+# 3    2nd
+# 4    5th
+# 5    2nd
+# 6    4th
+# 7    4th
+# 8    3rd
+# dtype: category
+# Categories (5, object): ['5th' < '4th' < '3rd' < '2nd' < '1st']
