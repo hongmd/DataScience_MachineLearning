@@ -10,6 +10,7 @@ Flow of contents:
     + Reduction methods: .count(), .sum(), .product(), .mean(), .median(), .var(), .std(),
                          .min(), .max(), .quantile(), .skew(), .kurtosis(), .sem(), .describe()
     + Cumulative methods: .cumsum(), .cumprod(), .cummin(), .cummax(), .pct_change()
+    + Covariance and Correlation methods: .cov(), .corr()
     + Ranking and Sorting methods: .rank(), .sort_values(), .sort_index(), .argsort(), .nlargest(), .nsmallest()
 '''
 
@@ -413,9 +414,11 @@ s1.lt(s2)
 #------------------------------------------ 3. Statistical Methods ----------------------------------------------#
 #----------------------------------------------------------------------------------------------------------------#
 
+'''
 #-------------------------------------
 ## Reduction methods
 #-------------------------------------
+'''
 
 s_demo = pd.Series([2, 5.8, np.nan, 4.6, 14, 37, 25.2, np.nan, 9.3, 10.5])
 
@@ -584,9 +587,11 @@ print(s_demo.describe())
 # dtype: float64
 
 
+'''
 #-------------------------------------
 ## Cumulative methods
 #-------------------------------------
+'''
 
 s_demo = pd.Series([5.8, 4.6, 2, np.nan, 14, 37, 25.2, np.nan, 9.3, 10.5])
 
@@ -674,10 +679,46 @@ print(s_demo_pctchange.pct_change())
 # 4    0.230769
 
 
+'''
+#-------------------------------------
+## Covariance and Correlation methods
+#-------------------------------------
+'''
+
+s1 = pd.Series([10, 20, 30, 40, 50])
+s2 = pd.Series([5, 25, 20, 44, 48])
+s3 = pd.Series([5, 4, 3, 2, 1])
+
+############
+## .cov() ##
+############
+# .cov() returns the covariance between two Series.
+
+print(s1.cov(s2))
+# 262.5
+
+print(s1.cov(s3))
+# -62.5
+
+
+#############
+## .corr() ##
+#############
+# .corr() returns the correlation between two Series.
+# Methods: 'pearson' (default), 'kendall', 'spearman'
+
+print(s1.corr(s2, method = 'pearson'))  # Pearson correlation (default)
+# 0.9364554314304976
+
+print(s1.corr(s3, method = 'kendall'))  # Kendall correlation
+# -0.9999999999999999
+
+
+'''
 #-------------------------------------
 ## Ranking and Sorting methods
 #-------------------------------------
-
+'''
 s_demo = pd.Series([5.8, 4.6, 2, np.nan, 14, 4.6, 25.2, np.nan, 9.3, 10.5])
 
 #############
