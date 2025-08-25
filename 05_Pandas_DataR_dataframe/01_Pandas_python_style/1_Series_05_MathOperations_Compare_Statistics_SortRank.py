@@ -3,7 +3,7 @@ Pandas Series also support various vectorized operations similar to NumPy arrays
 These operations can be performed on Series objects, allowing for efficient data manipulation.
 
 Flow of contents:
-1. Mathematical Operations: + add(), - sub(), * mul(), / div(), // floordiv(), % mod(), ** pow()
+1. Mathematical Operations: round(), + add(), - sub(), * mul(), / div(), // floordiv(), % mod(), ** pow()
 2. Logic Boolean Comparisons: < lt(), <= le(), > gt(), >= ge(), == eq(), != ne()
                              Boolean to Binary 0/1 (using astype(int))
 3. Statistical Methods
@@ -53,6 +53,27 @@ print(s2)
 # 8    15.459880
 # 9    12.938481
 # Name: Numbers, dtype: float64
+
+
+#############
+## round() ##
+#############
+
+print(s1.round(2))  # Round to 2 decimal places
+# 0    18.08
+# 1    14.91
+# 2    18.84
+# 3    23.22
+# 4    14.43
+# 5    14.43
+
+print(s2.round(1))  # Round to 1 decimal place
+# 0    17.7
+# 1    17.7
+# 2    21.2
+# 3    10.4
+# 4    11.4
+# 5    17.2
 
 
 #############
