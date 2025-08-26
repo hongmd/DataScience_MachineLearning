@@ -117,7 +117,7 @@
 + Parameter Tunning, Grid Search, Randomized Search
 
 14. Unsupervised Learning:
-+ Distance: Euclidean, Manhattan, ...
++ Distance Scipy: Euclidean, Manhattan, ...
 + K-Means clustering
 + Hierachical clustering
 + DBSCAN clustering
