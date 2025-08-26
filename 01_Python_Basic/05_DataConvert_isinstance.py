@@ -45,7 +45,6 @@ float("-inf") # -inf
 
 float("inf") == float("+infinity") # True
 
-
 ############################
 ## complex() and infinity ##
 ############################
@@ -72,3 +71,39 @@ complex("3-infinityj") # (3-infj)
 
 complex("3+infj") # (3+infj)
 complex("3-infj") # (3-infj)
+
+
+#-----------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------------- isinstance() -------------------------------------------------#
+#-----------------------------------------------------------------------------------------------------------------#
+'''
+isinstance checks whether an object is an instance of a given class (or any of several classes), 
+returning True or False. 
+
+It also considers inheritance, so subclasses count as instances of their parent classes.
+
+isinstance(obj, classinfo).
+
+(classinfo can be a single class/type or a tuple of classes/types.)
+'''
+
+print(isinstance(5, int)) # True
+
+print(isinstance(5.0, float)) # True
+
+print(isinstance(5, (int, float, complex))) # True, because 5 is an instance of int, which is in the tuple
+
+print(isinstance("hello", str)) # True
+
+print(isinstance(3+4j, complex)) # True
+
+print(isinstance([1, 2, 3], list)) # True
+
+print(isinstance("1.2", (int, float))) # False, because "1.2" is a string, not an int or float
+
+demo_str = "Hello, World!"
+print(isinstance(demo_str, str)) # True
+
+demo_cpx = 3 + 4j
+print(isinstance(demo_cpx, complex)) # True
+print(isinstance(demo_cpx, (int, float))) # False, because demo_cpx is not an int or float
