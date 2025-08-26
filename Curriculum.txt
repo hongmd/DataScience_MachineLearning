@@ -33,11 +33,12 @@
 + OOP principles
 + Rectangle Project
 
-3. NumPy and JaxNumPy for vector and matrix handling
+3. Vector Matrix SparseMatrix NumpPyJax Scipy
 + vector (1-D array) handling with NumPy (or JaxNumPy)
 + matrix (2-D array) handling with NumPy (or JaxNumPy)
++ sparse matrix handling with scipy
 
-4. Univariate Math functions with JaxNumPy - NumPy, Random
+4. UnivarMath Random JaxNumPy
 
 5. DataFrame - Pandas - DataR
 + Pandas datatype
