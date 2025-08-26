@@ -220,4 +220,3 @@ print(s2_nums[s2_nums != s1_nums]) # Retuns values not equal to corresponding va
 # 9    18.93
 # dtype: float64
 '''All values are returned because none of the values in s2_nums are equal to the corresponding values in s1_nums.'''
-
