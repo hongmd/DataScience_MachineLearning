@@ -220,3 +220,103 @@ print(s2_nums[s2_nums != s1_nums]) # Retuns values not equal to corresponding va
 # 9    18.93
 # dtype: float64
 '''All values are returned because none of the values in s2_nums are equal to the corresponding values in s1_nums.'''
+
+###############################
+##          .isin()          ##
+###############################
+
+s_demo =  pd.Series(['llama', 'cow', 'llama', 'beetle', 'llama', 'hippo'], name = 'animal')
+
+print(s_demo.isin(['cow', 'llama']))
+# 0     True ('llama')
+# 1     True ('cow')
+# 2     True ('llama')
+# 3    False
+# 4     True ('llama')
+# 5    False
+# Name: animal, dtype: bool
+
+print(s_demo[s_demo.isin(['cow', 'llama'])]) # Retuns values that are either 'cow' or 'llama'
+# 0    llama
+# 1      cow
+# 2    llama
+# 4    llama
+# Name: animal, dtype: object
+
+print(s_demo[s_demo.isin(['llama'])]) # Retuns values that are 'llama'
+# 0    llama
+# 2    llama
+# 4    llama
+# Name: animal, dtype: object
+
+
+##################################
+##        String Boolean        ##
+##################################
+
+import pytz
+
+s_timezones = pd.Series(pytz.all_timezones)
+
+print(s_timezones[s_timezones.str.contains("Seoul")]) # Retuns values that contain the substring "Africa"
+# 311    Asia/Seoul
+# dtype: object
+
+print(s_timezones[s_timezones.str.startswith("Australia")]) # Retuns values that start with "Australia"
+# 347            Australia/ACT
+# 348       Australia/Adelaide
+# 349       Australia/Brisbane
+# 350    Australia/Broken_Hill
+# 351       Australia/Canberra
+# 352         Australia/Currie
+# 353         Australia/Darwin
+# 354          Australia/Eucla
+# 355         Australia/Hobart
+# 356            Australia/LHI
+# 357       Australia/Lindeman
+# 358      Australia/Lord_Howe
+# 359      Australia/Melbourne
+# 360            Australia/NSW
+# 361          Australia/North
+# 362          Australia/Perth
+# 363     Australia/Queensland
+# 364          Australia/South
+# 365         Australia/Sydney
+# 366       Australia/Tasmania
+# 367       Australia/Victoria
+# 368           Australia/West
+# 369     Australia/Yancowinna
+# dtype: object
+
+print(s_timezones[s_timezones.str.endswith("lu")]) # Retuns values that end with "lu"
+# 426            Etc/Zulu
+# 544    Pacific/Honolulu
+# 596                Zulu
+# dtype: object
+
+#################################
+##      DateTime Boolean       ##
+#################################
+
+s_datetime = pd.Series(pd.date_range(start = '2023-01-31', end = '2023-06-30', freq = 'ME')) # 'ME' means month end frequency
+first_january = pd.Series(['2023-01-01'], dtype='datetime64[ns]')
+s_datetime = pd.concat([first_january, s_datetime], ignore_index=True)
+
+print(s_datetime)
+# 0   2023-01-01
+# 1   2023-01-31
+# 2   2023-02-28
+# 3   2023-03-31
+# 4   2023-04-30
+# 5   2023-05-31
+# 6   2023-06-30
+# dtype: datetime64[ns]
+
+print(s_datetime[s_datetime.dt.is_quarter_start]) # Retuns values that are the start of a quarter
+# 0   2023-01-01
+# dtype: datetime64[ns]
+
+print(s_datetime[s_datetime.dt.is_quarter_end]) # Retuns values that are the end of a quarter
+# 3   2023-03-31
+# 6   2023-06-30
+# dtype: datetime64[ns]
