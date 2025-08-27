@@ -1,10 +1,10 @@
 '''
 There are many ways to create a DataFrame in Pandas. Here are some of the most common methods:
 
-1. From a dictionary of series
-2. From a dictionary of lists or ndarrays
-3. From a structured or record array
-4. From a list of dictionaries
+1. From a dictionary of series: {"column_name": pd.Series(data, index=index)}
+2. From a dictionary of lists or ndarrays: {"column_name": list_or_ndarray}
+3. From a structured or record array: np.array([(data1), (data2)], dtype=[("col1", type1), ("col2", type2)])
+4. From a list of dictionaries: [{"col1": val1, "col2": val2}, ...]
 5. From a dictionary of tuples
 6. From a list of namedtuples
 7. From a list of dataclasses
@@ -116,3 +116,68 @@ print(df_score)
 # 3  Susan     Math     92
 # 4  Susan  Science     95
 # 5  Susan  English     89
+
+
+#-------------------------------------------------------------------------------------------------------------#
+#--------------------------------- 3. From a structured or record array --------------------------------------#
+#-------------------------------------------------------------------------------------------------------------#
+
+# Create an empty structured record
+record = np.zeros(
+    shape = (2,), # 1D array with 2 elements
+    dtype = [("A", "i4"), ("B", "f4"), ("C", "a10")] # Define the data types for each field "A", "B", "C"
+)                                                    # "i4" means 4-byte integer, 
+                                                     # "f4" means 4-byte float, 
+                                                     # "a10" means string of length 10 (bytes
+print(record)                          
+# [(0, 0., b'') (0, 0., b'')]
+
+# Fill the structured record with data
+record[:] = [(1, 2.0, "Hello"), (2, 3.0, "World")]
+print(record)
+# [(1, 2., b'Hello') (2, 3., b'World')]
+
+# Create DataFrame from the structured record
+df = pd.DataFrame(record, index = ["first", "second"])
+print(df)
+#         A    B         C
+# first   1  2.0  b'Hello'
+# second  2  3.0  b'World'
+
+
+#-------------------------------------------------------------------------------------------------------------#
+#------------------------------------- 4. From a list of dictionaries ----------------------------------------#
+#-------------------------------------------------------------------------------------------------------------#
+
+##################
+## Step-by-step ##
+##################
+
+list_of_dicts = [
+    {"a": 1, "b": 2}, 
+    {"a": 5, "b": 10, "c": 20}
+]
+
+df = pd.DataFrame(list_of_dicts, index = ["row_1", "row_2"])
+print(df)
+#        a   b     c
+# row_1  1   2   NaN
+# row_2  5  10  20.0
+
+
+#####################
+## Shorter version ##
+#####################
+
+df = pd.DataFrame(
+    data = [
+        {"a": 1.4, "b": 2.3}, 
+        {"a": 5, "b": 10, "c": 20}
+    ],
+    index = ["row_1", "row_2"]
+)
+
+print(df)
+#          a     b     c
+# row_1  1.4   2.3   NaN
+# row_2  5.0  10.0  20.0
