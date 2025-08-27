@@ -225,29 +225,29 @@ print(s2_nums[s2_nums != s1_nums]) # Retuns values not equal to corresponding va
 ##          .isin()          ##
 ###############################
 
-s_demo =  pd.Series(['llama', 'cow', 'llama', 'beetle', 'llama', 'hippo'], name = 'animal')
+s_mamals =  pd.Series(['llama', 'cow', 'llama', 'beetle', 'llama', 'hippo'])
 
-print(s_demo.isin(['cow', 'llama']))
+print(s_mamals.isin(['cow', 'llama']))
 # 0     True ('llama')
 # 1     True ('cow')
 # 2     True ('llama')
 # 3    False
 # 4     True ('llama')
 # 5    False
-# Name: animal, dtype: bool
+# dtype: bool
 
-print(s_demo[s_demo.isin(['cow', 'llama'])]) # Retuns values that are either 'cow' or 'llama'
+print(s_mamals[s_mamals.isin(['cow', 'llama'])]) # Retuns values that are either 'cow' or 'llama'
 # 0    llama
 # 1      cow
 # 2    llama
 # 4    llama
-# Name: animal, dtype: object
+# dtype: object
 
-print(s_demo[s_demo.isin(['llama'])]) # Retuns values that are 'llama'
+print(s_mamals[s_mamals.isin(['llama'])]) # Retuns values that are 'llama'
 # 0    llama
 # 2    llama
 # 4    llama
-# Name: animal, dtype: object
+# dtype: object
 
 
 ##################################
@@ -294,6 +294,10 @@ print(s_timezones[s_timezones.str.endswith("lu")]) # Retuns values that end with
 # 596                Zulu
 # dtype: object
 
+print(s_timezones[s_timezones == "Zulu"]) # Retuns values that are exactly equal to "Zulu"
+# 596    Zulu
+# dtype: object
+
 #################################
 ##      DateTime Boolean       ##
 #################################
@@ -319,4 +323,63 @@ print(s_datetime[s_datetime.dt.is_quarter_start]) # Retuns values that are the s
 print(s_datetime[s_datetime.dt.is_quarter_end]) # Retuns values that are the end of a quarter
 # 3   2023-03-31
 # 6   2023-06-30
+# dtype: datetime64[ns]
+
+
+#----------------------------------------------------------------------------------------------------------------#
+#--------------------------------- 2. Negation of Condition: ~ (tilde) operator ---------------------------------#
+#----------------------------------------------------------------------------------------------------------------#
+
+'''
+The tilde (~) operator is used to negate a boolean condition in Pandas.
+From True to False, and from False to True.
+'''
+
+print(s1_nums > 15)
+# 0    False
+# 1     True
+# 2     True
+# 3     True
+# 4    False
+# 5    False
+# 6    False
+# 7     True
+# 8     True
+# 9     True
+# dtype: bool
+
+# Apply the negation operator (~) to invert the boolean values
+print(~(s1_nums > 15))
+# 0     True
+# 1    False
+# 2    False
+# 3    False
+# 4     True
+# 5     True
+# 6     True
+# 7    False
+# 8    False
+# 9    False
+# dtype: bool
+
+# Apply in filtering
+print(s1_nums[~(s1_nums > 15)]) # Retuns values NOT greater than 15
+# 0    13.75
+# 4    11.56
+# 5    11.56
+# 6    10.58
+# dtype: float64
+
+s_mamals =  pd.Series(['llama', 'cow', 'llama', 'beetle', 'llama', 'hippo'])
+print(s_mamals[~s_mamals.isin(['cow', 'llama'])]) # Retuns values that are neither 'cow' nor 'llama'
+# 3    beetle
+# 5     hippo
+# dtype: object
+
+print(s_datetime[~s_datetime.dt.is_quarter_end]) # Retuns values that are NOT the end of a quarter
+# 0   2023-01-01
+# 1   2023-01-31
+# 2   2023-02-28
+# 4   2023-04-30
+# 5   2023-05-31
 # dtype: datetime64[ns]
