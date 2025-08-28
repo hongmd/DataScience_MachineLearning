@@ -45,3 +45,4 @@ Data Type Management
 + converters: Custom functions for value conversion
 + parse_dates: Parse date columns automatically
 '''
+
