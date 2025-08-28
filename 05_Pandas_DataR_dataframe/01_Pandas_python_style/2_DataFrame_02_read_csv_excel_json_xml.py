@@ -17,6 +17,9 @@ Flow of contents:
    + Read with skipfooter=: df = pd.read_csv('path/to/file.csv', skipfooter=2, engine='python')
 
 2. pd.read_excel() - Read Excel files
+   + Basic Usage: df = pd.read_excel('path/to/file.xlsx')
+   + Specify sheet_name=: df = pd.read_excel('path/to/file.xlsx', sheet_name='Sheet_Name'/Sheet_Index)
+
 3. pd.read_json() - Read JSON files
 4. pd.read_xml() - Read XML files
 '''
@@ -356,3 +359,88 @@ print(df)
 # 6.0      Nina  578.00  2013-05-21          IT
 # 7.0     Simon  632.80  2013-07-30  Operations
 # 8.0      Guru  722.50  2014-06-17     Finance
+
+
+#---------------------------------------------------------------------------------------------------------#
+#----------------------------------------- 2. pd.read_excel() --------------------------------------------#
+#---------------------------------------------------------------------------------------------------------#
+
+'''
+read_excel() handles Microsoft Excel files (.xlsx, .xls, .xlsb) 
+with support for multiple sheets and complex formatting.
+
+Detailed documentation: https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html#pandas.read_excel
+
+Key Parameters:
++ io: File path or file-like object
++ sheet_name: Sheet selection (int, str, list, or None for all)
++ engine: Parser engine ('openpyxl', 'calamine', 'odf', 'pyxlsb')
+
+Also supports many parameters similar to read_csv() for data control like:
++ header
++ names
++ index_col
++ usecols
++ dtype
++ na_values
+'''
+
+# conda install -c conda-forge openpyxl
+# pip3 install openpyxl
+
+#################
+## Basic Usage ##
+#################
+
+df = pd.read_excel("05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp_sheetname.xlsx")
+
+print(df)
+#   id      name  salary start_date        dept
+# 0  1      Rick  623.30 2012-01-01          IT
+# 1  2       Dan  515.20 2013-09-23  Operations
+# 2  3  Michelle  611.00 2014-11-15          IT
+# 3  4      Ryan  729.00 2014-05-11          HR
+# 4         Gary  843.25 2015-03-27     Finance
+# 5  6      Nina  578.00 2013-05-21          IT
+# 6  7     Simon  632.80 2013-07-30  Operations
+# 7  8      Guru  722.50 2014-06-17     Finance
+
+'''By default, it reads the first sheet (indexed 0 or specific name).'''
+
+#########################
+## Specify sheet_name= ##
+#########################
+
+df = pd.read_excel(
+    io = "05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp_sheetname.xlsx", 
+    sheet_name = 'city' # Specify the sheet name
+)
+
+print(df)
+#        name     city
+# 0      Rick  Seattle
+# 1       Dan    Tampa
+# 2  Michelle  Chicago
+# 3      Ryan  Seattle
+# 4      Gary  Houston
+# 5      Nina   Boston
+# 6     Simon   Mumbai
+# 7      Guru   Dallas
+
+#-------
+
+df = pd.read_excel(
+    io = "05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp_sheetname.xlsx", 
+    sheet_name = 1 # Specify the sheet index (1 means the second sheet)
+)
+
+print(df)
+#        name     city
+# 0      Rick  Seattle
+# 1       Dan    Tampa
+# 2  Michelle  Chicago
+# 3      Ryan  Seattle
+# 4      Gary  Houston
+# 5      Nina   Boston
+# 6     Simon   Mumbai
+# 7      Guru   Dallas
