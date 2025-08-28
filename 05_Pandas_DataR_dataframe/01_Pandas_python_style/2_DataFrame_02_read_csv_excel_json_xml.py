@@ -18,11 +18,21 @@ import pandas as pd
 read_csv() is the most commonly used pandas I/O function, designed to read CSV files into DataFrames. 
 It supports over 50 parameters for comprehensive data control.
 
+Detailed documentation: https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html#pandas.read_csv
+
 File parameters:
 + filepath_or_buffer: Accepts file paths, URLs, or file-like objects
 + sep/delimiter: Field separator (default: ',')
 + encoding: Text encoding (utf-8, latin-1, etc.)
 + compression: Automatic detection ('infer') or specific formats ('gzip', 'bz2', 'zip')
++ skiprows: Number of rows to skip at the start
++ skipfooter: Number of rows to skip at the end
++ nrows: Number of rows to read
+
+NA values handling:
++ na_values: Additional strings to recognize as NA/NaN
++ keep_default_na: Whether to include default NA values
++ na_filter: Detect missing values (default: True)
 
 Data Structure Control parameters:
 + header: Row number(s) for column names ('infer', int, list, None)
