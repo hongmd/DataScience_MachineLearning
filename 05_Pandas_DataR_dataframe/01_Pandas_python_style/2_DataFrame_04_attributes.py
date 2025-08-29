@@ -17,10 +17,6 @@ Flow of contents:
    + df.T: Returns the transpose of the DataFrame
    + df.empty: Returns True if DataFrame is empty, else False
 
-4. Memory and Performance attributes:
-   + df.info(memory_usage = 'deep'): Provides a concise summary of the DataFrame
-   + df.memory_usage(deep = True): Returns memory usage of each column
-
 4. Advanced attributes:
    + df.attrs: Dictionary for storing custom metadata
    + df.style: Returns a Styler object for HTML/CSS formatting
