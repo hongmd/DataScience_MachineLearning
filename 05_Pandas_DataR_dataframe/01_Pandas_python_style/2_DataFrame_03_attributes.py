@@ -28,3 +28,7 @@ Flow of contents:
 '''
 
 import pandas as pd
+
+df_medals = pd.read_csv(
+    filepath_or_buffer = "05_Pandas_DataR_dataframe/data/medals.csv",
+)

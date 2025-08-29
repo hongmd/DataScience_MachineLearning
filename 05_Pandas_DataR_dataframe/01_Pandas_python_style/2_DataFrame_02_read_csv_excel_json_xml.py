@@ -71,7 +71,7 @@ Data Type Management
 ## Basic Usage ##
 #################
 
-df = pd.read_csv('05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp.csv')
+df = pd.read_csv('05_Pandas_DataR_dataframe/data/emp.csv')
 
 print(df)
 #    id      name  salary  start_date        dept
@@ -89,7 +89,7 @@ print(df)
 ########################
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp.csv', 
+    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.csv', 
     index_col = 'id'
 )
 
@@ -111,7 +111,7 @@ print(df)
 ######################
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp.csv', 
+    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.csv', 
     usecols = ['name', 'salary', 'dept']
 )
 
@@ -129,7 +129,7 @@ print(df)
 #-------
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp.csv', 
+    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.csv', 
     usecols = [1, 2, 4]
 )
 
@@ -149,7 +149,7 @@ print(df)
 ####################
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp.csv', 
+    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.csv', 
     usecols=['name', 'salary', 'dept'],
     dtype = {
         'name': 'str', # If set as 'string', it will be "string[python]", not "object"
@@ -186,7 +186,7 @@ If the original CSV does not have a header row, set "header=None".
 '''
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp.csv', 
+    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.csv', 
     header = 0, # The first row (0-indexed) is the header
     names = ["ID", "NAME", "SALARY", "START_DATE", "DEPT"] # Custom column names
 )
@@ -207,7 +207,7 @@ print(df)
 #################################
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp.tsv', 
+    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.tsv', 
     sep = '\t' # Tab-separated values
 )
 
@@ -225,7 +225,7 @@ print(df)
 #-------
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp.tsv', 
+    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.tsv', 
     sep = '\t', # Tab-separated values
     index_col = 0 # Set the first column as index
 )
@@ -253,7 +253,7 @@ By default the following values are interpreted as NaN:
 '''
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp.tsv', 
+    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.tsv', 
     sep = '\t', # Tab-separated values
     na_values = ['?'], # Additional strings to recognize as NA/NaN
     index_col = 0 # Set the first column as index
@@ -277,7 +277,7 @@ print(df)
 
 # No skip the rows
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp_skiprows.tsv',
+    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp_skiprows.tsv',
     sep = '\t', # Tab-separated values
 )
 '''pandas.errors.ParserError: Error tokenizing data. C error: Expected 1 fields in line 3, saw 5'''
@@ -286,7 +286,7 @@ df = pd.read_csv(
 
 # Skip the first 2 corrupted rows
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp_skiprows.tsv',
+    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp_skiprows.tsv',
     sep = '\t', # Tab-separated values
     skiprows = 2 # Skip the first 2 rows
 )
@@ -306,7 +306,7 @@ print(df)
 
 # skiprows= and nrows=
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp_skiprows.tsv',
+    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp_skiprows.tsv',
     sep = '\t', # Tab-separated values
     skiprows = 2, # Skip the first 2 rows
     nrows = 4, # Read only 4 rows
@@ -326,7 +326,7 @@ print(df)
 
 # No skip the footer
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp_skipfooter.csv'
+    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp_skipfooter.csv'
 )
 
 print(df)
@@ -346,7 +346,7 @@ print(df)
 
 # Skip the last 2 footer rows
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp_skipfooter.csv',
+    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp_skipfooter.csv',
     skipfooter = 2, # Skip the last 2 rows
     engine = 'python', # 'python' engine is required when using skipfooter
     na_values = [" "],
@@ -397,7 +397,7 @@ Also supports many parameters similar to read_csv() for data control like:
 ## Basic Usage ##
 #################
 
-df = pd.read_excel("05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp_sheetname.xlsx")
+df = pd.read_excel("05_Pandas_DataR_dataframe/data/emp_sheetname.xlsx")
 
 print(df)
 #   id      name  salary start_date        dept
@@ -417,7 +417,7 @@ print(df)
 #########################
 
 df = pd.read_excel(
-    io = "05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp_sheetname.xlsx", 
+    io = "05_Pandas_DataR_dataframe/data/emp_sheetname.xlsx", 
     sheet_name = 'city' # Specify the sheet name
 )
 
@@ -435,7 +435,7 @@ print(df)
 #-------
 
 df = pd.read_excel(
-    io = "05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emp_sheetname.xlsx", 
+    io = "05_Pandas_DataR_dataframe/data/emp_sheetname.xlsx", 
     sheet_name = 1 # Specify the sheet index (1 means the second sheet)
 )
 
@@ -485,7 +485,7 @@ Detailed documentation: https://pandas.pydata.org/docs/reference/api/pandas.read
 }
 '''
 
-df = pd.read_json("05_Pandas_DataR_dataframe/01_Pandas_python_style/data/emps.json")
+df = pd.read_json("05_Pandas_DataR_dataframe/data/emps.json")
 
 print(df)
 #    ID      Name  Salary   StartDate        Dept
@@ -503,7 +503,7 @@ print(df)
 #####################################
 
 df_corrupted = pd.read_json(
-    path_or_buf = "05_Pandas_DataR_dataframe/01_Pandas_python_style/data/books.json",
+    path_or_buf = "05_Pandas_DataR_dataframe/data/books.json",
 )
 
 print(df_corrupted)
@@ -525,7 +525,7 @@ print(df_processed)
 
 import json
 
-with open("05_Pandas_DataR_dataframe/01_Pandas_python_style/data/books.json", "r", encoding="utf-8") as f:
+with open("05_Pandas_DataR_dataframe/data/books.json", "r", encoding="utf-8") as f:
     json_obj = json.load(f)        # json_obj is a dict, not a DataFrame [1]
 
 df_processed = pd.json_normalize(
@@ -562,7 +562,7 @@ Core Parameters
 ## Example 1 ##
 ###############
 
-df_cd = pd.read_xml("05_Pandas_DataR_dataframe/01_Pandas_python_style/data/cd.xml")
+df_cd = pd.read_xml("05_Pandas_DataR_dataframe/data/cd.xml")
 
 print(df_cd)
 #                        TITLE             ARTIST COUNTRY         COMPANY  PRICE  YEAR
@@ -581,7 +581,7 @@ print(df_cd)
 ## Example 2 ##
 ###############
 
-df_food = pd.read_xml("05_Pandas_DataR_dataframe/01_Pandas_python_style/data/food.xml")
+df_food = pd.read_xml("05_Pandas_DataR_dataframe/data/food.xml")
 
 print(df_food)
 #                           name  price                                        description  calories
