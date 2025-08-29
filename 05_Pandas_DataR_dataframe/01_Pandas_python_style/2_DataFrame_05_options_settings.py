@@ -17,7 +17,7 @@ Flow of contents:
 
 4. Frequently used options: max_rows, max_columns, display.width
 
-5. Number formatting
+5. Number formatting: pd.set_eng_float_format()
 
 6. Unicode formatting
 
@@ -222,3 +222,67 @@ print(df_medals)
 # 2310  2006     Turin   Skiing       Snowboard  USA  Snowboard Cross            W  Silver
 
 # [2311 rows x 8 columns]
+
+
+#-------------------------------------------------------------------------------------------------------#
+#--------------------------------------- 5. Number formatting ------------------------------------------#
+#-------------------------------------------------------------------------------------------------------#
+
+'''
+pandas also allows you to set how numbers are displayed in the console. 
+This option is not set through the set_options API.
+
+Use the pd.set_eng_float_format() function to alter the floating-point formatting of pandas objects 
+to produce a particular format.
+'''
+
+import numpy as np
+
+pd.set_eng_float_format(accuracy=3, use_eng_prefix=True)
+
+s = pd.Series(np.random.randn(5), index=["a", "b", "c", "d", "e"])
+
+print(s / 1.0e3)
+# a     -1.209m
+# b    147.928u
+# c    783.731u
+# d    766.854u
+# e     -1.071m
+# dtype: float64
+
+print(s / 1.0e6)
+# a     -1.209u
+# b    147.928n
+# c    783.731n
+# d    766.854n
+# e     -1.071u
+# dtype: float64
+
+
+#-------------------------------------------------------------------------------------------------------#
+#--------------------------------------- 6. Unicode formatting -----------------------------------------#
+#-------------------------------------------------------------------------------------------------------#
+
+'''
+Some East Asian countries use Unicode characters whose width corresponds to two Latin characters. 
+
+If a DataFrame or Series contains these characters, 
+the default output mode may not align them properly.
+'''
+
+df = pd.DataFrame({"国籍": ["UK", "日本"], "名前": ["Alice", "しのぶ"]})
+print(df)
+#    国籍     名前
+# 0  UK  Alice
+# 1  日本    しのぶ
+
+#----------
+## Enable Unicode formatting
+#----------
+
+pd.set_option("display.unicode.east_asian_width", True)
+
+print(df)
+#    国籍    名前
+# 0    UK   Alice
+# 1  日本  しのぶ
