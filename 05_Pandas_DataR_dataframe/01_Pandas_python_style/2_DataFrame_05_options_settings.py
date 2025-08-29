@@ -148,3 +148,77 @@ https://pandas.pydata.org/docs/user_guide/options.html#setting-startup-options-i
 #-------------------------------------------------------------------------------------------------------#
 #------------------------------------- 4. Frequently used options --------------------------------------#
 #-------------------------------------------------------------------------------------------------------#
+
+###########################
+##    max_rows option    ##
+###########################
+
+print(pd.get_option("display.max_rows"))    # 30
+
+print(df_medals)
+#       Year      City       Sport      Discipline  NOC            Event Event gender   Medal
+# 0     1924  Chamonix     Skating  Figure skating  AUT       individual            M  Silver
+# 1     1924  Chamonix     Skating  Figure skating  AUT       individual            W    Gold
+# 2     1924  Chamonix     Skating  Figure skating  AUT            pairs            X    Gold
+# 3     1924  Chamonix   Bobsleigh       Bobsleigh  BEL         four-man            M  Bronze
+# 4     1924  Chamonix  Ice Hockey      Ice Hockey  CAN       ice hockey            M    Gold
+# ...    ...       ...         ...             ...  ...              ...          ...     ...
+# 2306  2006     Turin      Skiing       Snowboard  USA        Half-pipe            M  Silver
+# 2307  2006     Turin      Skiing       Snowboard  USA        Half-pipe            W    Gold
+# 2308  2006     Turin      Skiing       Snowboard  USA        Half-pipe            W  Silver
+# 2309  2006     Turin      Skiing       Snowboard  USA  Snowboard Cross            M    Gold
+# 2310  2006     Turin      Skiing       Snowboard  USA  Snowboard Cross            W  Silver
+
+# [2311 rows x 8 columns]
+
+#--------------------
+## Change max_rows
+#--------------------
+
+pd.set_option("display.max_rows", 5)
+
+print(df_medals)
+#       Year      City    Sport      Discipline  NOC            Event Event gender   Medal
+# 0     1924  Chamonix  Skating  Figure skating  AUT       individual            M  Silver
+# 1     1924  Chamonix  Skating  Figure skating  AUT       individual            W    Gold
+# ...    ...       ...      ...             ...  ...              ...          ...     ...
+# 2309  2006     Turin   Skiing       Snowboard  USA  Snowboard Cross            M    Gold
+# 2310  2006     Turin   Skiing       Snowboard  USA  Snowboard Cross            W  Silver
+
+# [2311 rows x 8 columns]
+
+pd.reset_option("display.max_rows") # Reset to default value
+
+############################
+##   max_columns option   ##
+############################
+
+print(pd.get_option("display.max_columns"))    # 0
+
+pd.set_option("display.max_columns", 5)
+print(df_medals)
+#       Year      City  ... Event gender   Medal
+# 0     1924  Chamonix  ...            M  Silver
+# 1     1924  Chamonix  ...            W    Gold
+# ...    ...       ...  ...          ...     ...
+# 2309  2006     Turin  ...            M    Gold
+# 2310  2006     Turin  ...            W  Silver
+
+# [2311 rows x 8 columns]
+
+pd.reset_option("display.max_columns") # Reset to default value
+
+#############################
+##   display.width option  ##
+#############################
+
+pd.set_option("display.width", 100)
+print(df_medals)
+#       Year      City    Sport      Discipline  NOC            Event Event gender   Medal
+# 0     1924  Chamonix  Skating  Figure skating  AUT       individual            M  Silver
+# 1     1924  Chamonix  Skating  Figure skating  AUT       individual            W    Gold
+# ...    ...       ...      ...             ...  ...              ...          ...     ...
+# 2309  2006     Turin   Skiing       Snowboard  USA  Snowboard Cross            M    Gold
+# 2310  2006     Turin   Skiing       Snowboard  USA  Snowboard Cross            W  Silver
+
+# [2311 rows x 8 columns]
