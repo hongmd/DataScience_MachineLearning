@@ -4,11 +4,11 @@
    + df.sort_index(axis=..., ascending=..., inplace=...)
 
 2. Rank:
-   + df.rank(method = "average", ascending = True, axis = 1)
-   + df.rank(method = "min", ascending = True, axis = 1)
-   + df.rank(method = "max", ascending = True, axis = 1)
-   + df.rank(method = "first", ascending = True, axis = 1)
-   + df.rank(method = "dense", ascending = True, axis = 1)
+   + df.rank(method = "average", ascending = True, axis = 0)
+   + df.rank(method = "max", ascending = True, axis = 0)
+   + df.rank(method = "min", ascending = True, axis = 0)
+   + df.rank(method = "dense", ascending = True, axis = 0)
+   + df.rank(method = "first", ascending = True, axis = 0)
    + rank UNIQUE values
    + df.rank(pct = True)
 '''
@@ -126,6 +126,8 @@ print(df_sorted)
 #-------------------------------------------- 2. Rank ---------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------#
 
+'''NOTE: when using df.rank() for DataFrame, must always set axis=0'''
+
 df_raw_rank = pd.DataFrame(
     {
         "name": ["Alice", "Bob", "Charlie", "David", "Eva", "Freddy", "George", "Hannah"],
@@ -185,6 +187,33 @@ David has the score of 88 (unique),
 '''
 
 ###################################################
+## df.rank(method="max", ascending=True, axis=1) ##
+###################################################
+
+df_ranked = df_raw_rank.copy()
+
+df_ranked["rank_max"] = df_ranked["score"].rank(method="max", ascending=True, axis=0)
+print(df_ranked)
+# 0    Alice     85       5.0
+# 1      Bob     92       8.0
+# 2  Charlie     85       5.0
+# 3    David     88       6.0
+# 4      Eva     90       7.0
+# 5   Freddy     66       3.0
+# 6   George     66       3.0
+# 7   Hannah     66       3.0
+'''
+Freddy, George and Hannah have the same score of 66,
+=> share rank = max(1, 2, 3) = 3.0
+
+Alice and Charlie have the same score of 85,
+=> share rank = max(4, 5) = 5.0
+
+David has the score of 88 (unique),
+=> rank = 6
+'''
+
+###################################################
 ## df.rank(method="min", ascending=True, axis=1) ##
 ###################################################
 
@@ -212,31 +241,36 @@ David has the score of 88 (unique),
 => rank = 6
 '''
 
-###################################################
-## df.rank(method="max", ascending=True, axis=1) ##
-###################################################
+#####################################################
+## df.rank(method="dense", ascending=True, axis=1) ##
+#####################################################
 
 df_ranked = df_raw_rank.copy()
 
-df_ranked["rank_max"] = df_ranked["score"].rank(method="max", ascending=True, axis=0)
+df_ranked["rank_dense"] = df_ranked["score"].rank(method="dense", ascending=True, axis=0)
 print(df_ranked)
-# 0    Alice     85       5.0
-# 1      Bob     92       8.0
-# 2  Charlie     85       5.0
-# 3    David     88       6.0
-# 4      Eva     90       7.0
-# 5   Freddy     66       3.0
-# 6   George     66       3.0
-# 7   Hannah     66       3.0
+#       name  score  rank_dense
+# 0    Alice     85         2.0
+# 1      Bob     92         5.0
+# 2  Charlie     85         2.0
+# 3    David     88         3.0
+# 4      Eva     90         4.0
+# 5   Freddy     66         1.0
+# 6   George     66         1.0
+# 7   Hannah     66         1.0
 '''
+It works like "min" method, but rank always increases by 1 between groups
+
 Freddy, George and Hannah have the same score of 66,
-=> share rank = max(1, 2, 3) = 3.0
+=> share rank = min(1, 2, 3) = 1.0
 
 Alice and Charlie have the same score of 85,
-=> share rank = max(4, 5) = 5.0
+=> min rank = min(4, 5) = 4
+=> DENSE rank = 2.0 (rank increases by 1 from previous group)
 
 David has the score of 88 (unique),
-=> rank = 6
+=> min rank = 6
+=> DENSE rank = 3.0 (rank increases by 1 from previous group)
 '''
 
 #####################################################
@@ -268,20 +302,145 @@ David has the score of 88 (unique),
 => rank = 6
 '''
 
-#####################################################
-## df.rank(method="dense", ascending=True, axis=1) ##
-#####################################################
+##############################
+## Rank UNIQUE values only  ##
+##############################
 
-df_ranked = df_raw_rank.copy()
+df_raw_unique = pd.DataFrame(
+    {
+        "name": ["Alice", "Bob", "Charlie", "David", "Eva", "Freddy", "George", "Hannah"],
+        "score": [85, 92, 86, 88, 90, 54, 25, 42]
+    }
+)
+print(df_raw_unique)
+#       name  score
+# 0    Alice     85
+# 1      Bob     92
+# 2  Charlie     86
+# 3    David     88
+# 4      Eva     90
+# 5   Freddy     54
+# 6   George     25
+# 7   Hannah     42
 
-df_ranked["rank_dense"] = df_ranked["score"].rank(method="dense", ascending=True, axis=0)
+df_ranked = (
+    df_raw_unique.copy()
+    .assign(
+        rank_average = lambda df: df["score"].rank(method="average", ascending=True, axis=0),
+        rank_max = lambda df: df["score"].rank(method="max", ascending=True, axis=0),
+        rank_min = lambda df: df["score"].rank(method="min", ascending=True, axis=0),
+        rank_dense = lambda df: df["score"].rank(method="dense", ascending=True, axis=0),
+        rank_first = lambda df: df["score"].rank(method="first", ascending=True, axis=0),
+    )
+)
+
 print(df_ranked)
-#       name  score  rank_dense
-# 0    Alice     85         2.0
-# 1      Bob     92         5.0
-# 2  Charlie     85         2.0
-# 3    David     88         3.0
-# 4      Eva     90         4.0
-# 5   Freddy     66         1.0
-# 6   George     66         1.0
-# 7   Hannah     66         1.0
+#       name  score  rank_average  rank_max  rank_min  rank_dense  rank_first
+# 0    Alice     85           4.0       4.0       4.0         4.0         4.0
+# 1      Bob     92           8.0       8.0       8.0         8.0         8.0
+# 2  Charlie     86           5.0       5.0       5.0         5.0         5.0
+# 3    David     88           6.0       6.0       6.0         6.0         6.0
+# 4      Eva     90           7.0       7.0       7.0         7.0         7.0
+# 5   Freddy     54           3.0       3.0       3.0         3.0         3.0
+# 6   George     25           1.0       1.0       1.0         1.0         1.0
+# 7   Hannah     42           2.0       2.0       2.0         2.0         2.0
+'''When all teh values are UNIQUE, all methods give the SAME result'''
+
+#######################
+## df.rank(pct=True) ##
+#######################
+'''Rank in percentage (from 0 to 1)'''
+
+#---------------
+## With UNIQUE values
+#---------------
+
+df_ranked = (
+    df_raw_unique.copy()
+    .assign(rank_pct = lambda df: df["score"].rank(method="average", ascending=True, axis=0, pct=True))
+)
+
+print(df_ranked)
+#       name  score  rank_pct
+# 0    Alice     85     0.500
+# 1      Bob     92     1.000
+# 2  Charlie     86     0.625
+# 3    David     88     0.750
+# 4      Eva     90     0.875
+# 5   Freddy     54     0.375
+# 6   George     25     0.125
+# 7   Hannah     42     0.250
+'''
+Alice has the score of 85,
+=> rank = 4 (because there are 3 scores lower than 85: 25, 42, 54)
+=> rank_pct = 4/8 = 0.5
+
+Bob has the score of 92 (highest, unique),
+=> rank = 8 
+=> rank_pct = 8/8 = 1.0
+'''
+
+#---------------
+## With DUPLICATE values
+#---------------
+
+df_ranked = (
+    df_raw_rank.copy()
+    .assign(
+        rank_average = lambda df: df["score"].rank(method="average", ascending=True, axis=0, pct=True),
+        rank_min = lambda df: df["score"].rank(method="min", ascending=True, axis=0, pct=True),
+        rank_max = lambda df: df["score"].rank(method="max", ascending=True, axis=0, pct=True),
+        rank_dense = lambda df: df["score"].rank(method="dense", ascending=True, axis=0, pct=True),
+        rank_first = lambda df: df["score"].rank(method="first", ascending=True, axis=0, pct=True),
+    )
+)
+
+print(df_ranked)
+#       name  score  rank_average  rank_min  rank_max  rank_dense  rank_first
+# 0    Alice     85        0.5625     0.500     0.625         0.4       0.500
+# 1      Bob     92        1.0000     1.000     1.000         1.0       1.000
+# 2  Charlie     85        0.5625     0.500     0.625         0.4       0.625
+# 3    David     88        0.7500     0.750     0.750         0.6       0.750
+# 4      Eva     90        0.8750     0.875     0.875         0.8       0.875
+# 5   Freddy     66        0.2500     0.125     0.375         0.2       0.125
+# 6   George     66        0.2500     0.125     0.375         0.2       0.250
+# 7   Hannah     66        0.2500     0.125     0.375         0.2       0.375
+'''
+AVERAGE:
+Freddy, George and Hannah have the same score of 66,
+=> share rank = (1+2+3)/3 = 2.0
+=> rank_pct = 2/8 = 0.25
+
+MIN: Freddy, George and Hannah have the same score of 66,
+=> share rank = min(1, 2, 3) = 1.0
+=> rank_pct = 1/8 = 0.125
+
+MAX: 
+Freddy, George and Hannah have the same score of 66,
+=> share rank = max(1, 2, 3) = 3.0
+=> rank_pct = 3/8 = 0.375
+
+--------------------
+DENSE: 
+
+Freddy, George and Hannah have the same score of 66,
+=> share rank = min(1, 2, 3) = 1.0
+=> dense rank = 1 (rank increases by 1 from previous group)
+=> rank_pct = 1/5 = 0.2 (because there are 5 distinct ranks: 1, 2, 3, 4, 5)
+
+Alice and Charlie have the same score of 85,
+=> min rank = min(4, 5) = 4
+=> DENSE rank = 2.0 (rank increases by 1 from previous group)
+=> rank_pct = 2/5 = 0.4
+
+--------------------
+FIRST:
+Freddy, George and Hannah have the same score of 66,
+
+=> rank based on their order of appearance in the array: 1, 2, 3
+   (Freddy appears first, hence it ranks 1)
+
+=> rank_pct = 1/8 = 0.125 (Freddy)
+              2/8 = 0.25  (George)
+              3/8 = 0.375 (Hannah)
+'''
