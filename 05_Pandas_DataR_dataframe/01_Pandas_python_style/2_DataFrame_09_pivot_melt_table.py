@@ -9,7 +9,7 @@ Pivot, Melt and Cross-Table are powerful techniques allowing you to reshape
 
 2. Melt: wide to long
    + pd.metl() || df.melt()
-   + pd.wide_to_long()
+   + pd.wide_to_long(): support more complex reshaping (BR_day1, BR_day2, HR_day1, HR_day2 => "BR", "HR" and "day" columns)
 
 3. Cross-Table
    + pd.crosstab()
@@ -294,6 +294,7 @@ print(df_pivoted_tbl)
 # one    4.5  1.666667
 # two    6.5  3.000000
 
+
 #---------------------------------------------------------------------------------------------------------#
 #------------------------------------------ 2. Melt: wide to long ----------------------------------------#
 #---------------------------------------------------------------------------------------------------------#
@@ -329,6 +330,130 @@ print(df_measurements)
 # 6       P007   40      149       61      125       77      137       63
 # 7       P008   58      133       80      124       63      116       61
 
+####################################
+##     pd.melt() || df.melt()     ##
+####################################
+
+#--------
+## pd.melt()
+#--------
+
+df_melted = pd.melt(
+    frame = df_measurements,
+    id_vars = ['patient_id', 'age'], # Columns to keep intact
+    value_vars = [col for col in df_measurements.columns if col.startswith(('BP_', 'HR_'))], # Columns to melt
+    var_name = 'measurement_day', # Name for the new variable column
+    value_name = 'mearsured_value' # Name for the new value column
+)
+
+print(df_melted.head())
+#   patient_id  age measurement_day  mearsured_value
+# 0       P001   58         BP_day1              128
+# 1       P002   71         BP_day1              132
+# 2       P003   48         BP_day1              120
+# 3       P004   34         BP_day1              120
+# 4       P005   62         BP_day1              133
+
+#--------
+## df.melt()
+#--------
+
+df_melted = df_measurements.melt(
+    id_vars = ['patient_id', 'age'],
+    value_vars = [col for col in df_measurements.columns if col.startswith(('BP_', 'HR_'))],
+    var_name = 'measurement_day',
+    value_name = 'mearsured_value'
+)
+
+print(df_melted.head())
+#   patient_id  age measurement_day  mearsured_value
+# 0       P001   58         BP_day1              128
+# 1       P002   71         BP_day1              132
+# 2       P003   48         BP_day1              120
+# 3       P004   34         BP_day1              120
+# 4       P005   62         BP_day1              133
+
+###############################
+##     pd.wide_to_long()     ##
+###############################
+
+#----------
+## Basic usage
+#----------
+
+df_wtl = pd.wide_to_long(
+    df = df_measurements,
+    stubnames = ['BP', 'HR'], # The prefixes of the columns to be melted
+    i = ['patient_id', 'age'], # Columns to keep intact (as index)
+    j = 'day', # The suffix that will become the new variable column
+    sep = '_', # Separator between stubname and suffix (ONE CHARACTER ONLY)
+    suffix = r"\w+" # Suffix pattern (r"\w+" means any word characters, including "day" and digits "1", "2", "3")
+)
+# BP_day1: 
+# + sep is "_" 
+# + stubname is "BP" 
+# + j is "day"
+# + suffix is "day1" (matches r"\w+")
+
+print(df_wtl.head())
+#                       BP  HR
+# patient_id age day          
+# P001       58  day1  128  62
+#                day2  142  62
+#                day3  134  67
+# P002       71  day1  132  81
+#                day2  121  96
+
+#-----------
+## Use .reset_index() to turn index into columns
+#-----------
+
+df_wtl = pd.wide_to_long(
+    df = df_measurements,
+    stubnames = ['BP', 'HR'], 
+    i = ['patient_id', 'age'], 
+    j = 'day', 
+    sep = '_', 
+    suffix = r"\w+"
+).reset_index()
+
+print(df_wtl.head())
+#   patient_id  age   day   BP  HR
+# 0       P001   58  day1  128  62
+# 1       P001   58  day2  142  62
+# 2       P001   58  day3  134  67
+# 3       P002   71  day1  132  81
+# 4       P002   71  day2  121  96
+
+#-----------
+## Apply chaining methods
+#-----------
+
+df_wtl = (
+    pd.wide_to_long(
+        df = df_measurements,
+        stubnames = ['BP', 'HR'], 
+        i = ['patient_id', 'age'], 
+        j = 'day', 
+        sep = '_', 
+        suffix = r"\w+"
+    )
+    .reset_index()
+    .assign(day = lambda df: df['day'].str.replace('day', '').astype(int)) # Convert 'day' column to integer
+)
+
+print(df_wtl.head(10))
+#   patient_id  age  day   BP  HR
+# 0       P001   58    1  128  62
+# 1       P001   58    2  142  62
+# 2       P001   58    3  134  67
+# 3       P002   71    1  132  81
+# 4       P002   71    2  121  96
+# 5       P002   71    3  123  94
+# 6       P003   48    1  120  61
+# 7       P003   48    2  131  66
+# 8       P003   48    3  118  73
+# 9       P004   34    1  120  83
 
 
 #---------------------------------------------------------------------------------------------------------#
