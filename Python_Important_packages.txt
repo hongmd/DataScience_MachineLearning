@@ -63,11 +63,7 @@ Use pip3 install -U for latest versions
 # => do the following steps
 
 # 1. Install all ROCm dependencies at once
-sudo dnf install hipsolver hipsolver-devel \
-                 hipfft hipfft-devel \
-                 miopen miopen-devel \
-                 hipblaslt hipblaslt-devel \
-                 lld
+sudo dnf install rocm-dev rocm-libs miopen miopen-devel hipblas hipblas-devel hipfft hipfft-devel hipsolver hipsolver-devel
 
 # 1. Alternative: Install complete ROCm stack
 sudo dnf install rocm rocm-devel lld
