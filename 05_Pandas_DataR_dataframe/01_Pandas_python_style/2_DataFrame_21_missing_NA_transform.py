@@ -23,7 +23,7 @@
   + df.bfill(): Fill missing values using backward fill method
 
 5. Interpolate missing values:
-  + df.interpolate(axis=...): linear interpolation
+  + df.interpolate(axis=0, limit_direction='both'): linear interpolation
   + df.interpolate(method = "polynomial", order = n): polynomial interpolation of order n
   + df.interpolate(method = "spline", order = n): spline interpolation of order n
   + df.interpolate(method = "time"): time-based interpolation (requires a datetime index)
@@ -32,7 +32,7 @@
 6. Conditional filling: df['C'] = np.where(df['C'].isna(), df['A'] + df['B'], df['C'])
 
 7. Group-based filling, transform
-  + df_grouped = df.groupby('category').transform(lambda x: x.fillna(x.mean()))
+  + df_group_filled = df_missing.fillna(df_missing.groupby("week").transform("mean"))
 '''
 
 import pandas as pd
@@ -620,3 +620,211 @@ print(s_misisng.bfill())
 # 5    7.0
 # 6    7.0
 # dtype: float64
+
+
+#--------------------------------------------------------------------------------------------------------------#
+#--------------------------------------- 5. Interpolate missing values ----------------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
+
+# Drop "category" columns before interpolation, avoid error
+df_missing = df_mkt.drop(["week", "year"], axis = 1)
+
+print(df_missing.isna().sum().pipe(lambda x: x[x > 0]))
+# top_of_mind                   33
+# spontaneous                   33
+# aided                         33
+# penetration                   33
+# competitor                    45
+# grp_radio                    142
+# reach_radio                  142
+# grp_tv                       104
+# reach_tv                     104
+# reach_cinema                 138
+# grp_outdoor                  155
+# grp_print                    134
+# share_of_spend                40
+
+####################################################
+## df.interpolate(axis=0, limit_direction='both') ##
+####################################################
+'''linear interpolation'''
+
+df_interpolated = df_missing.interpolate(axis=0, inplace = False, limit_direction='both')
+
+print(df_interpolated.isna().sum().pipe(lambda x: x[x > 0]))
+# Series([], dtype: int64)
+# All missing values are filleds
+
+######################################################
+## df.interpolate(method = "polynomial", order = n) ##
+######################################################
+'''
+polynomial interpolation of order n (the number of non-missing values must be greater than n)
+
+It only fills missing values between two non-missing values, ignore the boundary missing values
+'''
+
+df_interpolated_poly = (
+    df_missing
+    .drop("grp_outdoor", axis = 1) # Drop "grp_outdoor" column because it has only one non-missing value
+    .interpolate(method = "polynomial", order = 2, inplace = False, axis = 0, limit_direction='both')
+)
+
+print(df_interpolated_poly.isna().sum().pipe(lambda x: x[x > 0]))
+# top_of_mind        33
+# spontaneous        33
+# aided              33
+# penetration        33
+# competitor         45
+# grp_radio          45
+# reach_radio        45
+# grp_tv             43
+# reach_tv           43
+# reach_cinema      138
+# grp_print          68
+# share_of_spend     40
+# dtype: int64
+
+##################################################
+## df.interpolate(method = "spline", order = n) ##
+##################################################
+'''spline interpolation of order n'''
+
+df_interpolated_spline = (
+    df_missing
+    .drop("grp_outdoor", axis = 1) # Drop "grp_outdoor" column because it has only one non-missing value
+    .interpolate(method = "spline", order = 2, inplace = False, axis = 0, limit_direction='both')
+)
+
+print(df_interpolated_spline.isna().sum().pipe(lambda x: x[x > 0]))
+# Series([], dtype: int64)
+# All missing values are filleds
+
+#####################################
+## df.interpolate(method = "time") ##
+#####################################
+'''time-based interpolation (requires a datetime index)'''
+
+df_missing_time = (
+    df_mkt
+    .drop(["week", "year"], axis = 1) # Drop "category" columns before interpolation, avoid error
+    .assign(date = pd.date_range(start = "2023-01-01", periods = df_mkt.shape[0], freq = 'W'))
+    .set_index('date')
+)
+
+df_interpolated_time = df_missing_time.interpolate(method = "time", inplace = False, axis = 0, limit_direction='both')
+
+print(df_interpolated_time.isna().sum().pipe(lambda x: x[x > 0]))
+# Series([], dtype: int64)
+# All missing values are filleds
+
+########################################
+## df.interpolate(method = "nearest") ##
+########################################
+'''
+nearest neighbor interpolation
+
+Only fills missing values between two non-missing values, ignore the boundary missing values
+'''
+
+df_interpolated_nearest = df_missing.interpolate(method = "nearest", inplace = False, axis = 0, limit_direction='both')
+
+print(df_interpolated_nearest.isna().sum().pipe(lambda x: x[x > 0]))
+# top_of_mind        33
+# spontaneous        33
+# aided              33
+# penetration        33
+# competitor         45
+# grp_radio          45
+# reach_radio        45
+# grp_tv             43
+# reach_tv           43
+# reach_cinema      138
+# grp_outdoor       155
+# grp_print          68
+# share_of_spend     40
+# dtype: int64
+
+
+#--------------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------- 6. Conditional filling ------------------------------------------------#
+#--------------------------------------------------------------------------------------------------------------------#
+
+# Drop "category" columns before filling NA with mean, avoid error
+df_missing = df_mkt.drop(["week", "year"], axis = 1)
+
+df_filled = pd.DataFrame(np.where(df_missing.isna(), df_missing.mean(), df_missing), columns = df_missing.columns)
+
+print(df_filled.isna().sum())
+# market_share                 0
+# av_price_per_kg              0
+# non_promo_price_per_kg       0
+# promo_vol_share              0
+# total_weigh                  0
+# share_of_ean_weigh           0
+# avg_price_vs_plb             0
+# non_promo_price_vs_plb       0
+# promo_vol_sh_index_vs_plb    0
+# total_cm_shelf               0
+# shelf_share                  0
+# top_of_mind                  0
+# spontaneous                  0
+# aided                        0
+# penetration                  0
+# competitor                   0
+# grp_radio                    0
+# reach_radio                  0
+# grp_tv                       0
+# reach_tv                     0
+# reach_cinema                 0
+# grp_outdoor                  0
+# grp_print                    0
+# share_of_spend               0
+# dtype: int64
+
+
+#------------------------------------------------------------------------------------------------------------------#
+#-------------------------------------- 7. Group-based filling, transform -----------------------------------------#
+#------------------------------------------------------------------------------------------------------------------#
+
+df_missing = df_mkt.drop("year", axis = 1)
+print(df_missing.isna().sum().pipe(lambda x: x[x > 0]))
+# top_of_mind        33
+# spontaneous        33
+# aided              33
+# penetration        33
+# competitor         45
+# grp_radio         142
+# reach_radio       142
+# grp_tv            104
+# reach_tv          104
+# reach_cinema      138
+# grp_outdoor       155
+# grp_print         134
+# share_of_spend     40
+
+#--------------------
+
+# FILL MISSING VALUES WITH THE MEAN OF EACH "week" GROUP
+df_group_filled = df_missing.fillna(df_missing.groupby("week").transform("mean"))
+
+#--------------------
+
+print(df_group_filled.isna().sum().pipe(lambda x: x[x > 0]))
+# grp_radio       114
+# reach_radio     114
+# grp_tv           27
+# reach_tv         27
+# reach_cinema    102
+# grp_outdoor     153
+# grp_print        96
+# dtype: int64
+
+print(df_group_filled.head())
+#   week  market_share  av_price_per_kg  non_promo_price_per_kg  promo_vol_share  ...  reach_tv  reach_cinema  grp_outdoor  grp_print  share_of_spend
+# 0   19         38.40             7.61                    7.77            26.87  ...       NaN           NaN          NaN        NaN        0.155019
+# 1   20         36.80             7.60                    7.80            29.42  ...       NaN           NaN          NaN        NaN        0.000000
+# 2   21         35.21             7.63                    7.85            27.27  ...     0.602           NaN          NaN        NaN        0.177186
+# 3   22         35.03             7.22                    7.76            52.48  ...    20.382           NaN          NaN        NaN       34.323685
+# 4   23         32.37             7.70                    7.78            16.11  ...    40.245           NaN          NaN        NaN       50.000000
+
