@@ -83,3 +83,290 @@ print(df_pokemon.info())
 #  11  Legendary   800 non-null    bool    
 # dtypes: bool(1), category(3), int64(7), object(1)
 # memory usage: 54.7+ KB
+
+
+#--------------------------------------------------------------------------------------------------------#
+#------------------------------------------ 1. Histogram ------------------------------------------------#
+#--------------------------------------------------------------------------------------------------------#
+'''
+Histogram describes the distribution of a numerical variable by splitting the data into bins (intervals) 
+and counting the number of observations that fall into each bin.
+'''
+
+##################################
+##    df.plot(kind = "hist")    ##
+##################################
+
+#----------
+## Draw histogram of "Attack" column
+#----------
+
+df_pokemon.plot(
+    kind = "hist",
+    y = "Attack",
+    bins = 30,                     # Number of bins (intervals)
+    color = "skyblue",             # Color of the bars
+    edgecolor = "black",           # Color of the bar edges
+    alpha = 0.7,                   # Transparency level (0 to 1)
+    title = "Histogram of Pokemon Attack",  # Title of the plot
+    xlabel = "Attack",             # Label for the x-axis
+    figsize = (10, 6)              # Size of the figure
+)
+plt.show() # Display the plot
+
+#----------
+## Draw histogram of "Attack" and "Defense" columns
+#----------
+
+df_pokemon.plot(
+    kind = "hist",
+    y = ["Attack", "Defense"],
+    bins = 30,                     # Number of bins (intervals)
+    color = ["skyblue", "salmon"], # Colors for each column
+    edgecolor = "black",           # Color of the bar edges
+    alpha = 0.7,                   # Transparency level (0 to 1)
+    title = "Histogram of Pokemon Attack and Defense",  # Title of the plot
+    xlabel = "Value",              # Label for the x-axis
+    figsize = (10, 6)              # Size of the figure
+)
+plt.show() # Display the plot
+
+##########################
+##    df.plot.hist()    ##
+##########################
+
+#----------
+## Draw histogram of "Attack" column
+#----------
+
+df_pokemon.plot.hist(
+    y = "Attack",
+    bins = 30,                     # Number of bins (intervals)
+    color = "skyblue",             # Color of the bars
+    edgecolor = "black",           # Color of the bar edges
+    alpha = 0.7,                   # Transparency level (0 to 1)
+    title = "Histogram of Pokemon Attack",  # Title of the plot
+    xlabel = "Attack",             # Label for the x-axis
+    figsize = (10, 6)              # Size of the figure
+)
+plt.show() # Display the plot
+
+#----------
+## Draw histogram of "Attack" and "Defense" columns
+#----------
+
+df_pokemon.plot.hist(
+    y = ["Attack", "Defense"],
+    bins = 30,                     # Number of bins (intervals)
+    color = ["skyblue", "salmon"], # Colors for each column
+    edgecolor = "black",           # Color of the bar edges
+    alpha = 0.7,                   # Transparency level (0 to 1)
+    title = "Histogram of Pokemon Attack and Defense",  # Title of the plot
+    xlabel = "Value",              # Label for the x-axis
+    figsize = (10, 6)              # Size of the figure
+)
+plt.show() # Display the plot
+
+
+#--------------------------------------------------------------------------------------------------------#
+#------------------------------------------ 2. Density/KDE plot -----------------------------------------#
+#--------------------------------------------------------------------------------------------------------#
+'''
+Density plot (or Kernel Density Estimate - KDE) is a smoothed version of the histogram that estimates
+the probability density function of a continuous variable.
+'''
+
+#####################################
+##    df.plot(kind = "density")    ##
+#####################################
+
+#----------
+## Draw density plot of "Attack" column
+#----------
+
+# kind = "density"
+df_pokemon.plot(
+    kind = "density",
+    y = "Attack",
+    color = "blue",             # Color of the density line
+    title = "Density Plot of Pokemon Attack",  # Title of the plot
+    xlabel = "Attack",             # Label for the x-axis
+    figsize = (10, 6)              # Size of the figure
+)
+plt.show() # Display the plot
+
+# kind = "kde"
+df_pokemon.plot(
+    kind = "kde",
+    y = "Attack",
+    color = "blue",             # Color of the density line
+    title = "Density Plot of Pokemon Attack",  # Title of the plot
+    xlabel = "Attack",             # Label for the x-axis
+    figsize = (10, 6)              # Size of the figure
+)
+plt.show() # Display the plot
+
+#----------
+## Draw density plot of "Attack" and "Defense" columns
+#----------
+
+# kind = "density"
+df_pokemon.plot(
+    kind = "density",
+    y = ["Attack", "Defense"],
+    color = ["blue", "red"], # Colors for each column
+    title = "Density Plot of Pokemon Attack and Defense",  # Title of the plot
+    xlabel = "Value",              # Label for the x-axis
+    figsize = (10, 6)              # Size of the figure
+)
+plt.show() # Display the plot
+
+# kind = "kde"
+df_pokemon.plot(
+    kind = "kde",
+    y = ["Attack", "Defense"],
+    color = ["blue", "red"], # Colors for each column
+    title = "Density Plot of Pokemon Attack and Defense",  # Title of the plot
+    xlabel = "Value",              # Label for the x-axis
+    figsize = (10, 6)              # Size of the figure
+)
+plt.show() # Display the plot
+
+#############################
+##    df.plot.density()    ##
+#############################
+
+#----------
+## Draw density plot of "Attack" column
+#----------
+
+df_pokemon.plot.density(
+    y = "Attack",
+    color = "blue",             # Color of the density line
+    title = "Density Plot of Pokemon Attack",  # Title of the plot
+    xlabel = "Attack",             # Label for the x-axis
+    figsize = (10, 6)              # Size of the figure
+)
+plt.show() # Display the plot
+
+#----------
+## Draw density plot of "Attack" and "Defense" columns
+#----------
+
+df_pokemon.plot.density(
+    y = ["Attack", "Defense"],
+    color = ["blue", "red"], # Colors for each column
+    title = "Density Plot of Pokemon Attack and Defense",  # Title of the plot
+    xlabel = "Value",              # Label for the x-axis
+    figsize = (10, 6)              # Size of the figure
+)
+plt.show() # Display the plot
+
+#########################
+##    df.plot.kde()    ##
+#########################
+
+#----------
+## Draw density plot of "Attack" column
+#----------
+
+df_pokemon.plot.kde(
+    y = "Attack",
+    color = "blue",             # Color of the density line
+    title = "Density Plot of Pokemon Attack",  # Title of the plot
+    xlabel = "Attack",             # Label for the x-axis
+    figsize = (10, 6)              # Size of the figure
+)
+plt.show() # Display the plot
+
+#----------
+## Draw density plot of "Attack" and "Defense" columns
+#----------
+
+df_pokemon.plot.kde(
+    y = ["Attack", "Defense"],
+    color = ["blue", "red"], # Colors for each column
+    title = "Density Plot of Pokemon Attack and Defense",  # Title of the plot
+    xlabel = "Value",              # Label for the x-axis
+    figsize = (10, 6)              # Size of the figure
+)
+plt.show() # Display the plot
+
+
+#--------------------------------------------------------------------------------------------------------#
+#------------------------------------------- 3. Box plot ------------------------------------------------#
+#--------------------------------------------------------------------------------------------------------#
+'''
+Box plot (or box-and-whisker plot) is a graphical representation of the distribution of a dataset
+that displays the median, quartiles, and potential outliers.
+
+Also support notched box plot by setting notch = True.
+'''
+
+#################################
+##    df.plot(kind = "box")    ##
+#################################
+
+#----------
+## Draw box plot of "Attack" column
+#----------
+
+df_pokemon.plot(
+    kind = "box",
+    column = "Attack",
+    color = "purple",             # Color of the box
+    title = "Box Plot of Pokemon Attack",  # Title of the plot
+    ylabel = "Attack",             # Label for the y-axis
+    figsize = (8, 6)              # Size of the figure
+)
+plt.show() # Display the plot
+
+#----------
+## Draw box plot of "Attack" between different "Generation"
+#----------
+
+df_pokemon.plot(
+    kind = "box",
+    column = "Attack",            # Dependent variable
+    by = "Generation",            # Group by "Generation" column
+    notch = True,
+    color = "purple",             # Color of the box
+    title = "Box Plot of Pokemon Attack by Generation",  # Title of the plot
+    ylabel = "Attack",             # Label for the y-axis
+    xlabel = "Generation",         # Label for the x-axis
+    figsize = (10, 6)              # Size of the figure
+)
+plt.show() # Display the plot
+
+#########################
+##    df.plot.box()    ##
+#########################
+
+#----------
+## Draw box plot of "Attack" column
+#----------
+
+df_pokemon.plot.box(
+    column = "Attack",           # Dependent variable
+    color = "green",             # Color of the box
+    title = "Box Plot of Pokemon Attack",  # Title of the plot
+    ylabel = "Attack",             # Label for the y-axis
+    figsize = (8, 6)              # Size of the figure
+)
+plt.show() # Display the plot
+
+#----------
+## Draw box plot of "Attack" between different "Generation"
+#----------
+
+df_pokemon.plot.box(
+    column = "Attack",            # Dependent variable
+    by = "Generation",            # Group by "Generation" column
+    notch = True,
+    color = "green",             # Color of the box
+    title = "Box Plot of Pokemon Attack by Generation",  # Title of the plot
+    ylabel = "Attack",             # Label for the y-axis
+    xlabel = "Generation",         # Label for the x-axis
+    figsize = (10, 6)              # Size of the figure
+)
+plt.show() # Display the plot
