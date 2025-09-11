@@ -742,3 +742,177 @@ gen_legd_counts.plot.barh(
     figsize = (10, 6)              # Size of the figure
 )
 plt.show() # Display the plot
+
+
+#---------------------------------------------------------------------------------------------------------#
+#------------------------------------------ 7. Scatter plot ----------------------------------------------#
+#---------------------------------------------------------------------------------------------------------#
+'''
+Scatter plot is a graphical representation of the relationship between two continuous variables,
+where each point represents an observation in the dataset.
+'''
+
+###################################
+##   df.plot(kind = "scatter")   ##
+###################################
+
+# Draw scatter plot of "Attack" vs "Defense" columns
+df_pokemon.plot(
+    kind = "scatter",
+    x = "Attack",                 # x-axis variable
+    y = "Defense",                # y-axis variable
+    color = "blue",               # Color of the points
+    alpha = 0.6,                  # Transparency level (0 to 1)
+    title = "Scatter Plot of Pokemon Attack vs Defense",  # Title of the plot
+    xlabel = "Attack",            # Label for the x-axis
+    ylabel = "Defense",           # Label for the y-axis
+    figsize = (10, 6)             # Size of the figure
+)
+plt.show() # Display the plot
+
+############################
+##   df.plot.scatter()    ##
+############################
+
+# Draw scatter plot of "Attack" vs "Defense" columns
+df_pokemon.plot.scatter(
+    x = "Attack",                 # x-axis variable
+    y = "Defense",                # y-axis variable
+    color = "brown",               # Color of the points
+    alpha = 0.6,                  # Transparency level (0 to 1)
+    title = "Scatter Plot of Pokemon Attack vs Defense",  # Title of the plot
+    xlabel = "Attack",            # Label for the x-axis
+    ylabel = "Defense",           # Label for the y-axis
+    figsize = (10, 6)             # Size of the figure
+)
+plt.show() # Display the plot
+
+
+#--------------------------------------------------------------------------------------------------------#
+#------------------------------------------- 8. Line plot -----------------------------------------------#
+#--------------------------------------------------------------------------------------------------------#
+'''
+Line plot is a graphical representation of data points connected by straight lines,
+often used to visualize trends over time or ordered categories.
+'''
+
+df_aq = (
+    pd.read_csv("05_Pandas_DataR_dataframe/data/air_quality_no2_long.csv")
+    .rename(columns={"date.utc": "date"})
+    .assign(date = lambda df: pd.to_datetime(df["date"], format="%Y-%m-%d %H:%M:%S%z"))
+)
+
+print(df_aq.info())
+# RangeIndex: 2068 entries, 0 to 2067
+# Data columns (total 7 columns):
+#  #   Column     Non-Null Count  Dtype              
+# ---  ------     --------------  -----              
+#  0   city       2068 non-null   object             
+#  1   country    2068 non-null   object             
+#  2   date       2068 non-null   datetime64[ns, UTC]
+#  3   location   2068 non-null   object             
+#  4   parameter  2068 non-null   object             
+#  5   value      2068 non-null   float64            
+#  6   unit       2068 non-null   object             
+# dtypes: datetime64[ns, UTC](1), float64(1), object(5)
+# memory usage: 113.2+ KB
+
+##################################
+##    df.plot(kind = "line")    ##
+##################################
+
+#----------
+## Draw line plot of "date" vs "value" columns for city "Paris"
+#----------
+
+(
+    df_aq.copy()
+    .query('city == "Paris"')
+    .set_index("date")
+    .sort_index()
+    .drop(columns = ["city", "country", "location", "parameter", "unit"]) # Keep only relevant columns
+    .plot(
+        kind = "line",
+        y = "value",                  # y-axis variable
+        color = "skyblue",            # Color of the line
+        marker = "o",                 # Marker style for data points
+        linestyle = "--",             # Line style
+        title = "Line Plot of NO2 Levels in Paris Over Time",  # Title of the plot
+        xlabel = "Date",              # Label for the x-axis
+        ylabel = "NO2 Level (µg/m³)", # Label for the y-axis
+        figsize = (12, 6)             # Size of the figure
+    )
+)
+plt.show() # Display the plot
+
+#----------
+## Draw line plot of "date" vs "value" columns for all cities
+#----------
+
+(
+    df_aq.copy()
+    .set_index("date")
+    .sort_index()
+    .pivot(columns = "city", values = "value") # Reshape data to have cities as columns
+    .drop(columns = ["country", "location", "parameter", "unit"], errors = "ignore") # Keep only relevant columns
+    .plot(
+        kind = "line",
+        color = ["skyblue", "orange", "green"], # Colors for each city
+        marker = None,                 # Don't use markers for data points
+        linestyle = "-",              # Line style
+        title = "Line Plot of NO2 Levels in Paris, London, and Madrid Over Time",  # Title of the plot
+        xlabel = "Date",              # Label for the x-axis
+        ylabel = "NO2 Level (µg/m³)", # Label for the y-axis
+        figsize = (12, 6)             # Size of the figure
+    )
+)
+plt.show() # Display the plot
+
+##########################
+##    df.plot.line()    ##
+##########################
+
+#----------
+## Draw line plot of "date" vs "value" columns for city "Paris"
+#----------
+
+(
+    df_aq.copy()
+    .query('city == "Paris"')
+    .set_index("date")
+    .sort_index()
+    .drop(columns = ["city", "country", "location", "parameter", "unit"]) # Keep only relevant columns
+    .plot.line(
+        y = "value",                  # y-axis variable
+        color = "skyblue",            # Color of the line
+        marker = "o",                 # Marker style for data points
+        linestyle = "--",             # Line style
+        title = "Line Plot of NO2 Levels in Paris Over Time",  # Title of the plot
+        xlabel = "Date",              # Label for the x-axis
+        ylabel = "NO2 Level (µg/m³)", # Label for the y-axis
+        figsize = (12, 6)             # Size of the figure
+    )
+)
+plt.show() # Display the plot
+
+#----------
+## Draw line plot of "date" vs "value" columns for all cities
+#----------
+
+(
+    df_aq.copy()
+    .set_index("date")
+    .sort_index()
+    .pivot(columns = "city", values = "value") # Reshape data to have cities as columns
+    .drop(columns = ["country", "location", "parameter", "unit"], errors = "ignore") # Keep only relevant columns
+    .plot.line(
+        color = ["skyblue", "orange", "green"], # Colors for each city
+        marker = None,                 # Don't use markers for data points
+        linestyle = "-",              # Line style
+        title = "Line Plot of NO2 Levels in Paris, London, and Madrid Over Time",  # Title of the plot
+        xlabel = "Date",              # Label for the x-axis
+        ylabel = "NO2 Level (µg/m³)", # Label for the y-axis
+        figsize = (12, 6)             # Size of the figure
+    )
+)
+plt.show() # Display the plot
