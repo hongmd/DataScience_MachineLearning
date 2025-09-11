@@ -370,3 +370,114 @@ df_pokemon.plot.box(
     figsize = (10, 6)              # Size of the figure
 )
 plt.show() # Display the plot
+
+
+#--------------------------------------------------------------------------------------------------------#
+#------------------------------------------- 4. Pie chart -----------------------------------------------#
+#--------------------------------------------------------------------------------------------------------#
+'''
+Pie chart is a circular statistical graphic that is divided into slices to illustrate numerical proportions.
+
+Useful for categorical data with a small number of categories.
+'''
+
+#################################
+##    df.plot(kind = "pie")    ##
+#################################
+
+#----------
+## Draw pie chart of "Generation" column
+#----------
+
+generation_counts = df_pokemon['Generation'].value_counts().sort_index()
+
+generation_counts.plot(
+    kind = "pie",
+    autopct = "%1.1f%%",         # Format for displaying percentages
+    startangle = 140,            # Starting angle of the pie chart
+    colors = plt.cm.Paired.colors, # Color map for the slices
+    title = "Distribution of Pokemon Generation",  # Title of the plot
+    ylabel = "",                  # Remove default y-label
+    figsize = (8, 8)              # Size of the figure
+)
+plt.show() # Display the plot
+
+#----------
+## Draw subplot pie charts of "Type_1" and "Type_2" columns
+#----------
+
+type1_counts = df_pokemon['Type_1'].value_counts()
+type2_counts = df_pokemon['Type_2'].value_counts()
+
+fig, axes = plt.subplots(1, 2, figsize = (16, 8))
+
+type1_counts.plot(
+    kind = "pie",
+    autopct = "%1.1f%%",         # Format for displaying percentages
+    startangle = 140,            # Starting angle of the pie chart
+    colors = plt.cm.Paired.colors, # Color map for the slices
+    title = "Distribution of Pokemon Type 1",  # Title of the plot
+    ylabel = "",                  # Remove default y-label
+    ax = axes[0]                  # First subplot
+)
+
+type2_counts.plot(
+    kind = "pie",
+    autopct = "%1.1f%%",         # Format for displaying percentages
+    startangle = 140,            # Starting angle of the pie chart
+    colors = plt.cm.Paired.colors, # Color map for the slices
+    title = "Distribution of Pokemon Type 2",  # Title of the plot
+    ylabel = "",                  # Remove default y-label
+    ax = axes[1]                  # Second subplot
+)
+
+plt.show() # Display the plot
+
+#########################
+##    df.plot.pie()    ##
+#########################
+
+#----------
+## Draw pie chart of "Generation" column
+#----------
+
+generation_counts = df_pokemon['Generation'].value_counts().sort_index()
+
+generation_counts.plot.pie(
+    autopct = "%1.1f%%",         # Format for displaying percentages
+    startangle = 140,            # Starting angle of the pie chart
+    colors = plt.cm.Paired.colors, # Color map for the slices
+    title = "Distribution of Pokemon Generation",  # Title of the plot
+    ylabel = "",                  # Remove default y-label
+    figsize = (8, 8)              # Size of the figure
+)
+plt.show() # Display the plot
+
+#----------
+## Draw subplot pie charts of "Type_1" and "Type_2" columns
+#----------
+
+type1_counts = df_pokemon['Type_1'].value_counts()
+type2_counts = df_pokemon['Type_2'].value_counts()
+
+fig, axes = plt.subplots(1, 2, figsize = (16, 8))
+
+type1_counts.plot.pie(
+    autopct = "%1.1f%%",         # Format for displaying percentages
+    startangle = 140,            # Starting angle of the pie chart
+    colors = plt.cm.Paired.colors, # Color map for the slices
+    title = "Distribution of Pokemon Type 1",  # Title of the plot
+    ylabel = "",                  # Remove default y-label
+    ax = axes[0]                  # First subplot
+)
+
+type2_counts.plot.pie(
+    autopct = "%1.1f%%",         # Format for displaying percentages
+    startangle = 140,            # Starting angle of the pie chart
+    colors = plt.cm.Paired.colors, # Color map for the slices
+    title = "Distribution of Pokemon Type 2",  # Title of the plot
+    ylabel = "",                  # Remove default y-label
+    ax = axes[1]                  # Second subplot
+)
+
+plt.show() # Display the plot
