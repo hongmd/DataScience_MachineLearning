@@ -1,5 +1,9 @@
 import pandas as pd
 
+#-----------------------------------------------------------------------------------------------------------#
+#------------------------------------------- Step-by-step workflow -----------------------------------------#
+#-----------------------------------------------------------------------------------------------------------#
+
 ######################
 ### Read Excel file ##
 ######################
@@ -209,3 +213,61 @@ print(df_subjects_score.notna().sum()) # Count non-null values in each column
 # Physics       10157
 # Chemistry      8098
 # dtype: int64
+
+
+#-----------------------------------------------------------------------------------------------------------#
+#-------------------------------------------- All-in-one workflow ------------------------------------------#
+#-----------------------------------------------------------------------------------------------------------#
+
+dict_subjects = {
+    'Toán':'Math',
+    'Ngữ văn':'Literature',
+    'Địa lí':'Geography',
+    'Lịch sử':'History',
+    'Tiếng Anh':'English',
+    'Sinh học':'Biology',
+    'Vật lí':'Physics',
+    'Hóa học':'Chemistry',
+}
+
+dict_translate = {
+    'Nam': 'Male',
+    'Nữ': 'Female',
+    'Sở GDĐT Bắc Giang': 'Bac Giang DET', # DET: Dept of Education and Training
+    'Sở GDĐT Hoà Bình': 'Hoa Binh DET',
+    'Sở GDĐT Thừa Thiên -Huế': 'Thua Thien - Hue DET',
+    'Trường Đại học Công nghiệp Tp. HCM': 'IUH' # IUH: Industrial University of Ho Chi Minh City
+}
+
+def rename_subjects(subjects_str):
+    for viet, eng in dict_subjects.items():
+        subjects_str = subjects_str.replace(viet, eng)
+    return subjects_str
+
+#######################
+
+df_bac = (
+    pd.read_excel("05_Pandas_DataR_dataframe/data/Baccalaureate_2016.xlsx")
+    .rename(columns = { # Change column names to English
+        "SOBAODANH": "ID",
+        "HO_TEN": "FULL_NAME",
+        "NGAY_SINH": "BIRTHDAY",
+        "TEN_CUMTHI": "EXAM_LOCATION",
+        "GIOI_TINH": "GENDER",
+        "DIEM_THI": "SCORE",
+    })
+    .assign(SCORE = lambda df: df['SCORE'].apply(rename_subjects)) # Change subject names into English
+    .replace(to_replace = dict_translate) # Translate other values into English
+    .assign(
+        BIRTHDAY = lambda df: pd.to_datetime(df['BIRTHDAY'], format='%d/%m/%Y', errors='coerce'), # Convert BIRTHDAY to datetime
+        EXAM_LOCATION = lambda df: df['EXAM_LOCATION'].astype('category'), # Convert EXAM_LOCATION to category
+        GENDER = lambda df: df['GENDER'].astype('category'), # Convert GENDER to category
+    )
+    .pipe(lambda df: # Split SCORE column into multiple subject columns
+          df.assign(**{subj: df['SCORE'].str.extract(fr'{subj}:\s*(\d+\.\d+)', expand=False).astype(float) for subj in dict_subjects.values()})
+    ) 
+    .drop(columns=['SCORE', 'BIRTHDAY', 'EXAM_LOCATION'])
+    .set_index('ID') 
+)
+
+print(df_bac.head())
