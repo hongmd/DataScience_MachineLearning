@@ -1,7 +1,7 @@
 '''
-1. head() - Return the first n rows.
-2. tail() - Return the last n rows.
-3. glimpse() - Transpose print of tibble, showing data types and a preview of data (like df.info())
+1. dr.slice_head() - Return the first n rows.
+2. dr.slice_tail() - Return the last n rows.
+3. dr.glimpse() - Transpose print of tibble, showing data types and a preview of data (like df.info())
 '''
 
 import datar.all as dr
@@ -31,11 +31,13 @@ tb_pokemon = dr.tibble(
 )
 
 #--------------------------------------------------------------------------------------------------------------------#
-#-------------------------------------------------- 1. head() -------------------------------------------------------#
+#--------------------------------------------- 1. dr.slice_head() ---------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------------#
 
 # Show the first 3 rows
-print(tb_pokemon.head(3))
+print(
+    tb_pokemon >> dr.slice_head(n = 3)
+)
 #         Name     Type_1     Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed Generation  Legendary
                                                                                                                  
 # #   <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
@@ -43,24 +45,25 @@ print(tb_pokemon.head(3))
 # 2    Ivysaur      Grass     Poison     405      60      62       63      80      80      60          1      False
 # 3   Venusaur      Grass     Poison     525      80      82       83     100     100      80          1      False
 
-# Show the first 5 rows (default)
-print(tb_pokemon.head())
-#                     Name     Type_1     Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed Generation  Legendary
-                                                                                                                             
-# #               <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
-# 1              Bulbasaur      Grass     Poison     318      45      49       49      65      65      45          1      False
-# 2                Ivysaur      Grass     Poison     405      60      62       63      80      80      60          1      False
-# 3               Venusaur      Grass     Poison     525      80      82       83     100     100      80          1      False
-# 3  VenusaurMega Venusaur      Grass     Poison     625      80     100      123     122     120      80          1      False
-# 4             Charmander       Fire        NaN     309      39      52       43      60      50      65          1      False
+# Show the first 1 row (default)
+print(
+    tb_pokemon 
+    >> dr.slice_head()
+)
+#         Name     Type_1     Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed Generation  Legendary
+                                                                                                                 
+# #   <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
+# 1  Bulbasaur      Grass     Poison     318      45      49       49      65      65      45          1      False      False
 
 
 #--------------------------------------------------------------------------------------------------------------------#
-#-------------------------------------------------- 2. tail() -------------------------------------------------------#
+#--------------------------------------------- 2. dr.slice_tail() ---------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------------#
 
 # Show the last 3 rows
-print(tb_pokemon.tail(3))
+print(
+    tb_pokemon >> dr.slice_tail(n = 3)
+)
 #                     Name     Type_1     Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed Generation  Legendary
                                                                                                                              
 # #               <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
@@ -68,20 +71,19 @@ print(tb_pokemon.tail(3))
 # 720   HoopaHoopa Unbound    Psychic       Dark     680      80     160       60     170     130      80          6       True
 # 721            Volcanion       Fire      Water     600      80     110      120     130      90      70          6       True
 
-# Show the last 5 rows (default)
-print(tb_pokemon.tail())
+# Show the last 1 rows (default)
+print(
+    tb_pokemon 
+    >> dr.slice_tail()
+)
 #                     Name     Type_1     Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed Generation  Legendary
                                                                                                                              
 # #               <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
-# 719              Diancie       Rock      Fairy     600      50     100      150     100     150      50          6       True
-# 719  DiancieMega Diancie       Rock      Fairy     700      50     160      110     160     110     110          6       True
-# 720  HoopaHoopa Confined    Psychic      Ghost     600      80     110       60     150     130      70          6       True
-# 720   HoopaHoopa Unbound    Psychic       Dark     680      80     160       60     170     130      80          6       True
 # 721            Volcanion       Fire      Water     600      80     110      120     130      90      70          6       True
 
 
 #--------------------------------------------------------------------------------------------------------------------#
-#-------------------------------------------------- 3. glimpse() ----------------------------------------------------#
+#------------------------------------------------ 3. dr.glimpse() ---------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------------#
 
 # Glimpse of the dataframe
