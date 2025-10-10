@@ -126,3 +126,35 @@ print(
 # Q1               330.0         50.0             55.0              50.0            49.75             50.0            45.0
 # Median           450.0         65.0             75.0              70.0            65.00             70.0            65.0
 # Q3               515.0         80.0            100.0              90.0            95.00             90.0            90.0
+
+#------------------
+## Same agg func (dr.across(dr.everything()))
+#------------------
+
+'''Count NA values in each column'''
+print(
+    tb_pokemon
+    >> dr.summarise(
+        dr.across(
+            dr.everything(), # Apply to all columns
+            lambda col: col.isna().sum() # Function to apply (count NA values in each column)
+        )
+    )
+)
+#      Name  Type_1  Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed  Generation  Legendary
+#   <int64> <int64> <int64> <int64> <int64> <int64>  <int64> <int64> <int64> <int64>     <int64>    <int64>
+# 0       0       0     386       0       0       0        0       0       0       0           0          0
+
+'''Count unique values in each column'''
+print(
+    tb_pokemon
+    >> dr.summarise(
+        dr.across(
+            dr.everything(), # Apply to all columns
+            lambda col: len(col.unique()) # Function to apply (count unique values in each column)
+        )
+    )
+)
+#      Name  Type_1  Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed  Generation  Legendary
+#   <int64> <int64> <int64> <int64> <int64> <int64>  <int64> <int64> <int64> <int64>     <int64>    <int64>
+# 0     800      18      19     200      94     111      103     105      92     108           6          2
